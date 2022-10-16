@@ -22,7 +22,7 @@ export class EventHandler<Payload> {
     return this._name;
   }
 
-  /** indicates if the Event has at least once been fired */
+  /** indicates if a `DomainEvent` has at least once been fired */
   public get occurred(): boolean {
     return this._occurred;
   }
@@ -60,7 +60,7 @@ export class EventHandler<Payload> {
     this._occurred = true;
     const event = new DomainEvent(this._name, payload);
     this._subscriptions.forEach((subscription) => {
-      !subscription.suppressLogging && this.logDispatchedSupscription(subscription);
+      !subscription.suppressLogging && this.logDispatchedSubscription(subscription);
       subscription.callback(event);
     });
   }
@@ -79,7 +79,7 @@ export class EventHandler<Payload> {
     // extend this class to implement this function in order to inject logging
   }
 
-  protected logDispatchedSupscription(subscription: Subscription<Payload>) {
+  protected logDispatchedSubscription(subscription: Subscription<Payload>) {
     // extend this class to implement this function in order to inject logging
   }
 }

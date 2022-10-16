@@ -1,5 +1,5 @@
-import { IntervalCreationOptions, ListCreationOptions } from '../ValueObject';
-import { Float } from './Float';
+import { ListCreationOptions } from '../ValueObject';
+import { Float, FloatOptions } from './Float';
 
 /** a floating point number that can also be created from a string representation of a floating point number */
 export class FloatString extends Float {
@@ -94,4 +94,4 @@ export class FloatString extends Float {
   }
 }
 
-export type FloatStringOptions = IntervalCreationOptions;
+export type FloatStringOptions = FloatOptions;

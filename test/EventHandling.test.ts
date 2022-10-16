@@ -4,14 +4,42 @@ import { EventCombiner, DomainEvent, EventHandler } from '../src/';
 let result = 'EventCombiners:\n';
 // afterAll(() => result.length > 0 && console.log(ANSIFormat.fgSuccess(result)));
 
-const E1 = new EventHandler<string>('E1');
-const E2 = new EventHandler<number>('E2');
-
 function getPayload(es: (DomainEvent<any> | 'pending')[]) {
   return JSON.stringify(es.map((e) => (e === 'pending' ? 'pending' : e.payload)));
 }
 
+test('EventHandler', () => {
+  const handler = new EventHandler<string>('testHandler');
+
+  expect(handler.name).toEqual('testHandler');
+  expect(handler.occurred).toBeFalsy();
+
+  const event = new DomainEvent<string>('plainEvent', 'plainPayload');
+
+  expect(event.id).toBeDefined();
+  expect(event.timestamp).toBeDefined();
+  expect(event.name).toEqual('plainEvent');
+  expect(event.payload).toEqual('plainPayload');
+
+  handler.subscribe('testSubscription', (dispatchedEvent) => {
+    expect(dispatchedEvent.name).toEqual('testHandler');
+    expect(dispatchedEvent.payload).toEqual('testPayload');
+  });
+
+  handler.dispatch('testPayload');
+
+  expect(handler.occurred).toBeTruthy();
+
+  handler.unsubscribe('testSubscription');
+  // now this event will not be handled, though the expected payload will not fail
+  handler.dispatch('failing payload');
+});
+
+// TODO write expectations
 test('EventCombiner', () => {
+  const E1 = new EventHandler<string>('E1');
+  const E2 = new EventHandler<number>('E2');
+
   new EventCombiner('all').all(E1, E2).then((es) => (result += `all: ${getPayload(es)}\n`));
   new EventCombiner('onceAll')
     .once()

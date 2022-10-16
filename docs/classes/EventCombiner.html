@@ -72,16 +72,16 @@ different combinations that can be achieved by the following chaining of the Eve
   <h3><code>.all(HANDLERS).then(CALLBACK)</code></h3>
 </a>
 <ul>
-<li>Calls the given CALLBACK once <strong>all</strong> of the given HANDLERS have been fired.</li>
+<li>Calls the given CALLBACK once <strong>all</strong> of the given HANDLERS have fired.</li>
 <li>After that, every time one of the HANDLERS fires, the CALLBACK is called again.</li>
-<li><em>use this if you want to react to multiple events, that all must be fired once</em></li>
+<li><em>use this if you want to react to multiple events, that all</em> <strong>must</strong> <em>be fired once</em></li>
 </ul>
 
 <a href="#somehandlersthencallback" id="somehandlersthencallback" style="color: inherit; text-decoration: none;">
   <h3><code>.some(HANDLERS).then(CALLBACK)</code></h3>
 </a>
 <ul>
-<li>Calls the given CALLBACK once <strong>one</strong> of the given HANDLERS has been fired.</li>
+<li>Calls the given CALLBACK once <strong>one</strong> of the given HANDLERS has fired.</li>
 <li>After that, every time one of the HANDLERS fires, the CALLBACK is called again.</li>
 <li><em>use this to react to multiple events without any restriction</em></li>
 </ul>
@@ -90,16 +90,16 @@ different combinations that can be achieved by the following chaining of the Eve
   <h3><code>.once().all(HANDLERS).then(CALLBACK)</code></h3>
 </a>
 <ul>
-<li>Calls the given CALLBACK once <strong>all</strong> of the given HANDLERS have been fired.</li>
+<li>Calls the given CALLBACK once <strong>all</strong> of the given HANDLERS have fired.</li>
 <li>After that, the CALLBACK is never called again, when one of the HANDLERS is fired.</li>
-<li><em>use this if you want to react when a whole set of events has been fired once</em></li>
+<li><em>use this if you want to react when a whole set of events has fired once</em></li>
 </ul>
 
 <a href="#oncesomehandlersthencallback" id="oncesomehandlersthencallback" style="color: inherit; text-decoration: none;">
   <h3><code>.once().some(HANDLERS).then(CALLBACK)</code></h3>
 </a>
 <ul>
-<li>Calls the given CALLBACK once <strong>one</strong> of the given HANDLERS has been fired.</li>
+<li>Calls the given CALLBACK once <strong>one</strong> of the given HANDLERS has fired.</li>
 <li>After that, the CALLBACK is never called again, when one of the HANDLERS is fired.</li>
 <li><em>use this if you want to react if a random event fires once</em></li>
 </ul>
@@ -108,7 +108,7 @@ different combinations that can be achieved by the following chaining of the Eve
   <h3><code>.consume().all(HANDLERS).then(CALLBACK)</code></h3>
 </a>
 <ul>
-<li>Calls the given CALLBACK once <strong>all</strong> of the given HANDLERS have been fired.</li>
+<li>Calls the given CALLBACK once <strong>all</strong> of the given HANDLERS have fired.</li>
 <li>After that <strong>all</strong> of the given HANDLERS have to be fired once <strong>again</strong> for another CALLBACK call.</li>
 <li><em>Use this if you want to react to a synchronously repeated occurrence of a whole set of events</em></li>
 </ul>
@@ -117,7 +117,7 @@ different combinations that can be achieved by the following chaining of the Eve
   <h3><code>.consume().some(HANDLERS).then(CALLBACK)</code></h3>
 </a>
 <ul>
-<li>Calls the given CALLBACK once <strong>one</strong> of the given HANDLERS has been fired.</li>
+<li>Calls the given CALLBACK once <strong>one</strong> of the given HANDLERS has fired.</li>
 <li>After that, every time one of the HANDLERS fires, the CALLBACK is called again.</li>
 <li><em>use this to react to multiple events with the restriction, that only the last occurred event
 has a payload in the CALLBACK</em></li>
@@ -131,7 +131,7 @@ has a payload in the CALLBACK</em></li>
 only be the ones that have been delivered since the last call of the CALLBACK. Therefore <code>all()</code>
 will have all &quot;<em>fresh</em>&quot; payloads and <code>some()</code> will have only one (the last) payload.</p>
 <p>Without <code>consume()</code> the CALLBACKS will always receive the respectively last payload that has been
-delivered for every corresponding event - even if the event has been fired in a previous iteration
+delivered for every corresponding event - even if the event has fired in a previous iteration
 of the CALLBACK.</p>
 
 <a href="#handlers" id="handlers" style="color: inherit; text-decoration: none;">
@@ -361,8 +361,6 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
 <li class="tsd-signature tsd-anchor-link" id="then.then-1">then<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>events<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><a href="DomainEvent.html" class="tsd-signature-type" data-tsd-kind="Class">DomainEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pending&quot;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#then.then-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Call the given callback</p>
-</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">

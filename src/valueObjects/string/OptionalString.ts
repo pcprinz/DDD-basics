@@ -109,8 +109,11 @@ export class OptionalString extends ValueObject<string> {
   }
 }
 
+/**
+ * The options for any string. Strings can be matched with a `RegExp` and be `format`ted
+ */
 export interface OptionalStringOptions extends IntervalCreationOptions {
-  /** a regular expression the given value must match against */
+  /** a regular expression the given value must match */
   regex?: RegExp;
   /** an array of possible formatting operations:
    * - `'umlauts'`: replaces all unicode umlauts with the correct ones

@@ -11,8 +11,8 @@ export interface PlainDateTimeProps {
   seconds?: number;
   milliseconds?: number;
 }
-
-export type YMD_Array = [
+/** an array representation of `PlainDateTimeProps` */
+export type YMDHMSs_Array = [
   year: number,
   month?: number,
   date?: number,
@@ -21,11 +21,13 @@ export type YMD_Array = [
   seconds?: number,
   milliseconds?: number
 ];
-export type PlainDateTimeable = PlainDateTimeProps | YMD_Array | string | number;
+/** everything that might be parsable to a valid `PlainDateTime` */
+export type PlainDateTimeable = PlainDateTimeProps | YMDHMSs_Array | string | number;
 
+/** This is a more simplified, but also flexible version of a `Date`.
+ * Related to `PlainTime` for the time and `PlaneDate` for the date.
+ */
 export class PlainDateTime extends ValueObject<void> {
-  // attributes
-
   readonly year: number;
   readonly month: number;
   readonly date: number;
@@ -36,10 +38,12 @@ export class PlainDateTime extends ValueObject<void> {
   readonly seconds: number;
   readonly milliseconds: number;
 
+  /** returns the total amount of minutes that have passed on this day */
   get dayMinutes() {
     return this.hours * 60 + this.minutes;
   }
 
+  /** returns the time in `ms` since 1970 similar to `Date.getTime()`  */
   getTime() {
     return new Date(
       Date.UTC(
@@ -54,6 +58,7 @@ export class PlainDateTime extends ValueObject<void> {
     ).getTime();
   }
 
+  /** returns `true` if this date matches with the date of today (without time) */
   isToday() {
     const now = new Date(Date.now());
 
@@ -64,7 +69,12 @@ export class PlainDateTime extends ValueObject<void> {
     );
   }
 
-  // construction
+  isSummerTime() {
+    const now = this.toDate();
+    const then = this.createOffset({ month: 6 }).toDate();
+
+    return now.getTimezoneOffset() > then.getTimezoneOffset();
+  }
 
   protected constructor(props: Required<PlainDateTimeProps>) {
     super();
@@ -78,10 +88,55 @@ export class PlainDateTime extends ValueObject<void> {
     this.milliseconds = props.milliseconds;
   }
 
+  // CREATION ###################################################################################
+
+  /**
+   * ### `PlainDateTimeable`
+   * can be either `PlainDateTimeProps`:
+   * ```typescript
+   * {
+   *  year: number;
+   *  month?: number;
+   *  date?: number;
+   *  hours?: number;
+   *  minutes?: number;
+   *  seconds?: number;
+   *  milliseconds?: number;
+   * }
+   * ```
+   *
+   * or `YMDHMSs_Array`:
+   * ```typescript
+   * [
+   *   year: number,
+   *   month?: number,
+   *   date?: number,
+   *   hours?: number,
+   *   minutes?: number,
+   *   seconds?: number,
+   *   milliseconds?: number
+   * ]
+   * ```
+   *
+   * or a `string` representation:
+   * - `"DD.MM.YYYY"`
+   * - `"YYYY-MM-DD"`
+   * - `"DD.MM.YYYYTHH:MM:SS.sss+hh:mm"`
+   * - JS dateString (RFC2822 || ISO8601)
+   *
+   * @param value to create the ValueObject of
+   * @param options constraints the value has to fulfill
+   * @returns the created ValueObject
+   */
   public static create(value: PlainDateTimeable, options?: PlainDateTimeOptions) {
     return new PlainDateTime(this.validate(value, options));
   }
 
+  /**
+   * @param values an array of primitives to map to an array of ValueObjects
+   * @param options constraints the values / list has to fulfill
+   * @returns the array of ValueObjects
+   */
   public static fromList(
     values: PlainDateTimeable[] | undefined,
     options?: PlainDateTimeOptions & ListCreationOptions
@@ -89,6 +144,7 @@ export class PlainDateTime extends ValueObject<void> {
     return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
   }
 
+  /** creates a `PlainDateTime` from the current dateTime. Similar to `new Date()` */
   public static now(options?: PlainDateTimeOptions & PlainDateTimeNowOptions) {
     const now = new Date(Date.now());
     const d = options?.density ?? 'YMDHMSs';
@@ -107,6 +163,9 @@ export class PlainDateTime extends ValueObject<void> {
     );
   }
 
+  /** creates a new `PlainDateTime` derived from the existing dateTime, where the given `newData`
+   * partial replaces the old data.
+   */
   createSet(newData: Partial<PlainDateTimeProps>, options?: PlainDateTimeOptions) {
     return PlainDateTime.create(
       {
@@ -122,6 +181,7 @@ export class PlainDateTime extends ValueObject<void> {
     );
   }
 
+  /** creates a new `PlainDateTime` derived from the existing dateTime, with a given offset */
   createOffset(offset: Partial<PlainDateTimeProps>, options?: PlainDateTimeOptions) {
     const date = new Date(
       Date.UTC(
@@ -149,16 +209,28 @@ export class PlainDateTime extends ValueObject<void> {
     );
   }
 
-  createGerman(options?: PlainDateTimeOptions) {
-    const now = new Date();
-    const then = new Date(now.getFullYear(), now.getMonth() + 6, now.getDate());
-    const actualOffset = now.getTimezoneOffset() > then.getTimezoneOffset() ? 1 : 2;
+  /** creates a new `PlainDateTime` derived from the existing dateTime, with a given timezone offset.
+   * The difference from `createOffset()` is that you only create the hour offset and automatically
+   * have the daylight saving time offset added.
+   */
+  createTimezoneOffset(
+    timezone: number,
+    hasSummertime: boolean = true,
+    options?: PlainDateTimeOptions
+  ) {
+    const actualOffset = timezone + (hasSummertime && this.isSummerTime() ? 1 : 0);
 
     return this.createOffset({ hours: actualOffset }, options);
   }
 
-  // validation := |=
+  // VALIDATION #################################################################################
 
+  /**
+   * @param value to be validated as a valid dateTime with the corresponding constraints (options)
+   * @param options constraints the value has to fulfill
+   * @returns the value if the validation was successful
+   * @throws various errors if not correct
+   */
   public static validate(
     value: PlainDateTimeable,
     options?: Omit<PlainDateTimeOptions, 'offset'>
@@ -233,7 +305,7 @@ export class PlainDateTime extends ValueObject<void> {
     );
   }
 
-  // compairsion
+  // COMPARISON #################################################################################
 
   equals(obj: PlainDateTime | PlainDateTimeable, density: PlainDateTimeDensity = 'YMDHMSs') {
     let comp;
@@ -258,10 +330,10 @@ export class PlainDateTime extends ValueObject<void> {
   }
 
   /**
-   * compares this date with a given other `PlainDate` or `'now'` to compair it with the current time.
-   * - returns `-1` if this date is older then the other
+   * compares this date with a given other `PlainDateTime` or `'now'` to compare it with the current dateTime.
+   * - returns `-1` if this dateTime is earlier than the other one
    * - returns `0` if the dates are equal
-   * - returns `1` if this date is more recent than the other one
+   * - returns `1` if this dateTime is later than the other one
    *
    * ##### Examples
    * ```typescript
@@ -269,13 +341,13 @@ export class PlainDateTime extends ValueObject<void> {
    * '2020-05-25'.compare('2020-01-01') => 1
    * '2020-05-25'.compare('2020-05-06', 'YM') => 0
    * ```
-   * @param other the PlainDate to compare to / 'now' to use the current time
+   * @param other the PlainDateTime to compare to / 'now' to use the current dateTime
    * @param density the density the comparison has to have
-   * @returns `-1 | 0 | 1` indicating which date is more recent
+   * @returns `-1 | 0 | 1` indicating which dateTime is more recent
    */
   compare(other: PlainDateTime | 'now', density: PlainDateTimeDensity = 'YMDHMSs'): -1 | 0 | 1 {
     const comp = (fst: number, snd: number) => (fst > snd ? 1 : -1);
-    const b = other === 'now' ? PlainDateTime.now() : other;
+    const b = other === 'now' ? PlainDateTime.now() : PlainDateTime.validate(other);
     const y = this.year === b.year ? 0 : comp(this.year, b.year);
     if (y !== 0) {
       return y;
@@ -307,7 +379,22 @@ export class PlainDateTime extends ValueObject<void> {
       : comp(this.milliseconds, b.milliseconds);
   }
 
-  /** other - this */
+  /**
+   * compares this date with a given other `PlainDateTime` or `'now'` to compare it with the current dateTime
+   * and returns the distance between both.
+   * - distance = other - this
+   *   - positive result = other dateTime was later
+   *   - negative result = other dateTime was earlier
+   * - units depending on density:
+   *   - "Y" / "YM" / "YMD" = days
+   *   - "YMDH" = hours
+   *   - "YMDHM" = minutes
+   *   - "YMDHMS" = seconds
+   *   - "YMDHMSs" = milliseconds (default)
+   * @param other the PlainDate to compare to / 'now' to use the current date
+   * @param density the density the comparison has to have
+   * @returns the distance in days
+   */
   distance(toOther: PlainDateTime | 'now', density: PlainDateTimeDensity = 'YMDHMSs') {
     const b = toOther === 'now' ? PlainDateTime.now() : toOther;
     const distance = b.toDate(density).getTime() - this.toDate(density).getTime();
@@ -327,7 +414,7 @@ export class PlainDateTime extends ValueObject<void> {
     }
   }
 
-  // serialization
+  // SERIALIZATION #################################################################################
 
   toString() {
     return (
@@ -370,6 +457,16 @@ export class PlainDateTime extends ValueObject<void> {
   }
 }
 
+/**
+ * the density / accuracy to compare and create dateTimes
+ * - "Y" - years
+ * - "YM" - months
+ * - "YMD" - days
+ * - "YMDH" = hours
+ * - "YMDHM" = minutes
+ * - "YMDHMS" = seconds
+ * - "YMDHMSs" = milliseconds
+ */
 export type PlainDateTimeDensity = 'Y' | 'YM' | 'YMD' | 'YMDH' | 'YMDHM' | 'YMDHMS' | 'YMDHMSs';
 
 export type PlainDateTimeOptions = CreationOptions;

@@ -14,7 +14,8 @@
 <li><a href="PlainTime.html">PlainTime</a></li></ul>
 <h1>Class PlainTime</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>A basic ValueObject that wraps a primitive value immutably and does validation on creation</p>
+<div class="tsd-comment tsd-typography"><p>This is a more simplified, but also flexible version of a <code>Date</code> which specifically represents just the time.
+Related to <code>PlainDate</code> for dates and <code>PlaneDateTime</code> for a combination of both.</p>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
@@ -102,6 +103,8 @@
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="getTime.getTime-1">get<wbr/>Time<span class="tsd-signature-symbol">(</span>density<span class="tsd-signature-symbol">: </span><a href="../types/PlainTimeDensity.html" class="tsd-signature-type" data-tsd-kind="Type alias">PlainTimeDensity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#getTime.getTime-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>returns the time in <code>ms</code> since 1970 similar to <code>Date.getTime()</code></p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -113,6 +116,9 @@
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="createSet.createSet-1">create<wbr/>Set<span class="tsd-signature-symbol">(</span>newData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/PlainTimeProps.html" class="tsd-signature-type" data-tsd-kind="Interface">PlainTimeProps</a><span class="tsd-signature-symbol">&gt;</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a><a href="#createSet.createSet-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>creates a new <code>PlainTime</code> derived from the existing time, where the given <code>newData</code>
+partial replaces the old data.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -126,6 +132,8 @@
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="createOffset.createOffset-1">create<wbr/>Offset<span class="tsd-signature-symbol">(</span>offset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/PlainTimeProps.html" class="tsd-signature-type" data-tsd-kind="Interface">PlainTimeProps</a><span class="tsd-signature-symbol">&gt;</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a><a href="#createOffset.createOffset-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>creates a new <code>PlainTime</code> derived from the existing time, with a given offset</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -157,26 +165,66 @@
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="compare.compare-1">compare<span class="tsd-signature-symbol">(</span>other<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;now&quot;</span><span class="tsd-signature-symbol"> | </span><a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a>, density<span class="tsd-signature-symbol">?: </span><a href="../types/PlainTimeDensity.html" class="tsd-signature-type" data-tsd-kind="Type alias">PlainTimeDensity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">0</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">-1</span><a href="#compare.compare-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>compares this time with a given other <code>PlainTime</code> or <code>&#39;now&#39;</code> to compare it with the current time.</p>
+<ul>
+<li>returns <code>-1</code> if this time is earlier than the other one</li>
+<li>returns <code>0</code> if the times are equal</li>
+<li>returns <code>1</code> if this time is sooner than the other one</li>
+</ul>
+
+<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+  <h5>Examples</h5>
+</a>
+<pre><code class="language-typescript"><span class="hl-0">&#39;05:24:57&#39;</span><span class="hl-1">.</span><span class="hl-2">compare</span><span class="hl-1">(</span><span class="hl-0">&#39;08:15:30&#39;</span><span class="hl-1">) </span><span class="hl-3">=&gt;</span><span class="hl-1"> -</span><span class="hl-4">1</span><br/><span class="hl-0">&#39;05:24:57&#39;</span><span class="hl-1">.</span><span class="hl-2">compare</span><span class="hl-1">(</span><span class="hl-0">&#39;01:00:00&#39;</span><span class="hl-1">) </span><span class="hl-3">=&gt;</span><span class="hl-1"> </span><span class="hl-4">1</span><br/><span class="hl-0">&#39;05:24:57&#39;</span><span class="hl-1">.</span><span class="hl-2">compare</span><span class="hl-1">(</span><span class="hl-0">&#39;05:00:01&#39;</span><span class="hl-1">, </span><span class="hl-0">&#39;H&#39;</span><span class="hl-1">) </span><span class="hl-3">=&gt;</span><span class="hl-1"> </span><span class="hl-4">0</span><span class="hl-1"> (</span><span class="hl-5">with</span><span class="hl-1"> </span><span class="hl-5">density</span><span class="hl-1">)</span>
+</code></pre>
+
+<h3>Returns</h3><p><code>-1 | 0 | 1</code> indicating which time is more recent</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>other: <span class="tsd-signature-type">&quot;now&quot;</span><span class="tsd-signature-symbol"> | </span><a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a></h5></li>
+<h5>other: <span class="tsd-signature-type">&quot;now&quot;</span><span class="tsd-signature-symbol"> | </span><a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a></h5>
+<div class="tsd-comment tsd-typography"><p>the PlainTime to compare to / &#39;now&#39; to use the current time</p>
+</div></li>
 <li>
-<h5>density: <a href="../types/PlainTimeDensity.html" class="tsd-signature-type" data-tsd-kind="Type alias">PlainTimeDensity</a><span class="tsd-signature-symbol"> = &#39;HMSs&#39;</span></h5></li></ul></div>
+<h5>density: <a href="../types/PlainTimeDensity.html" class="tsd-signature-type" data-tsd-kind="Type alias">PlainTimeDensity</a><span class="tsd-signature-symbol"> = &#39;HMSs&#39;</span></h5>
+<div class="tsd-comment tsd-typography"><p>the density the comparison has to have</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">0</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">1</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">-1</span></h4></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="distance" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>distance</span><a href="#distance" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="distance.distance-1">distance<span class="tsd-signature-symbol">(</span>toOther<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;now&quot;</span><span class="tsd-signature-symbol"> | </span><a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a>, density<span class="tsd-signature-symbol">?: </span><a href="../types/PlainTimeDensity.html" class="tsd-signature-type" data-tsd-kind="Type alias">PlainTimeDensity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><a href="#distance.distance-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>compares this time with a given other <code>PlainTime</code> or <code>&#39;now&#39;</code> to compare it with the current time
+and returns the distance between both.</p>
+<ul>
+<li>distance = other - this<ul>
+<li>positive result = other time was later</li>
+<li>negative result = other time was earlier</li>
+</ul>
+</li>
+<li>units depending on density:<ul>
+<li>&quot;H&quot; = hours</li>
+<li>&quot;HM&quot; = minutes</li>
+<li>&quot;HMS&quot; = seconds</li>
+<li>&quot;HMSs&quot; = milliseconds (default)</li>
+</ul>
+</li>
+</ul>
+
+<h3>Returns</h3><p>the distance whereas the unit correlates to the given density (defaults to <code>ms</code>)</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
 <h5>toOther: <span class="tsd-signature-type">&quot;now&quot;</span><span class="tsd-signature-symbol"> | </span><a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a></h5></li>
 <li>
-<h5>density: <a href="../types/PlainTimeDensity.html" class="tsd-signature-type" data-tsd-kind="Type alias">PlainTimeDensity</a><span class="tsd-signature-symbol"> = &#39;HMSs&#39;</span></h5></li></ul></div>
+<h5>density: <a href="../types/PlainTimeDensity.html" class="tsd-signature-type" data-tsd-kind="Type alias">PlainTimeDensity</a><span class="tsd-signature-symbol"> = &#39;HMSs&#39;</span></h5>
+<div class="tsd-comment tsd-typography"><p>the density the comparison has to have</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="toString" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>to<wbr/>String</span><a href="#toString" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
@@ -296,32 +344,65 @@
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="create.create-1">create<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlainTimeable</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a><a href="#create.create-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography">
+<a href="#plaintimeable" id="plaintimeable" style="color: inherit; text-decoration: none;">
+  <h3><code>PlainTimeable</code></h3>
+</a>
+<p>can be either <code>PlainTimeProps</code>:</p>
+<pre><code class="language-typescript"><span class="hl-1">{</span><br/><span class="hl-1"> </span><span class="hl-5">hours</span><span class="hl-1">?: </span><span class="hl-5">number</span><span class="hl-1">;</span><br/><span class="hl-1"> </span><span class="hl-5">minutes</span><span class="hl-1">?: </span><span class="hl-5">number</span><span class="hl-1">;</span><br/><span class="hl-1"> </span><span class="hl-5">seconds</span><span class="hl-1">?: </span><span class="hl-5">number</span><span class="hl-1">;</span><br/><span class="hl-1"> </span><span class="hl-5">milliseconds</span><span class="hl-1">?: </span><span class="hl-5">number</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
+</code></pre>
+<p>or <code>HMSs_Array</code>:</p>
+<pre><code class="language-typescript"><span class="hl-1">[</span><span class="hl-5">hours</span><span class="hl-1">?: </span><span class="hl-5">number</span><span class="hl-1">, </span><span class="hl-5">minutes</span><span class="hl-1">?: </span><span class="hl-5">number</span><span class="hl-1">, </span><span class="hl-5">seconds</span><span class="hl-1">?: </span><span class="hl-5">number</span><span class="hl-1">, </span><span class="hl-5">milliseconds</span><span class="hl-1">?: </span><span class="hl-5">number</span><span class="hl-1">]</span>
+</code></pre>
+<p>or a <code>string</code> representation:</p>
+<ul>
+<li><code>&quot;HH&quot;</code></li>
+<li><code>&quot;HH:MM&quot;</code></li>
+<li><code>&quot;HH:MM:SS&quot;</code></li>
+<li><code>&quot;HH:MM:SS.sss+hh:mm&quot;</code> (with offset)</li>
+</ul>
+
+<h3>Returns</h3><p>the created ValueObject</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>value: <span class="tsd-signature-type">PlainTimeable</span></h5></li>
+<h5>value: <span class="tsd-signature-type">PlainTimeable</span></h5>
+<div class="tsd-comment tsd-typography"><p>to create the ValueObject of</p>
+</div></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a></h5></li></ul></div>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a></h5>
+<div class="tsd-comment tsd-typography"><p>constraints the value has to fulfill</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a></h4></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="fromList" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from<wbr/>List</span><a href="#fromList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="fromList.fromList-1">from<wbr/>List<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlainTimeable</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a><span class="tsd-signature-symbol">[]</span><a href="#fromList.fromList-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography">
+<h3>Returns</h3><p>the array of ValueObjects</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>values: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlainTimeable</span><span class="tsd-signature-symbol">[]</span></h5></li>
+<h5>values: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlainTimeable</span><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>an array of primitives to map to an array of ValueObjects</p>
+</div></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a></h5></li></ul></div>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a></h5>
+<div class="tsd-comment tsd-typography"><p>constraints the values / list has to fulfill</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a><span class="tsd-signature-symbol">[]</span></h4></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="now" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>now</span><a href="#now" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="now.now-1">now<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/PlainTimeNowOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">PlainTimeNowOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="PlainTime.html" class="tsd-signature-type" data-tsd-kind="Class">PlainTime</a><a href="#now.now-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>creates a <code>PlainTime</code> from the current time. Similar to <code>new Date()</code></p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -333,26 +414,42 @@
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="validate.validate-1">validate<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlainTimeable</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Required</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/PlainTimeProps.html" class="tsd-signature-type" data-tsd-kind="Interface">PlainTimeProps</a><span class="tsd-signature-symbol">&gt;</span><a href="#validate.validate-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography">
+<h3>Returns</h3><p>the value if the validation was successful</p>
+
+<h3>Throws</h3><p>various errors if not correct</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>value: <span class="tsd-signature-type">PlainTimeable</span></h5></li>
+<h5>value: <span class="tsd-signature-type">PlainTimeable</span></h5>
+<div class="tsd-comment tsd-typography"><p>to be validated as a valid time with the corresponding constraints (options)</p>
+</div></li>
 <li>
-<h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a></h5></li></ul></div>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a></h5>
+<div class="tsd-comment tsd-typography"><p>constraints the value has to fulfill</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Required</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/PlainTimeProps.html" class="tsd-signature-type" data-tsd-kind="Interface">PlainTimeProps</a><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="validatePlainTimeable" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>validate<wbr/>Plain<wbr/>Timeable</span><a href="#validatePlainTimeable" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="validatePlainTimeable.validatePlainTimeable-1">validate<wbr/>Plain<wbr/>Timeable<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlainTimeable</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlainTimeable</span><a href="#validatePlainTimeable.validatePlainTimeable-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography">
+<h3>Returns</h3><p>the valid time</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>value: <span class="tsd-signature-type">PlainTimeable</span></h5></li>
+<h5>value: <span class="tsd-signature-type">PlainTimeable</span></h5>
+<div class="tsd-comment tsd-typography"><p>to be validated as a string, array or object representation of time</p>
+</div></li>
 <li>
-<h5>options: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a></h5></li></ul></div>
+<h5>options: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a></h5>
+<div class="tsd-comment tsd-typography"><p>constraints the value has to fulfill</p>
+</div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlainTimeable</span></h4></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="parseString" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagPrivate">Private</code> <span>parse<wbr/>String</span><a href="#parseString" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>

@@ -13,18 +13,10 @@
 <li><a href="../modules.html">DDD basics - v0.0.1</a></li>
 <li><a href="IntegerOptions.html">IntegerOptions</a></li></ul>
 <h1>Interface IntegerOptions</h1></div>
-<section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>The extended <code>CreationOptions</code> that every ValueObject should provide, if the Object allows to
-have a Range.</p>
-<ul>
-<li>eg.: <code>PositiveInteger</code> within a specific Interval like <code>[0, 100]</code></li>
-<li>eg.: <code>NonEmptyString</code> that has to have a specific length</li>
-</ul>
-</div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li><a href="IntervalCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IntervalCreationOptions</a>
+<li><a href="../types/FloatOptions.html" class="tsd-signature-type" data-tsd-kind="Type alias">FloatOptions</a>
 <ul class="tsd-hierarchy">
 <li><span class="target">IntegerOptions</span></li></ul></li></ul></section>
 <section class="tsd-panel-group tsd-index-group">
@@ -49,19 +41,19 @@ have a Range.</p>
 <li>eg: <code>&#39;MealPlan.price&#39;</code></li>
 </ul>
 </div><aside class="tsd-sources">
-<p>Inherited from <a href="IntervalCreationOptions.html">IntervalCreationOptions</a>.<a href="IntervalCreationOptions.html#name">name</a></p></aside></section>
+<p>Inherited from FloatOptions.name</p></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="min" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>min</span><a href="#min" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">min<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div>
 <div class="tsd-comment tsd-typography"><p>the lower bound of the interval the value has to be in</p>
 </div><aside class="tsd-sources">
-<p>Inherited from <a href="IntervalCreationOptions.html">IntervalCreationOptions</a>.<a href="IntervalCreationOptions.html#min">min</a></p></aside></section>
+<p>Inherited from FloatOptions.min</p></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="max" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>max</span><a href="#max" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">max<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div>
 <div class="tsd-comment tsd-typography"><p>the upper bound of the interval the value has to be in</p>
 </div><aside class="tsd-sources">
-<p>Inherited from <a href="IntervalCreationOptions.html">IntervalCreationOptions</a>.<a href="IntervalCreationOptions.html#max">max</a></p></aside></section>
+<p>Inherited from FloatOptions.max</p></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="round" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>round</span><a href="#round" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">round<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">&quot;round&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;floor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;ceil&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;deny&quot;</span></div>

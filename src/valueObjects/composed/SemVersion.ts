@@ -12,14 +12,26 @@ export class SemVersion {
     });
   }
 
+  /**
+   * the `number[]` representation of the version:
+   * `"23.1.5"` => `[23, 1, 5]`
+   */
   get numbers(): [number, number, number] {
     return IntegerString.toList(this._version) as [number, number, number];
   }
 
+  /**
+   * the string representation of the version
+   */
   get string(): string {
     return IntegerString.toList(this._version).join('.');
   }
 
+  /**
+   * compares this version with another version
+   * @param other can also be a string representation
+   * @returns if the `other` version is more recent
+   */
   isMoreRecentThan(other: SemVersion | string): boolean {
     const ov = other instanceof SemVersion ? other.numbers : new SemVersion(other).numbers;
     const tv = this.numbers;

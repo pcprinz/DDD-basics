@@ -1,5 +1,5 @@
-import { IntervalCreationOptions, ListCreationOptions } from '../ValueObject';
-import { Float } from './Float';
+import { ListCreationOptions } from '../ValueObject';
+import { Float, FloatOptions } from './Float';
 
 /** An Integer (number without decimal digits) */
 export class Integer extends Float {
@@ -101,7 +101,7 @@ export class Integer extends Float {
   }
 }
 
-export interface IntegerOptions extends IntervalCreationOptions {
+export interface IntegerOptions extends FloatOptions {
   // TODO maybe give the opportunity to just round specified decimal points
   /** how should the number be rounded.
    * - defaults to `'deny'` which causes the `validate()` method to throw an error if the number

@@ -6,19 +6,20 @@ export interface PlainDateProps {
   month?: number;
   date?: number;
 }
-
+/** an array representation of `PlainDateProps` */
 type YMD_Array = [year: number, month?: number, date?: number];
+/** everything that might be parsable to a valid `PlainDate` */
 export type PlainDateable = PlainDateProps | YMD_Array | string;
 
+/** This is a more simplified, but also flexible version of a `Date` which specifically represents
+ * just the date (without the time).
+ * Related to `PlainTime` for the time and `PlaneDateTime` for a combination of both.
+ */
 export class PlainDate extends ValueObject<void> {
-  // attributes
-
   readonly year: number;
   readonly month: number;
   readonly date: number;
   readonly weekday: number;
-
-  // construction
 
   private constructor(props: Required<PlainDateProps>) {
     super();
@@ -28,10 +29,47 @@ export class PlainDate extends ValueObject<void> {
     this.weekday = new Date(Date.UTC(props.year, props.month, props.date)).getUTCDay();
   }
 
+  // CREATION ###################################################################################
+
+  /**
+   * ### `PlainDateable`
+   * can be either `PlainDateProps`:
+   * ```typescript
+   * {
+   *  year: number;
+   *  month?: number;
+   *  date?: number;
+   * }
+   * ```
+   *
+   * or `YMD_Array`:
+   * ```typescript
+   * [year: number, month?: number, date?: number]
+   * ```
+   *
+   * or a `string` representation:
+   * - `"DD.MM.YYYY"`
+   * - `"DD.M.YYYY"`
+   * - `"D.MM.YYYY"`
+   * - `"D.M.YYYY"`
+   * - `"YYYY-MM-DD"`
+   * - `"YYYY-MM-D"`
+   * - `"YYYY-M-DD"`
+   * - `"YYYY-M-D"`
+   *
+   * @param value to create the ValueObject of
+   * @param options constraints the value has to fulfill
+   * @returns the created ValueObject
+   */
   public static create(value: PlainDateable, options?: PlainDateOptions) {
     return new PlainDate(this.validate(value, options));
   }
 
+  /**
+   * @param values an array of primitives to map to an array of ValueObjects
+   * @param options constraints the values / list has to fulfill
+   * @returns the array of ValueObjects
+   */
   public static fromList(
     values: PlainDateable[] | undefined,
     options?: PlainDateOptions & ListCreationOptions
@@ -39,6 +77,7 @@ export class PlainDate extends ValueObject<void> {
     return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
   }
 
+  /** creates a `PlainDate` from the current date. Similar to `new Date()` */
   public static now(options?: PlainDateOptions & PlainDateNowOptions) {
     const today = new Date(Date.now());
     const d = options?.density ?? 'YMD';
@@ -53,6 +92,9 @@ export class PlainDate extends ValueObject<void> {
     );
   }
 
+  /** creates a new `PlainDate` derived from the existing date, where the given `newData`
+   * partial replaces the old data.
+   */
   createSet(newData: Partial<PlainDateProps>, options?: PlainDateOptions) {
     return PlainDate.create(
       {
@@ -64,6 +106,7 @@ export class PlainDate extends ValueObject<void> {
     );
   }
 
+  /** creates a new `PlainDate` derived from the existing date, with a given offset */
   createOffset(offset: Partial<PlainDateProps>, options?: PlainDateOptions) {
     const date = new Date(
       Date.UTC(
@@ -83,8 +126,14 @@ export class PlainDate extends ValueObject<void> {
     );
   }
 
-  // validation
+  // VALIDATION #################################################################################
 
+  /**
+   * @param value to be validated as a valid date with the corresponding constraints (options)
+   * @param options constraints the value has to fulfill
+   * @returns the value if the validation was successful
+   * @throws various errors if not correct
+   */
   public static validate(
     value: PlainDateable,
     options?: PlainDateOptions
@@ -122,6 +171,11 @@ export class PlainDate extends ValueObject<void> {
     return { year, month, date };
   }
 
+  /**
+   * @param value to be validated as a string, array or object representation of a date
+   * @param options constraints the value has to fulfill
+   * @returns the valid date
+   */
   public static validatePlainDateable(
     value: PlainDateable,
     options?: PlainDateOptions
@@ -158,7 +212,7 @@ export class PlainDate extends ValueObject<void> {
     }
   }
 
-  // compairsion
+  // COMPARISON #################################################################################
 
   equals(obj: PlainDate | PlainDateable, density: PlainDateDensity = 'YMD') {
     let comp;
@@ -175,9 +229,25 @@ export class PlainDate extends ValueObject<void> {
     return y && m && d;
   }
 
+  /**
+   * compares this date with a given other `PlainDate` or `'now'` to compare it with the current date.
+   * - returns `-1` if this date is older than the other one
+   * - returns `0` if the dates are equal
+   * - returns `1` if this date is more recent than the other one
+   *
+   * ##### Examples
+   * ```typescript
+   * '2020-05-25'.compare('2020-09-18') => -1
+   * '2020-05-25'.compare('2020-01-01') => 1
+   * '2020-05-25'.compare('2020-05-06', 'YM') => 0 (with density)
+   * ```
+   * @param other the PlainDate to compare to / 'now' to use the current date
+   * @param density the density the comparison has to have
+   * @returns `-1 | 0 | 1` indicating which date is more recent
+   */
   compare(other: PlainDate | 'now', density: PlainDateDensity = 'YMD'): -1 | 0 | 1 {
     const comp = (fst: number, snd: number) => (fst > snd ? 1 : -1);
-    const b = other === 'now' ? PlainDate.now() : other;
+    const b = other === 'now' ? PlainDate.now() : PlainDate.validate(other);
     const y = this.year === b.year ? 0 : comp(this.year, b.year);
     if (y !== 0) {
       return y;
@@ -190,14 +260,25 @@ export class PlainDate extends ValueObject<void> {
     return density.length < 3 || this.date === b.date ? 0 : comp(this.date, b.date);
   }
 
+  /**
+   * compares this date with a given other `PlainDate` or `'now'` to compare it with the current date
+   * and returns the distance between both.
+   * - distance = other - this
+   *   - positive result = other date was later
+   *   - negative result = other date was earlier
+   * - always returns the distance in days (independent from the density)
+   * @param other the PlainDate to compare to / 'now' to use the current date
+   * @param density the density the comparison has to have
+   * @returns the distance in days
+   */
   distance(toOther: PlainDate | 'now', density: PlainDateDensity = 'YMD') {
     const b = toOther === 'now' ? PlainDate.now() : toOther;
-    const distance = this.toDate(density).getTime() - b.toDate(density).getTime();
+    const distance = b.toDate(density).getTime() - this.toDate(density).getTime();
 
     return distance / (1000 * 60 * 60 * 24);
   }
 
-  // serialization
+  // SERIALIZATION #################################################################################
 
   toString() {
     return [this.date, this.month + 1, this.year].join('.');
@@ -219,6 +300,12 @@ export class PlainDate extends ValueObject<void> {
   }
 }
 
+/**
+ * the density / accuracy to compare and create dates
+ * - "Y" - years
+ * - "YM" - months
+ * - "YMD" - days
+ */
 export type PlainDateDensity = 'Y' | 'YM' | 'YMD';
 
 export type PlainDateOptions = CreationOptions;

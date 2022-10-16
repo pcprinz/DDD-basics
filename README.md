@@ -4,15 +4,6 @@
 
 <!-- https://shields.io/ -->
 
-This is a template Typescript project
+UNDER CONSTRUCTION
 
-Following names have to be replaced:
-
-- `package.json`: **name**, **description**, **keywords**
-- .github/workflows/`coverage.yaml`: **filename** in line 65
-- `typedoc.json`: **name**
-
-Template Files to replace:
-
-- src/index.ts
-- playground/template.js
+[Documentation](https://pcprinz.github.io/DDD-basics/)

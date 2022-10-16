@@ -19,32 +19,32 @@ import { EventHandler } from './EventHandler';
  * Consider having `new EventCombiner('myCombiner')` as a prefix for the following method chains:
  *
  * ### `.all(HANDLERS).then(CALLBACK)`
- * - Calls the given CALLBACK once **all** of the given HANDLERS have been fired.
+ * - Calls the given CALLBACK once **all** of the given HANDLERS have fired.
  * - After that, every time one of the HANDLERS fires, the CALLBACK is called again.
- * - *use this if you want to react to multiple events, that all must be fired once*
+ * - *use this if you want to react to multiple events, that all* **must** *be fired once*
  *
  * ### `.some(HANDLERS).then(CALLBACK)`
- * - Calls the given CALLBACK once **one** of the given HANDLERS has been fired.
+ * - Calls the given CALLBACK once **one** of the given HANDLERS has fired.
  * - After that, every time one of the HANDLERS fires, the CALLBACK is called again.
  * - *use this to react to multiple events without any restriction*
  *
  * ### `.once().all(HANDLERS).then(CALLBACK)`
- * - Calls the given CALLBACK once **all** of the given HANDLERS have been fired.
+ * - Calls the given CALLBACK once **all** of the given HANDLERS have fired.
  * - After that, the CALLBACK is never called again, when one of the HANDLERS is fired.
- * - *use this if you want to react when a whole set of events has been fired once*
+ * - *use this if you want to react when a whole set of events has fired once*
  *
  * ### `.once().some(HANDLERS).then(CALLBACK)`
- * - Calls the given CALLBACK once **one** of the given HANDLERS has been fired.
+ * - Calls the given CALLBACK once **one** of the given HANDLERS has fired.
  * - After that, the CALLBACK is never called again, when one of the HANDLERS is fired.
  * - *use this if you want to react if a random event fires once*
  *
  * ### `.consume().all(HANDLERS).then(CALLBACK)`
- * - Calls the given CALLBACK once **all** of the given HANDLERS have been fired.
+ * - Calls the given CALLBACK once **all** of the given HANDLERS have fired.
  * - After that **all** of the given HANDLERS have to be fired once **again** for another CALLBACK call.
  * - *Use this if you want to react to a synchronously repeated occurrence of a whole set of events*
  *
  * ### `.consume().some(HANDLERS).then(CALLBACK)`
- * - Calls the given CALLBACK once **one** of the given HANDLERS has been fired.
+ * - Calls the given CALLBACK once **one** of the given HANDLERS has fired.
  * - After that, every time one of the HANDLERS fires, the CALLBACK is called again.
  * - *use this to react to multiple events with the restriction, that only the last occurred event
  *   has a payload in the CALLBACK*
@@ -56,7 +56,7 @@ import { EventHandler } from './EventHandler';
  * will have all "*fresh*" payloads and `some()` will have only one (the last) payload.
  *
  * Without `consume()` the CALLBACKS will always receive the respectively last payload that has been
- * delivered for every corresponding event - even if the event has been fired in a previous iteration
+ * delivered for every corresponding event - even if the event has fired in a previous iteration
  * of the CALLBACK.
  *
  * ## HANDLERS
@@ -115,7 +115,6 @@ export class EventCombiner {
     return { all: this.all, some: this.some };
   };
 
-  /** Call the given callback */
   private then = (callback: (events: (DomainEvent<any> | 'pending')[]) => void) => {
     this._eventHandlers?.forEach((handler) => {
       // set empty events
@@ -171,7 +170,12 @@ export class EventCombiner {
 }
 
 type AllThenType<EH> = {
-  /** ... Call the given callback */
+  /**
+   * ... Call the given callback.
+   *
+   * A list of all possible `DomainEvent`s is passed to the callback,
+   * which corresponds to the order of the defined `EventHandler`.
+   */
   then: (
     callback: (events: {
       [K in keyof EH]: EH[K] extends EventHandler<infer X> ? DomainEvent<X> : never;
@@ -180,7 +184,15 @@ type AllThenType<EH> = {
 };
 
 type SomeThenType<EH> = {
-  /** ... Call the given callback */
+  /**
+   * ... Call the given callback.
+   *
+   * A list of all possible `DomainEvent`s is passed to the callback,
+   * which corresponds to the order of the defined `EventHandler`.
+   *
+   * Since this method is chained with a `some(...)` method, the `DomainEvent`s may also be `'pending'`
+   * for those `EventHandler`s which have not fired yet.
+   */
   then: (
     callback: (events: {
       [K in keyof EH]: EH[K] extends EventHandler<infer X> ? DomainEvent<X> | 'pending' : never;

@@ -111,6 +111,10 @@ export class NonEmptyString extends OptionalString {
   }
 }
 
+/**
+ * The options for a string that is not empty. Can be matched with a `range`,
+ * so a list of other strings or a string enum
+ */
 export interface NonEmptyStringOptions extends OptionalStringOptions {
   /** a list of all possible values the given value can match. This can either be a simple Array:
    * ```typescript
