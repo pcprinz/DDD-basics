@@ -2,7 +2,7 @@ import { ANSIFormat } from 'loxer';
 import { EventCombiner, DomainEvent, EventHandler } from '../src/';
 
 let result = 'EventCombiners:\n';
-afterAll(() => result.length > 0 && console.log(ANSIFormat.fgSuccess(result)));
+// afterAll(() => result.length > 0 && console.log(ANSIFormat.fgSuccess(result)));
 
 const E1 = new EventHandler<string>('E1');
 const E2 = new EventHandler<number>('E2');

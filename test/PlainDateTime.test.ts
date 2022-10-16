@@ -7,9 +7,9 @@ function log(name: string, item: any) {
 }
 
 afterAll(() => {
-  console.log(
-    'LOGS:\n' + logs.map((data) => `${data.name}:\t ${JSON.stringify(data.item)}`).join('\n')
-  );
+  // console.log(
+  //   'LOGS:\n' + logs.map((data) => `${data.name}:\t ${JSON.stringify(data.item)}`).join('\n')
+  // );
 });
 
 test('PlainDate', () => {

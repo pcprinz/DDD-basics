@@ -6,7 +6,7 @@
   "out": "docs",
   "includes": "assets",
   "sort": ["instance-first", "source-order"],
-  "excludeInternal": true,
-  "plugin": ["typedoc-theme-hierarchy"],
-  "theme": "hierarchy"
+  "excludeInternal": true
+  // "plugin": ["typedoc-theme-hierarchy"],
+  // "theme": "hierarchy"
 }
