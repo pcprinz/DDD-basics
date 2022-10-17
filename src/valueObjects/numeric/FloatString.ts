@@ -1,7 +1,7 @@
 import { ListCreationOptions } from '../ValueObject';
 import { Float, FloatOptions } from './Float';
 
-/** a floating point number that can also be created from a string representation of a floating point number */
+/** {@link ValueObjects!} a floating point number that can also be created from a string representation of a floating point number */
 export class FloatString extends Float {
   protected constructor(value: number) {
     super(value);

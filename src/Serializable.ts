@@ -1,4 +1,4 @@
-export class Serializable {
+export abstract class Serializable {
   /**
    * reduces the Serializable to its private ("underscored") attributes.
    * All non-underscored attributes and methods will be omitted.
