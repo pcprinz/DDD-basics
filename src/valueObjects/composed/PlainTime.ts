@@ -8,9 +8,14 @@ export interface PlainTimeProps {
   milliseconds?: number;
 }
 /** an array representation of `PlainTimeProps` */
-type HMSs_Array = [hours?: number, minutes?: number, seconds?: number, milliseconds?: number];
+export type HMSs_Array = [
+  hours?: number,
+  minutes?: number,
+  seconds?: number,
+  milliseconds?: number
+];
 /** everything that might be parsable to a valid `PlainTime` */
-type PlainTimeable = PlainTimeProps | HMSs_Array | string;
+export type PlainTimeable = PlainTimeProps | HMSs_Array | string;
 
 /** This is a more simplified, but also flexible version of a `Date` which specifically represents just the time.
  * Related to `PlainDate` for dates and `PlaneDateTime` for a combination of both.

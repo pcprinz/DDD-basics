@@ -25,12 +25,10 @@ export class SafeDate extends ValueObject<Date> {
   // VALIDATION #################################################################################
 
   /**
-   * {@inheritDoc SafeDate!}
    * @param value to be validated as a valid Date
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws {@link TypeError} if not parsable to a valid Date
-   *
+   * @throws `TypeError` if not parsable to a valid Date
    */
   public static validate(value: Dateable, options?: SafeDateOptions): Date {
     // safe date

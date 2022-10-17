@@ -33,9 +33,9 @@ export class Integer extends Float {
    * @param value to be validated as an integer with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws {@link TypeError} if not a valid integer
-   * @throws {@link RangeError} if the value has not allowed decimal digits
-   * @throws {@link RangeError} if the value is not inside the interval
+   * @throws `TypeError` if not a valid integer
+   * @throws `RangeError` if the value has not allowed decimal digits
+   * @throws `RangeError` if the value is not inside the interval
    */
   public static validate(value: number, options?: IntegerOptions): number {
     const converted = this.validateInteger(value, options);

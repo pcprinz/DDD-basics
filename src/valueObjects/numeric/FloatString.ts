@@ -1,7 +1,7 @@
 import { ListCreationOptions } from '../ValueObject';
 import { Float, FloatOptions } from './Float';
 
-/** {@link ValueObjects!} a floating point number that can also be created from a string representation of a floating point number */
+/** a floating point number that can also be created from a string representation of a floating point number */
 export class FloatString extends Float {
   protected constructor(value: number) {
     super(value);
@@ -20,8 +20,8 @@ export class FloatString extends Float {
    * @param value to be validated as a float with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws {@link TypeError} if not a positive number
-   * @throws {@link RangeError} if the value is not inside the interval
+   * @throws `TypeError` if not a positive number
+   * @throws `RangeError` if the value is not inside the interval
    */
   public static validate(value: number | string, options?: FloatStringOptions): number {
     const converted = this.validateFloatString(value, options);

@@ -1,3 +1,5 @@
+import { Serializable } from '../basic';
+
 /** A basic ValueObject that wraps a primitive value immutably and does validation on creation */
 export abstract class ValueObject<T> {
   /** the actual value of the ValueObject */

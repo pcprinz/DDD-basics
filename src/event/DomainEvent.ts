@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { Serializable } from '../Serializable';
+import { Serializable } from '../basic';
 
 /** An event passed from an EventHandler to a Subscriber.
  * Usually this will not be created manually but automatically

@@ -21,8 +21,8 @@ export class SafeBoolean extends ValueObject<boolean> {
    * @param value to be validated as a valid boolean / string representation of a boolean
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws {@link TypeError} if undefined (and not allowed to)
-   * @throws {@link TypeError} if not a boolean
+   * @throws `TypeError` if undefined (and not allowed to)
+   * @throws `TypeError` if not a boolean
    */
   public static validate(
     value: string | boolean | undefined,

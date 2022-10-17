@@ -17,9 +17,9 @@ export class NumericId extends Integer {
    * @param value to be validated as an integer with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws {@link TypeError} if not a valid integer
-   * @throws {@link RangeError} if the value has decimal digits
-   * @throws {@link RangeError} if the value is not inside the interval
+   * @throws `TypeError` if not a valid integer
+   * @throws `RangeError` if the value has decimal digits
+   * @throws `RangeError` if the value is not inside the interval
    */
   public static validate(value: number, options?: NumericIdOptions): number {
     const intOpts: IntegerOptions = { ...options, min: 0, round: 'deny' };

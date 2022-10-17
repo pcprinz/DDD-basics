@@ -6,4 +6,4 @@
 
 UNDER CONSTRUCTION
 
-[Documentation](https://pcprinz.github.io/DDD-basics/)
+[Documentation](https://pcprinz.github.io/DDD-basics/modules.html)

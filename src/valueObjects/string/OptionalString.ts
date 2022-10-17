@@ -15,10 +15,10 @@ export class OptionalString extends ValueObject<string> {
   /**
    * @param value to be validated as a string with the corresponding constraints (options)
    * @returns the value if the validation was successful
-   * @throws {@link TypeError} if not a string (when defined)
-   * @throws {@link TypeError} if doesn't fit the given enum (when defined)
-   * @throws {@link RangeError} if the value is not matching the regex (when defined)
-   * @throws {@link RangeError} if the value is not inside the interval (when defined)
+   * @throws `TypeError` if not a string (when defined)
+   * @throws `TypeError` if doesn't fit the given enum (when defined)
+   * @throws `RangeError` if the value is not matching the regex (when defined)
+   * @throws `RangeError` if the value is not inside the interval (when defined)
    */
   public static validate(value: string, options?: OptionalStringOptions): string {
     let result = value;
@@ -65,7 +65,7 @@ export class OptionalString extends ValueObject<string> {
    * @param value to be formatted with the given formatting options
    * @param options constraints the value has to fulfill
    * @returns the formatted string
-   * @throws {@link Error} if the formatting failed
+   * @throws `Error` if the formatting failed
    */
   protected static format(value: string, options?: OptionalStringOptions): string {
     try {

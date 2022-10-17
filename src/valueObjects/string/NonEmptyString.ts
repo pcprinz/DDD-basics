@@ -17,10 +17,10 @@ export class NonEmptyString extends OptionalString {
    * @param value to be validated as a not empty string with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws {@link TypeError} if not a string or empty
-   * @throws {@link TypeError} if the value doesn't fit the given enum
-   * @throws {@link RangeError} if the value is not matching the regex
-   * @throws {@link RangeError} if the value's length is not inside the interval
+   * @throws `TypeError` if not a string or empty
+   * @throws `TypeError` if the value doesn't fit the given enum
+   * @throws `RangeError` if the value is not matching the regex
+   * @throws `RangeError` if the value's length is not inside the interval
    */
   public static validate(value: string, options?: NonEmptyStringOptions): string {
     // format first so that the result passed validation

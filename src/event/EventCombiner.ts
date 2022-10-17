@@ -169,7 +169,7 @@ export class EventCombiner {
   }
 }
 
-type AllThenType<EH> = {
+export type AllThenType<EH> = {
   /**
    * ... Call the given callback.
    *
@@ -183,7 +183,7 @@ type AllThenType<EH> = {
   ) => void;
 };
 
-type SomeThenType<EH> = {
+export type SomeThenType<EH> = {
   /**
    * ... Call the given callback.
    *

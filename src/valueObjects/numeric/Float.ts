@@ -16,8 +16,8 @@ export class Float extends ValueObject<number> {
    * @param value to be validated as a float with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws {@link TypeError} if not a valid number
-   * @throws {@link RangeError} if the value is not inside the interval
+   * @throws `TypeError` if not a valid number
+   * @throws `RangeError` if the value is not inside the interval
    */
   public static validate(value: number, options?: FloatOptions): number {
     this.validateNumber(value, options);

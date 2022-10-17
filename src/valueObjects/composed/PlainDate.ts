@@ -7,7 +7,7 @@ export interface PlainDateProps {
   date?: number;
 }
 /** an array representation of `PlainDateProps` */
-type YMD_Array = [year: number, month?: number, date?: number];
+export type YMD_Array = [year: number, month?: number, date?: number];
 /** everything that might be parsable to a valid `PlainDate` */
 export type PlainDateable = PlainDateProps | YMD_Array | string;
 

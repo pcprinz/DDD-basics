@@ -1,8 +1,6 @@
 {
-  "entryPoints": ["src/index.ts"],
-  "entryPointStrategy": "expand",
+  "entryPoints": ["src/basic/index.ts", "src/valueObjects/index.ts", "src/event/index.ts"],
   "out": "docs",
-  "theme": "hierarchy",
   "tsconfig": "./tsconfig.json",
   "name": "DDD basics",
   "includeVersion": true,
