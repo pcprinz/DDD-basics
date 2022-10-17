@@ -2,7 +2,7 @@
   "entryPoints": ["src/index.ts"],
   "entryPointStrategy": "expand",
   "out": "docs",
-  "theme": "github-wiki",
+  "theme": "hierarchy",
   "tsconfig": "./tsconfig.json",
   "name": "DDD basics",
   "includeVersion": true,
