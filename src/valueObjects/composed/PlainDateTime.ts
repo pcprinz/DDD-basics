@@ -2,7 +2,7 @@ import { CreationOptions, ListCreationOptions, ValueObject } from '../ValueObjec
 import { PlainDate } from './PlainDate';
 import { PlainTime } from './PlainTime';
 
-export interface PlainDateTimeProps {
+export type PlainDateTimeObject = {
   year: number;
   month?: number;
   date?: number;
@@ -10,9 +10,9 @@ export interface PlainDateTimeProps {
   minutes?: number;
   seconds?: number;
   milliseconds?: number;
-}
+};
 /** an array representation of `PlainDateTimeProps` */
-export type YMDHMSs_Array = [
+export type PlainDateTimeArray = [
   year: number,
   month?: number,
   date?: number,
@@ -22,7 +22,7 @@ export type YMDHMSs_Array = [
   milliseconds?: number
 ];
 /** everything that might be parsable to a valid `PlainDateTime` */
-export type PlainDateTimeable = PlainDateTimeProps | YMDHMSs_Array | string | number;
+export type PlainDateTimeValue = PlainDateTimeObject | PlainDateTimeArray | string | number;
 
 /** This is a more simplified, but also flexible version of a `Date`.
  * Related to `PlainTime` for the time and `PlaneDate` for the date.
@@ -76,7 +76,7 @@ export class PlainDateTime extends ValueObject<void> {
     return now.getTimezoneOffset() > then.getTimezoneOffset();
   }
 
-  protected constructor(props: Required<PlainDateTimeProps>) {
+  protected constructor(props: Required<PlainDateTimeObject>) {
     super();
     this.year = props.year;
     this.month = props.month;
@@ -128,7 +128,7 @@ export class PlainDateTime extends ValueObject<void> {
    * @param options constraints the value has to fulfill
    * @returns the created ValueObject
    */
-  public static create(value: PlainDateTimeable, options?: PlainDateTimeOptions) {
+  public static create(value: PlainDateTimeValue, options?: PlainDateTimeOptions) {
     return new PlainDateTime(this.validate(value, options));
   }
 
@@ -138,7 +138,7 @@ export class PlainDateTime extends ValueObject<void> {
    * @returns the array of ValueObjects
    */
   public static fromList(
-    values: PlainDateTimeable[] | undefined,
+    values: PlainDateTimeValue[] | undefined,
     options?: PlainDateTimeOptions & ListCreationOptions
   ) {
     return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
@@ -166,7 +166,7 @@ export class PlainDateTime extends ValueObject<void> {
   /** creates a new `PlainDateTime` derived from the existing dateTime, where the given `newData`
    * partial replaces the old data.
    */
-  createSet(newData: Partial<PlainDateTimeProps>, options?: PlainDateTimeOptions) {
+  createSet(newData: Partial<PlainDateTimeObject>, options?: PlainDateTimeOptions) {
     return PlainDateTime.create(
       {
         year: newData.year ?? this.year,
@@ -182,7 +182,7 @@ export class PlainDateTime extends ValueObject<void> {
   }
 
   /** creates a new `PlainDateTime` derived from the existing dateTime, with a given offset */
-  createOffset(offset: Partial<PlainDateTimeProps>, options?: PlainDateTimeOptions) {
+  createOffset(offset: Partial<PlainDateTimeObject>, options?: PlainDateTimeOptions) {
     const date = new Date(
       Date.UTC(
         this.year + (offset.year ?? 0),
@@ -232,9 +232,9 @@ export class PlainDateTime extends ValueObject<void> {
    * @throws various errors if not correct
    */
   public static validate(
-    value: PlainDateTimeable,
+    value: PlainDateTimeValue,
     options?: Omit<PlainDateTimeOptions, 'offset'>
-  ): Required<PlainDateTimeProps> {
+  ): Required<PlainDateTimeObject> {
     const dateOptions = { ...options, name: this.prefix(options, 'date') };
     const timeOptions = { ...options, name: this.prefix(options, 'time') };
     let parsed = value;
@@ -307,7 +307,7 @@ export class PlainDateTime extends ValueObject<void> {
 
   // COMPARISON #################################################################################
 
-  equals(obj: PlainDateTime | PlainDateTimeable, density: PlainDateTimeDensity = 'YMDHMSs') {
+  equals(obj: PlainDateTime | PlainDateTimeValue, density: PlainDateTimeDensity = 'YMDHMSs') {
     let comp;
     try {
       comp =
@@ -469,7 +469,7 @@ export class PlainDateTime extends ValueObject<void> {
  */
 export type PlainDateTimeDensity = 'Y' | 'YM' | 'YMD' | 'YMDH' | 'YMDHM' | 'YMDHMS' | 'YMDHMSs';
 
-export type PlainDateTimeOptions = CreationOptions;
+export interface PlainDateTimeOptions extends CreationOptions {}
 export interface PlainDateTimeNowOptions {
   density?: PlainDateTimeDensity;
 }

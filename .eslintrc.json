@@ -16,6 +16,7 @@
     "newline-before-return": "warn",
     "comma-spacing": "warn",
     "no-shadow": "off",
+    "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-shadow": "error",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-explicit-any": "off",

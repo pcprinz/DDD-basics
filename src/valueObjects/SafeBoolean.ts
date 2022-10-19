@@ -25,7 +25,7 @@ export class SafeBoolean extends ValueObject<boolean> {
    * @throws `TypeError` if not a boolean
    */
   public static validate(
-    value: string | boolean | undefined,
+    value: boolean | string | undefined,
     options?: SafeBooleanOptions
   ): boolean {
     let safeBoolean = value;

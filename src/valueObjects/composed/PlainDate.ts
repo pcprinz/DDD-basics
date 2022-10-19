@@ -1,15 +1,15 @@
 import { Integer } from '../numeric/Integer';
 import { CreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
-export interface PlainDateProps {
+export type PlainDateObject = {
   year: number;
   month?: number;
   date?: number;
-}
+};
 /** an array representation of `PlainDateProps` */
-export type YMD_Array = [year: number, month?: number, date?: number];
+export type PlainDateArray = [year: number, month?: number, date?: number];
 /** everything that might be parsable to a valid `PlainDate` */
-export type PlainDateable = PlainDateProps | YMD_Array | string;
+export type PlainDateValue = PlainDateObject | PlainDateArray | string;
 
 /** This is a more simplified, but also flexible version of a `Date` which specifically represents
  * just the date (without the time).
@@ -21,7 +21,7 @@ export class PlainDate extends ValueObject<void> {
   readonly date: number;
   readonly weekday: number;
 
-  private constructor(props: Required<PlainDateProps>) {
+  private constructor(props: Required<PlainDateObject>) {
     super();
     this.year = props.year;
     this.month = props.month;
@@ -61,7 +61,7 @@ export class PlainDate extends ValueObject<void> {
    * @param options constraints the value has to fulfill
    * @returns the created ValueObject
    */
-  public static create(value: PlainDateable, options?: PlainDateOptions) {
+  public static create(value: PlainDateValue, options?: PlainDateOptions) {
     return new PlainDate(this.validate(value, options));
   }
 
@@ -71,7 +71,7 @@ export class PlainDate extends ValueObject<void> {
    * @returns the array of ValueObjects
    */
   public static fromList(
-    values: PlainDateable[] | undefined,
+    values: PlainDateValue[] | undefined,
     options?: PlainDateOptions & ListCreationOptions
   ) {
     return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
@@ -95,7 +95,7 @@ export class PlainDate extends ValueObject<void> {
   /** creates a new `PlainDate` derived from the existing date, where the given `newData`
    * partial replaces the old data.
    */
-  createSet(newData: Partial<PlainDateProps>, options?: PlainDateOptions) {
+  createSet(newData: Partial<PlainDateObject>, options?: PlainDateOptions) {
     return PlainDate.create(
       {
         year: newData.year ?? this.year,
@@ -107,7 +107,7 @@ export class PlainDate extends ValueObject<void> {
   }
 
   /** creates a new `PlainDate` derived from the existing date, with a given offset */
-  createOffset(offset: Partial<PlainDateProps>, options?: PlainDateOptions) {
+  createOffset(offset: Partial<PlainDateObject>, options?: PlainDateOptions) {
     const date = new Date(
       Date.UTC(
         this.year + (offset.year ?? 0),
@@ -135,9 +135,9 @@ export class PlainDate extends ValueObject<void> {
    * @throws various errors if not correct
    */
   public static validate(
-    value: PlainDateable,
+    value: PlainDateValue,
     options?: PlainDateOptions
-  ): Required<PlainDateProps> {
+  ): Required<PlainDateObject> {
     value = this.validatePlainDateable(value, options);
     value = this.parseString(value, options);
     const year = Array.isArray(value) ? value[0] : value.year;
@@ -177,9 +177,9 @@ export class PlainDate extends ValueObject<void> {
    * @returns the valid date
    */
   public static validatePlainDateable(
-    value: PlainDateable,
+    value: PlainDateValue,
     options?: PlainDateOptions
-  ): PlainDateable {
+  ): PlainDateValue {
     if (typeof value !== 'string' && !Array.isArray(value) && !value.year) {
       throw new TypeError(
         `${this.prefix(options)}the given value is not a parsable Object, Array, or string!`
@@ -190,9 +190,9 @@ export class PlainDate extends ValueObject<void> {
   }
 
   private static parseString(
-    value: PlainDateable,
+    value: PlainDateValue,
     options?: PlainDateOptions
-  ): YMD_Array | PlainDateProps {
+  ): PlainDateArray | PlainDateObject {
     if (typeof value === 'string') {
       if (/\d{1,2}\.\d{1,2}\.\d\d\d\d/.test(value)) {
         const parts = value.split('.');
@@ -214,7 +214,7 @@ export class PlainDate extends ValueObject<void> {
 
   // COMPARISON #################################################################################
 
-  equals(obj: PlainDate | PlainDateable, density: PlainDateDensity = 'YMD') {
+  equals(obj: PlainDate | PlainDateValue, density: PlainDateDensity = 'YMD') {
     let comp;
     try {
       comp = obj instanceof PlainDate ? obj : PlainDate.create(obj, { name: 'PlainDate.equals' });
@@ -308,7 +308,7 @@ export class PlainDate extends ValueObject<void> {
  */
 export type PlainDateDensity = 'Y' | 'YM' | 'YMD';
 
-export type PlainDateOptions = CreationOptions;
+export interface PlainDateOptions extends CreationOptions {}
 export interface PlainDateNowOptions {
   density?: PlainDateDensity;
 }

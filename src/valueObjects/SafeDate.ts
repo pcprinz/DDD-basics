@@ -7,7 +7,7 @@ export class SafeDate extends ValueObject<Date> {
     super(value);
   }
 
-  public equals(obj: SafeDate | Dateable): boolean {
+  public equals(obj: SafeDate | (Date | string | number)): boolean {
     if (obj instanceof SafeDate) {
       return obj.value.toJSON() === this._value.toJSON();
     }
@@ -30,7 +30,7 @@ export class SafeDate extends ValueObject<Date> {
    * @returns the value if the validation was successful
    * @throws `TypeError` if not parsable to a valid Date
    */
-  public static validate(value: Dateable, options?: SafeDateOptions): Date {
+  public static validate(value: Date | string | number, options?: SafeDateOptions): Date {
     // safe date
     const safeDate: Date = SafeDate.validateDate(value, options);
 
@@ -59,7 +59,7 @@ export class SafeDate extends ValueObject<Date> {
     return safeDate;
   }
 
-  private static validateDate(value: Dateable, options?: SafeDateOptions): Date {
+  private static validateDate(value: Date | string | number, options?: SafeDateOptions): Date {
     value = this.parseDottedFormat(value);
     if (typeof value === 'string' || typeof value === 'number') {
       if (typeof value === 'string' ? isNaN(Date.parse(value)) : isNaN(value)) {
@@ -79,7 +79,7 @@ export class SafeDate extends ValueObject<Date> {
     );
   }
 
-  static parseDottedFormat(value: Dateable): Dateable {
+  static parseDottedFormat(value: Date | string | number): Date | string | number {
     if (typeof value === 'string' && /\d\d.\d\d.\d\d\d\d/.test(value)) {
       const parts = value.split('.');
 
@@ -96,7 +96,7 @@ export class SafeDate extends ValueObject<Date> {
    * @param options for the creation
    * @returns the created ValueObject
    */
-  public static create(value: Dateable, options?: SafeDateOptions): SafeDate {
+  public static create(value: Date | string | number, options?: SafeDateOptions): SafeDate {
     return new SafeDate(this.validate(value, options));
   }
 
@@ -110,7 +110,7 @@ export class SafeDate extends ValueObject<Date> {
    * @returns the array of ValueObjects
    */
   public static fromList(
-    values: Dateable[] | undefined,
+    values: (Date | string | number)[] | undefined,
     options?: SafeDateOptions & ListCreationOptions
   ): SafeDate[] {
     return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
@@ -131,9 +131,9 @@ export class SafeDate extends ValueObject<Date> {
   }
 }
 
-export type Dateable = Date | string | number;
-
 export interface SafeDateOptions extends CreationOptions {
-  max?: Dateable;
-  min?: Dateable;
+  /** the latest allowed Date. Both Dates will be compared with their `getTime()` milliseconds. */
+  max?: Date | string | number;
+  /** the earliest allowed Date. Both Dates will be compared with their `getTime()` milliseconds. */
+  min?: Date | string | number;
 }

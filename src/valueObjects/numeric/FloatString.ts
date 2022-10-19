@@ -94,4 +94,4 @@ export class FloatString extends Float {
   }
 }
 
-export type FloatStringOptions = FloatOptions;
+export interface FloatStringOptions extends FloatOptions {}

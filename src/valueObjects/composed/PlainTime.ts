@@ -1,21 +1,21 @@
 import { Integer } from '../numeric/Integer';
 import { CreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
-export interface PlainTimeProps {
+export type PlainTimeObject = {
   hours?: number;
   minutes?: number;
   seconds?: number;
   milliseconds?: number;
-}
+};
 /** an array representation of `PlainTimeProps` */
-export type HMSs_Array = [
+export type PlainTimeArray = [
   hours?: number,
   minutes?: number,
   seconds?: number,
   milliseconds?: number
 ];
 /** everything that might be parsable to a valid `PlainTime` */
-export type PlainTimeable = PlainTimeProps | HMSs_Array | string;
+export type PlainTimeValue = PlainTimeObject | PlainTimeArray | string;
 
 /** This is a more simplified, but also flexible version of a `Date` which specifically represents just the time.
  * Related to `PlainDate` for dates and `PlaneDateTime` for a combination of both.
@@ -36,7 +36,7 @@ export class PlainTime extends ValueObject<void> {
     );
   }
 
-  private constructor(props: Required<PlainTimeProps>) {
+  private constructor(props: Required<PlainTimeObject>) {
     super();
     this.hours = props.hours;
     this.minutes = props.minutes;
@@ -73,7 +73,7 @@ export class PlainTime extends ValueObject<void> {
    * @param options constraints the value has to fulfill
    * @returns the created ValueObject
    */
-  public static create(value: PlainTimeable, options?: PlainTimeOptions) {
+  public static create(value: PlainTimeValue, options?: PlainTimeOptions) {
     return new PlainTime(this.validate(value, options));
   }
 
@@ -83,7 +83,7 @@ export class PlainTime extends ValueObject<void> {
    * @returns the array of ValueObjects
    */
   public static fromList(
-    values: PlainTimeable[] | undefined,
+    values: PlainTimeValue[] | undefined,
     options?: PlainTimeOptions & ListCreationOptions
   ) {
     return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
@@ -108,7 +108,7 @@ export class PlainTime extends ValueObject<void> {
   /** creates a new `PlainTime` derived from the existing time, where the given `newData`
    * partial replaces the old data.
    */
-  createSet(newData: Partial<PlainTimeProps>, options?: PlainTimeOptions) {
+  createSet(newData: Partial<PlainTimeObject>, options?: PlainTimeOptions) {
     return PlainTime.create(
       {
         hours: newData.hours ?? this.hours,
@@ -121,7 +121,7 @@ export class PlainTime extends ValueObject<void> {
   }
 
   /** creates a new `PlainTime` derived from the existing time, with a given offset */
-  createOffset(offset: Partial<PlainTimeProps>, options?: PlainTimeOptions) {
+  createOffset(offset: Partial<PlainTimeObject>, options?: PlainTimeOptions) {
     const date = new Date(
       Date.UTC(
         0,
@@ -154,9 +154,9 @@ export class PlainTime extends ValueObject<void> {
    * @throws various errors if not correct
    */
   public static validate(
-    value: PlainTimeable,
+    value: PlainTimeValue,
     options?: PlainTimeOptions
-  ): Required<PlainTimeProps> {
+  ): Required<PlainTimeObject> {
     value = this.validatePlainTimeable(value, options);
     value = this.parseString(value, options);
     const hours = (Array.isArray(value) ? value[0] : value.hours) ?? 0;
@@ -181,9 +181,9 @@ export class PlainTime extends ValueObject<void> {
    * @returns the valid time
    */
   static validatePlainTimeable(
-    value: PlainTimeable,
+    value: PlainTimeValue,
     options: PlainTimeOptions | undefined
-  ): PlainTimeable {
+  ): PlainTimeValue {
     if (
       typeof value !== 'string' &&
       !Array.isArray(value) &&
@@ -201,9 +201,9 @@ export class PlainTime extends ValueObject<void> {
   }
 
   private static parseString(
-    value: PlainTimeable,
+    value: PlainTimeValue,
     options?: PlainTimeOptions
-  ): HMSs_Array | PlainTimeProps {
+  ): PlainTimeArray | PlainTimeObject {
     if (typeof value === 'string') {
       // single hour
       if (value.length <= 2 && /\d{1,2}/.test(value)) {
@@ -247,7 +247,7 @@ export class PlainTime extends ValueObject<void> {
 
   // COMPARISON #################################################################################
 
-  equals(obj: PlainTime | PlainTimeable, density: PlainTimeDensity = 'HMSs') {
+  equals(obj: PlainTime | PlainTimeValue, density: PlainTimeDensity = 'HMSs') {
     let comp;
     try {
       comp = obj instanceof PlainTime ? obj : PlainTime.create(obj, { name: 'PlainTime.equals' });
@@ -355,7 +355,7 @@ export class PlainTime extends ValueObject<void> {
  */
 export type PlainTimeDensity = 'H' | 'HM' | 'HMS' | 'HMSs';
 
-export type PlainTimeOptions = CreationOptions;
+export interface PlainTimeOptions extends CreationOptions {}
 export interface PlainTimeNowOptions {
   density?: PlainTimeDensity;
 }

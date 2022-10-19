@@ -1,6 +1,19 @@
 import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
-/** A floating point number. */
+/** A floating point number.
+ * ### uses {@link FloatOptions}
+ * - min
+ *
+ * @example
+ * // create a correct Float
+ * const mi = Float.create(42.69, { name: 'MyFloat' }); // a.value === 42.69
+ *
+ * const mi2 = Float.create('aw', { name: 'MyFloat2' });
+ * // throws "TypeError: MyFloat2 > Float: the given value (aw: string) must be a number!"
+ *
+ * const mi3 = Float.create(42, { name: 'MyFloat3', min: 12.1, max: 41.9 });
+ * // throws "RangeError: MyFloat3 > Float: the given number (42) must be in the interval [12, 41]!"
+ * */
 export class Float extends ValueObject<number> {
   constructor(value: number) {
     super(value);
@@ -78,4 +91,4 @@ export class Float extends ValueObject<number> {
   }
 }
 
-export type FloatOptions = IntervalCreationOptions;
+export interface FloatOptions extends IntervalCreationOptions {}

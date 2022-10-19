@@ -1,7 +1,23 @@
 import { ListCreationOptions } from '../ValueObject';
 import { Integer, IntegerOptions } from './Integer';
 
-/** An Integer (number without decimal digits) that can also be created from a string representation of an integer */
+/** An Integer (number without decimal digits) that can also be created from a string representation of an integer.
+ * - this is an extension of `Integer`, so you can also create from `number`s
+ *
+ * @example
+ * // create a correct Integer
+ * const mi = Integer.create('42', { name: 'MyInteger' }); // a.value === 42
+ * const mi = Integer.create('42.3', { name: 'MyRounded', round: 'floor' }); // a.value === 42
+ *
+ * const mi2 = Integer.create('aw', { name: 'MyInteger2' });
+ * // throws "TypeError: MyInteger2 > Integer: the given value (aw: string) must be a number!"
+ *
+ * const mi3 = Integer.create('42', { name: 'MyInteger3', min: 12, max: 41 });
+ * // throws "RangeError: MyInteger3 > Integer: the given number (42) must be in the interval [12, 41]!"
+ *
+ * const mi4 = Integer.create('6.9', { name: 'MyInteger4', round: 'deny'});
+ * // throws "RangeError: MyInteger4 > Integer: the given value (6.9) must be an integer but has decimal places!"
+ */
 export class IntegerString extends Integer {
   protected constructor(value: number) {
     super(value);
@@ -95,4 +111,4 @@ export class IntegerString extends Integer {
   }
 }
 
-export type IntegerStringOptions = IntegerOptions;
+export interface IntegerStringOptions extends IntegerOptions {}

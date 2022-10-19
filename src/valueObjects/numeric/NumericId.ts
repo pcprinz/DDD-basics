@@ -62,4 +62,4 @@ export class NumericId extends Integer {
 
 /** the options for a numeric identifier, which are basically the {@link IntervalCreationOptions}
  * without the `min` property, because this is fixed to `0`. */
-export type NumericIdOptions = Omit<IntervalCreationOptions, 'min'>;
+export interface NumericIdOptions extends Omit<IntervalCreationOptions, 'min'> {}

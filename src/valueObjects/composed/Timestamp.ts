@@ -1,11 +1,11 @@
 import { ListCreationOptions } from '../ValueObject';
 import {
   PlainDateTime,
-  PlainDateTimeable,
+  PlainDateTimeValue,
   PlainDateTimeDensity,
   PlainDateTimeNowOptions,
   PlainDateTimeOptions,
-  PlainDateTimeProps,
+  PlainDateTimeObject,
 } from './PlainDateTime';
 
 /** a special version of a `PlainDateTime` which offers expire calculations */
@@ -31,18 +31,18 @@ export class Timestamp extends PlainDateTime {
    * soon.isExpired();        // false
    * ```
    */
-  public static in(offset: Partial<PlainDateTimeProps>, options?: PlainDateTimeOptions) {
+  public static in(offset: Partial<PlainDateTimeObject>, options?: PlainDateTimeOptions) {
     return Timestamp.now().createOffset(offset, options);
   }
 
   // Overwritten creation
 
-  public static create(value: PlainDateTimeable, options?: PlainDateTimeOptions): Timestamp {
+  public static create(value: PlainDateTimeValue, options?: PlainDateTimeOptions): Timestamp {
     return new Timestamp(super.validate(value, options));
   }
 
   public static fromList(
-    values: PlainDateTimeable[] | undefined,
+    values: PlainDateTimeValue[] | undefined,
     options?: PlainDateTimeOptions & ListCreationOptions
   ): Timestamp[] {
     return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
@@ -52,11 +52,11 @@ export class Timestamp extends PlainDateTime {
     return new Timestamp(super.now(options));
   }
 
-  createSet(newData: Partial<PlainDateTimeProps>, options?: PlainDateTimeOptions): Timestamp {
+  createSet(newData: Partial<PlainDateTimeObject>, options?: PlainDateTimeOptions): Timestamp {
     return new Timestamp(super.createSet(newData, options));
   }
 
-  createOffset(offset: Partial<PlainDateTimeProps>, options?: PlainDateTimeOptions): Timestamp {
+  createOffset(offset: Partial<PlainDateTimeObject>, options?: PlainDateTimeOptions): Timestamp {
     return new Timestamp(super.createOffset(offset, options));
   }
 
