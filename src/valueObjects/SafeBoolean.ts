@@ -33,7 +33,7 @@ export class SafeBoolean extends ValueObject<boolean> {
       if (options?.allowUndefinedAs === undefined) {
         throw new TypeError(`${this.prefix(options)}the given boolean has to be defined!`);
       } else if (options?.allowUndefinedAs !== undefined) {
-        safeBoolean = options.allowUndefinedAs === 'true'; // otherwise = false
+        safeBoolean = options.allowUndefinedAs === true; // otherwise = false
       }
     } else {
       safeBoolean =
@@ -72,7 +72,7 @@ export class SafeBoolean extends ValueObject<boolean> {
    * @returns the array of ValueObjects
    */
   public static fromList(
-    values: boolean[] | undefined,
+    values: (boolean | string | undefined)[] | undefined,
     options?: SafeBooleanOptions & ListCreationOptions
   ): SafeBoolean[] {
     return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
@@ -91,7 +91,7 @@ export interface SafeBooleanOptions extends CreationOptions {
   /** should `undefined` be treated as a specific default. If this option remains `undefined`, the creation will throw
    * an error on undefined values
    */
-  allowUndefinedAs?: 'true' | 'false';
+  allowUndefinedAs?: true | false;
   // /** maps the boolean to string values used at `SafeBoolean.create()` as well as `SafeBoolean.toJSON()` */
   // mapping?: {
   //     true: string;

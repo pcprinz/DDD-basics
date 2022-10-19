@@ -45,7 +45,6 @@ test('Serializable', () => {
   const jsoned = JSON.parse(JSON.stringify(specialEntity));
   expect(jsoned.special).toBeUndefined();
   expect(jsoned.underscored).toStrictEqual('abc');
-  console.log('', jsoned);
   expect(jsoned.id).toStrictEqual('1234');
 });
 

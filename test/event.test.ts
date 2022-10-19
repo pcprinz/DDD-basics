@@ -1,5 +1,5 @@
 import { ANSIFormat } from 'loxer';
-import { EventCombiner, DomainEvent, EventHandler } from '../src/';
+import { EventCombiner, DomainEvent, EventHandler } from '../src';
 
 let result = 'EventCombiners:\n';
 // afterAll(() => result.length > 0 && console.log(ANSIFormat.fgSuccess(result)));
