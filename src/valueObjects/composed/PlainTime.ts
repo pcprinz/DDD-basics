@@ -30,9 +30,9 @@ export class PlainTime extends ValueObject<void> {
   getTime(density: PlainTimeDensity) {
     return (
       this.hours * 3600000 +
-      (density.length > 1 ? this.minutes * 60000 : 0) +
-      (density.length > 2 ? this.seconds * 1000 : 0) +
-      (density.length > 3 ? this.milliseconds : 0)
+      (PTD[density] > 0 ? this.minutes * 60000 : 0) +
+      (PTD[density] > 1 ? this.seconds * 1000 : 0) +
+      (PTD[density] > 2 ? this.milliseconds : 0)
     );
   }
 
@@ -92,14 +92,14 @@ export class PlainTime extends ValueObject<void> {
   /** creates a `PlainTime` from the current time. Similar to `new Date()` */
   public static now(options?: PlainTimeOptions & PlainTimeNowOptions) {
     const now = new Date(Date.now());
-    const d = options?.density ?? 'HMSs';
+    const density = options?.density ?? 'milliseconds';
 
     return this.create(
       [
         now.getUTCHours(),
-        d.length > 1 ? now.getUTCMinutes() : 0,
-        d.length > 2 ? now.getUTCSeconds() : 0,
-        d.length > 3 ? now.getUTCMilliseconds() : 0,
+        PTD[density] > 0 ? now.getUTCMinutes() : 0,
+        PTD[density] > 1 ? now.getUTCSeconds() : 0,
+        PTD[density] > 2 ? now.getUTCMilliseconds() : 0,
       ],
       options
     );
@@ -247,7 +247,7 @@ export class PlainTime extends ValueObject<void> {
 
   // COMPARISON #################################################################################
 
-  equals(obj: PlainTime | PlainTimeValue, density: PlainTimeDensity = 'HMSs') {
+  equals(obj: PlainTime | PlainTimeValue, density: PlainTimeDensity = 'milliseconds') {
     let comp;
     try {
       comp = obj instanceof PlainTime ? obj : PlainTime.create(obj, { name: 'PlainTime.equals' });
@@ -256,9 +256,9 @@ export class PlainTime extends ValueObject<void> {
       return false;
     }
     const h = comp.hours === this.hours;
-    const m = density.length >= 2 ? comp.minutes === this.minutes : true;
-    const s = density.length >= 3 ? comp.seconds === this.seconds : true;
-    const ms = density.length === 4 ? comp.milliseconds === this.milliseconds : true;
+    const m = PTD[density] >= 1 ? comp.minutes === this.minutes : true;
+    const s = PTD[density] >= 2 ? comp.seconds === this.seconds : true;
+    const ms = PTD[density] === 3 ? comp.milliseconds === this.milliseconds : true;
 
     return h && m && s && ms;
   }
@@ -273,29 +273,29 @@ export class PlainTime extends ValueObject<void> {
    * ```typescript
    * '05:24:57'.compare('08:15:30') => -1
    * '05:24:57'.compare('01:00:00') => 1
-   * '05:24:57'.compare('05:00:01', 'H') => 0 (with density)
+   * '05:24:57'.compare('05:00:01', 'hours') => 0 (with density)
    * ```
    * @param other the PlainTime to compare to / 'now' to use the current time
    * @param density the density the comparison has to have
    * @returns `-1 | 0 | 1` indicating which time is more recent
    */
-  compare(other: PlainTime | 'now', density: PlainTimeDensity = 'HMSs'): -1 | 0 | 1 {
+  compare(other: PlainTime | 'now', density: PlainTimeDensity = 'milliseconds'): -1 | 0 | 1 {
     const comp = (fst: number, snd: number) => (fst > snd ? 1 : -1);
     const b = other === 'now' ? PlainTime.now() : PlainTime.validate(other);
     const h = this.hours === b.hours ? 0 : comp(this.hours, b.hours);
     if (h !== 0) {
       return h;
     }
-    const m = density.length < 2 || this.minutes === b.minutes ? 0 : comp(this.minutes, b.minutes);
+    const m = PTD[density] < 1 || this.minutes === b.minutes ? 0 : comp(this.minutes, b.minutes);
     if (m !== 0) {
       return m;
     }
-    const s = density.length < 3 || this.seconds === b.seconds ? 0 : comp(this.seconds, b.seconds);
+    const s = PTD[density] < 2 || this.seconds === b.seconds ? 0 : comp(this.seconds, b.seconds);
     if (s !== 0) {
       return s;
     }
 
-    return density.length < 4 || this.milliseconds === b.milliseconds
+    return PTD[density] < 3 || this.milliseconds === b.milliseconds
       ? 0
       : comp(this.milliseconds, b.milliseconds);
   }
@@ -306,24 +306,19 @@ export class PlainTime extends ValueObject<void> {
    * - distance = other - this
    *   - positive result = other time was later
    *   - negative result = other time was earlier
-   * - units depending on density:
-   *   - "H" = hours
-   *   - "HM" = minutes
-   *   - "HMS" = seconds
-   *   - "HMSs" = milliseconds (default)
    * @param other the PlainTime to compare to / 'now' to use the current time
    * @param density the density the comparison has to have
    * @returns the distance whereas the unit correlates to the given density (defaults to `ms`)
    */
-  distance(toOther: PlainTime | 'now', density: PlainTimeDensity = 'HMSs') {
+  distance(toOther: PlainTime | 'now', density: PlainTimeDensity = 'milliseconds') {
     const b = toOther === 'now' ? PlainTime.now() : toOther;
     const distance = b.getTime(density) - this.getTime(density);
-    switch (density.length) {
-      case 1:
+    switch (PTD[density]) {
+      case 0:
         return distance / (1000 * 60 * 60);
-      case 2:
+      case 1:
         return distance / (1000 * 60);
-      case 3:
+      case 2:
         return distance / 1000;
       default:
         return distance;
@@ -346,14 +341,14 @@ export class PlainTime extends ValueObject<void> {
   }
 }
 
-/**
- * the density / accuracy to compare and create times
- * - "H" = hours
- * - "HM" = minutes
- * - "HMS" = seconds
- * - "HMSs" = milliseconds
- */
-export type PlainTimeDensity = 'H' | 'HM' | 'HMS' | 'HMSs';
+/** the density / accuracy to compare and create times */
+export type PlainTimeDensity = keyof typeof PTD;
+enum PTD {
+  'hours',
+  'minutes',
+  'seconds',
+  'milliseconds',
+}
 
 export interface PlainTimeOptions extends CreationOptions {}
 export interface PlainTimeNowOptions {

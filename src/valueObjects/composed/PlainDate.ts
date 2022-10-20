@@ -80,13 +80,13 @@ export class PlainDate extends ValueObject<void> {
   /** creates a `PlainDate` from the current date. Similar to `new Date()` */
   public static now(options?: PlainDateOptions & PlainDateNowOptions) {
     const today = new Date(Date.now());
-    const d = options?.density ?? 'YMD';
+    const density = options?.density ?? 'days';
 
     return this.create(
       [
         today.getFullYear(),
-        d.length > 1 ? today.getUTCMonth() : 0,
-        d.length > 2 ? today.getUTCDate() : 1,
+        PDD[density] > 0 ? today.getUTCMonth() : 0,
+        PDD[density] > 1 ? today.getUTCDate() : 1,
       ],
       options
     );
@@ -214,7 +214,7 @@ export class PlainDate extends ValueObject<void> {
 
   // COMPARISON #################################################################################
 
-  equals(obj: PlainDate | PlainDateValue, density: PlainDateDensity = 'YMD') {
+  equals(obj: PlainDate | PlainDateValue, density: PlainDateDensity = 'days') {
     let comp;
     try {
       comp = obj instanceof PlainDate ? obj : PlainDate.create(obj, { name: 'PlainDate.equals' });
@@ -223,8 +223,8 @@ export class PlainDate extends ValueObject<void> {
       return false;
     }
     const y = comp.year === this.year;
-    const m = density.length >= 2 ? comp.month === this.month : true;
-    const d = density.length >= 3 ? comp.date === this.date : true;
+    const m = PDD[density] >= 1 ? comp.month === this.month : true;
+    const d = PDD[density] >= 2 ? comp.date === this.date : true;
 
     return y && m && d;
   }
@@ -239,25 +239,25 @@ export class PlainDate extends ValueObject<void> {
    * ```typescript
    * '2020-05-25'.compare('2020-09-18') => -1
    * '2020-05-25'.compare('2020-01-01') => 1
-   * '2020-05-25'.compare('2020-05-06', 'YM') => 0 (with density)
+   * '2020-05-25'.compare('2020-05-06', 'months') => 0 (with density)
    * ```
    * @param other the PlainDate to compare to / 'now' to use the current date
    * @param density the density the comparison has to have
    * @returns `-1 | 0 | 1` indicating which date is more recent
    */
-  compare(other: PlainDate | 'now', density: PlainDateDensity = 'YMD'): -1 | 0 | 1 {
+  compare(other: PlainDate | 'now', density: PlainDateDensity = 'days'): -1 | 0 | 1 {
     const comp = (fst: number, snd: number) => (fst > snd ? 1 : -1);
     const b = other === 'now' ? PlainDate.now() : PlainDate.validate(other);
     const y = this.year === b.year ? 0 : comp(this.year, b.year);
     if (y !== 0) {
       return y;
     }
-    const m = density.length < 2 || this.month === b.month ? 0 : comp(this.month, b.month);
+    const m = PDD[density] < 1 || this.month === b.month ? 0 : comp(this.month, b.month);
     if (m !== 0) {
       return m;
     }
 
-    return density.length < 3 || this.date === b.date ? 0 : comp(this.date, b.date);
+    return PDD[density] < 2 || this.date === b.date ? 0 : comp(this.date, b.date);
   }
 
   /**
@@ -271,7 +271,7 @@ export class PlainDate extends ValueObject<void> {
    * @param density the density the comparison has to have
    * @returns the distance in days
    */
-  distance(toOther: PlainDate | 'now', density: PlainDateDensity = 'YMD') {
+  distance(toOther: PlainDate | 'now', density: PlainDateDensity = 'days') {
     const b = toOther === 'now' ? PlainDate.now() : toOther;
     const distance = b.toDate(density).getTime() - this.toDate(density).getTime();
 
@@ -293,20 +293,20 @@ export class PlainDate extends ValueObject<void> {
     };
   }
 
-  toDate(density: PlainDateDensity = 'YMD') {
+  toDate(density: PlainDateDensity = 'days') {
     return new Date(
-      Date.UTC(this.year, density.length > 1 ? this.month : 0, density.length > 2 ? this.date : 1)
+      Date.UTC(this.year, PDD[density] > 0 ? this.month : 0, PDD[density] > 1 ? this.date : 1)
     );
   }
 }
 
-/**
- * the density / accuracy to compare and create dates
- * - "Y" - years
- * - "YM" - months
- * - "YMD" - days
- */
-export type PlainDateDensity = 'Y' | 'YM' | 'YMD';
+/** the density / accuracy to compare and create dates */
+export type PlainDateDensity = keyof typeof PDD;
+enum PDD {
+  'years',
+  'months',
+  'days',
+}
 
 export interface PlainDateOptions extends CreationOptions {}
 export interface PlainDateNowOptions {

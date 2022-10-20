@@ -20,14 +20,20 @@ It extends the value to include the ability to set constraints on creation and t
 validate compliance with the constraints. Furthermore, they ensure that the value is
 immutable and thus cannot be changed.</p>
 
-<h3>Remarks</h3><ul>
+<a href="#remarks" id="remarks" style="color: inherit; text-decoration: none;">
+  <h1>Remarks</h1>
+</a>
+<ul>
 <li>In order to change a ValueObject, it must be created again and thus also validated again.</li>
 <li>Each ValueObject is created with the static <code>create(value, options)</code> method.</li>
 <li>During creation, the static <code>validate(value, options)</code> method is automatically called,
 which can also be used separately.</li>
 </ul>
 
-<h3>API</h3><p>every ValueObject inherits from the <code>abstract ValueObject</code>:</p>
+<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+  <h1>API</h1>
+</a>
+<p>every ValueObject inherits from the <code>abstract ValueObject</code>:</p>
 <ul>
 <li><code>.value</code> - the getter for the internal primitive value</li>
 <li><code>.toJSON()</code> - which returns a readable representation of the value (commonly just the value)</li>
@@ -35,8 +41,8 @@ which can also be used separately.</li>
 </ul>
 <p>additionally every ValueObject has at least a static implementation for:</p>
 <ul>
-<li><code>.validate(value, options)</code> - to validate a value</li>
-<li><code>.create(value, options)</code> - for the creation</li>
+<li><code>.create(value, options)</code> - to create (and validate) the ValueObject</li>
+<li><code>.validate(value, options)</code> - to validate the constraints on the value</li>
 <li><code>.fromList(values, options)</code> - to create a list of ValueObjects from a list of primitives
 (this is the list equivalent of <code>.create()</code>)</li>
 <li><code>.toList(values)</code> - to transform a list of ValueObjects to a list of primitives
@@ -44,14 +50,60 @@ which can also be used separately.</li>
 </ul>
 <p>some of the ValueObjects (especially the composed ones) have additional useful methods.</p>
 
-<h3>Options</h3><p>every ValueObject has an <code>options</code> parameter for <code>create()</code>, <code>validate()</code> and <code>fromList()</code>.
+<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+  <h1>Options</h1>
+</a>
+<p>every ValueObject has an <code>options</code> parameter for <code>create()</code>, <code>validate()</code> and <code>fromList()</code>.
 These options can be used to define constraints for the passed value(s).</p>
-<p>There are som common options that are used independently of the individual ValueObject:</p>
+<p>There are some common options that are used independently of the individual ValueObject:</p>
 <pre><code class="language-ts"><span class="hl-3">// All ValueObjects [all methods]</span><br/><span class="hl-0">interface</span><span class="hl-1"> </span><span class="hl-2">CreationOptions</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">name</span><span class="hl-1">?: </span><span class="hl-2">string</span><span class="hl-1">; </span><span class="hl-3">// the name of the ValueObject to identify in a possible ErrorMessage.</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">// Numeric &amp; (string) ValueObjects [all methods]</span><br/><span class="hl-0">interface</span><span class="hl-1"> </span><span class="hl-2">IntervalCreationOptions</span><span class="hl-1"> </span><span class="hl-0">extends</span><span class="hl-1"> </span><span class="hl-2">CreationOptions</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">min</span><span class="hl-1">?: </span><span class="hl-2">number</span><span class="hl-1">; </span><span class="hl-3">// the lower bound of the interval the value (length) has to be in</span><br/><span class="hl-1">  </span><span class="hl-4">max</span><span class="hl-1">?: </span><span class="hl-2">number</span><span class="hl-1">; </span><span class="hl-3">// the upper bound of the interval the value (length) has to be in</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-3">// All ValueObjects [fromList(value, OPTIONS)]</span><br/><span class="hl-0">interface</span><span class="hl-1"> </span><span class="hl-2">ListCreationOptions</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">forbidUndefined</span><span class="hl-1">?: </span><span class="hl-2">boolean</span><span class="hl-1">; </span><span class="hl-3">// is undefined forbidden as a valid input</span><br/><span class="hl-1">  </span><span class="hl-4">listSize</span><span class="hl-1">?: {</span><br/><span class="hl-1">    </span><span class="hl-4">min</span><span class="hl-1">?: </span><span class="hl-2">number</span><span class="hl-1">; </span><span class="hl-3">// minimum amount of values inside of the list</span><br/><span class="hl-1">    </span><span class="hl-4">max</span><span class="hl-1">?: </span><span class="hl-2">number</span><span class="hl-1">; </span><span class="hl-3">// maximum amount of values inside of the list</span><br/><span class="hl-1">    </span><span class="hl-4">fix</span><span class="hl-1">?: </span><span class="hl-2">number</span><span class="hl-1">; </span><span class="hl-3">// fix amount of values inside of the list. This serves as a shortcut for min = max.</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">}</span>
 </code></pre>
+<p>Most ValueObjects have additional options depending on their individual needs. Those are always called <code>&lt;ValueObjectName&gt;Options</code></p>
+
+<a href="#basic-valueobjects" id="basic-valueobjects" style="color: inherit; text-decoration: none;">
+  <h1>Basic ValueObjects</h1>
+</a>
+
+<a href="#numeric" id="numeric" style="color: inherit; text-decoration: none;">
+  <h3>numeric</h3>
+</a>
+<ul>
+<li><code>Float</code> - the common wrapper for <code>number</code></li>
+<li><code>Integer</code> - an extension of <code>Float</code> without decimal digits</li>
+<li><code>FloatString</code> - also a <code>Float</code>, but can be created from a <code>string</code></li>
+<li><code>IntegerString</code> - also an <code>Integer</code>, but can be created from a <code>string</code></li>
+<li><code>NumericId</code> - an extension of <code>Integer</code> with the inbuilt constraints to be positive and not round-able</li>
+</ul>
+
+<a href="#string" id="string" style="color: inherit; text-decoration: none;">
+  <h3>string</h3>
+</a>
+<ul>
+<li><code>OptionalString</code> - the common wrapper for <code>string</code>, but can be created from falsy values (if required)</li>
+<li><code>NonEmptyString</code> - an extension of <code>OptionalString</code>, but can only be created from strings that are not empty</li>
+</ul>
+
+<a href="#other-pseudo-primitive" id="other-pseudo-primitive" style="color: inherit; text-decoration: none;">
+  <h3>other (pseudo) primitive</h3>
+</a>
+<ul>
+<li><code>SafeBoolean</code> - the common wrapper for <code>boolean</code>, that can also be created from <code>undefined</code> or <code>string</code> (if required)</li>
+<li><code>SafeDate</code> - the common wrapper for JS&#39;s <code>Date</code></li>
+</ul>
+
+<a href="#composed--special-not-so-basic" id="composed--special-not-so-basic" style="color: inherit; text-decoration: none;">
+  <h3>composed / special (not so basic)</h3>
+</a>
+<ul>
+<li><code>SemVersion</code> - for semantic versions like <code>&quot;0.13.5&quot;</code></li>
+<li><code>PlainDate</code> - for simple dates (without the time)</li>
+<li><code>PlainTime</code> - for simple times (without the date)</li>
+<li><code>PlainDateTime</code> - a combination of both (This is like JS&#39;s <code>Date</code> but with more / other / better functionality)</li>
+<li><code>TimeStamp</code> - a special <code>PlainDateTime</code> with additional measuring functionality (like &quot;expiresIn&quot;)</li>
+</ul>
 </div></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/599e3b0/src/valueObjects/index.ts#L62">valueObjects/index.ts:62</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/599e3b0/src/valueObjects/index.ts#L87">valueObjects/index.ts:87</a></li></ul></aside>
 <section class="tsd-panel-group">
 <section class="tsd-panel tsd-typography"></section></section>
 <section class="tsd-panel-group tsd-index-group">

@@ -95,13 +95,13 @@ export class PlainDateTime extends ValueObject<void> {
    * can be either `PlainDateTimeProps`:
    * ```typescript
    * {
-   *  year: number;
-   *  month?: number;
-   *  date?: number;
-   *  hours?: number;
-   *  minutes?: number;
-   *  seconds?: number;
-   *  milliseconds?: number;
+   *   year: number;
+   *   month?: number;
+   *   date?: number;
+   *   hours?: number;
+   *   minutes?: number;
+   *   seconds?: number;
+   *   milliseconds?: number;
    * }
    * ```
    *
@@ -147,17 +147,17 @@ export class PlainDateTime extends ValueObject<void> {
   /** creates a `PlainDateTime` from the current dateTime. Similar to `new Date()` */
   public static now(options?: PlainDateTimeOptions & PlainDateTimeNowOptions) {
     const now = new Date(Date.now());
-    const d = options?.density ?? 'YMDHMSs';
+    const density = options?.density ?? 'milliseconds';
 
     return this.create(
       [
         now.getFullYear(),
-        d.length > 1 ? now.getUTCMonth() : 0,
-        d.length > 2 ? now.getUTCDate() : 1,
-        d.length > 3 ? now.getUTCHours() : 0,
-        d.length > 4 ? now.getUTCMinutes() : 0,
-        d.length > 5 ? now.getUTCSeconds() : 0,
-        d.length > 6 ? now.getUTCMilliseconds() : 0,
+        PDTD[density] > 0 ? now.getUTCMonth() : 0,
+        PDTD[density] > 1 ? now.getUTCDate() : 1,
+        PDTD[density] > 2 ? now.getUTCHours() : 0,
+        PDTD[density] > 3 ? now.getUTCMinutes() : 0,
+        PDTD[density] > 4 ? now.getUTCSeconds() : 0,
+        PDTD[density] > 5 ? now.getUTCMilliseconds() : 0,
       ],
       options
     );
@@ -307,7 +307,7 @@ export class PlainDateTime extends ValueObject<void> {
 
   // COMPARISON #################################################################################
 
-  equals(obj: PlainDateTime | PlainDateTimeValue, density: PlainDateTimeDensity = 'YMDHMSs') {
+  equals(obj: PlainDateTime | PlainDateTimeValue, density: PlainDateTimeDensity = 'milliseconds') {
     let comp;
     try {
       comp =
@@ -319,12 +319,12 @@ export class PlainDateTime extends ValueObject<void> {
       return false;
     }
     const y = comp.year === this.year;
-    const m = density.length >= 2 ? comp.month === this.month : true;
-    const d = density.length >= 3 ? comp.date === this.date : true;
-    const h = density.length >= 4 ? comp.hours === this.hours : true;
-    const min = density.length >= 5 ? comp.minutes === this.minutes : true;
-    const s = density.length >= 6 ? comp.seconds === this.seconds : true;
-    const ms = density.length === 7 ? comp.milliseconds === this.milliseconds : true;
+    const m = PDTD[density] >= 1 ? comp.month === this.month : true;
+    const d = PDTD[density] >= 2 ? comp.date === this.date : true;
+    const h = PDTD[density] >= 3 ? comp.hours === this.hours : true;
+    const min = PDTD[density] >= 4 ? comp.minutes === this.minutes : true;
+    const s = PDTD[density] >= 5 ? comp.seconds === this.seconds : true;
+    const ms = PDTD[density] === 6 ? comp.milliseconds === this.milliseconds : true;
 
     return y && m && d && h && min && s && ms;
   }
@@ -339,42 +339,44 @@ export class PlainDateTime extends ValueObject<void> {
    * ```typescript
    * '2020-05-25'.compare('2020-09-18') => -1
    * '2020-05-25'.compare('2020-01-01') => 1
-   * '2020-05-25'.compare('2020-05-06', 'YM') => 0
+   * '2020-05-25'.compare('2020-05-06', 'months') => 0
    * ```
    * @param other the PlainDateTime to compare to / 'now' to use the current dateTime
    * @param density the density the comparison has to have
    * @returns `-1 | 0 | 1` indicating which dateTime is more recent
    */
-  compare(other: PlainDateTime | 'now', density: PlainDateTimeDensity = 'YMDHMSs'): -1 | 0 | 1 {
+  compare(
+    other: PlainDateTime | 'now',
+    density: PlainDateTimeDensity = 'milliseconds'
+  ): -1 | 0 | 1 {
     const comp = (fst: number, snd: number) => (fst > snd ? 1 : -1);
     const b = other === 'now' ? PlainDateTime.now() : PlainDateTime.validate(other);
     const y = this.year === b.year ? 0 : comp(this.year, b.year);
     if (y !== 0) {
       return y;
     }
-    const m = density.length < 2 || this.month === b.month ? 0 : comp(this.month, b.month);
+    const m = PDTD[density] < 1 || this.month === b.month ? 0 : comp(this.month, b.month);
     if (m !== 0) {
       return m;
     }
-    const d = density.length < 3 || this.date === b.date ? 0 : comp(this.date, b.date);
+    const d = PDTD[density] < 2 || this.date === b.date ? 0 : comp(this.date, b.date);
     if (d !== 0) {
       return d;
     }
-    const h = density.length < 4 || this.hours === b.hours ? 0 : comp(this.hours, b.hours);
+    const h = PDTD[density] < 3 || this.hours === b.hours ? 0 : comp(this.hours, b.hours);
     if (h !== 0) {
       return h;
     }
-    const min =
-      density.length < 5 || this.minutes === b.minutes ? 0 : comp(this.minutes, b.minutes);
+    const min = PDTD[density] < 4 || this.minutes === b.minutes ? 0 : comp(this.minutes, b.minutes);
     if (min !== 0) {
       return min;
     }
-    const s = density.length < 6 || this.seconds === b.seconds ? 0 : comp(this.seconds, b.seconds);
+    const s = PDTD[density] < 5 || this.seconds === b.seconds ? 0 : comp(this.seconds, b.seconds);
     if (s !== 0) {
       return s;
     }
 
-    return density.length < 7 || this.milliseconds === b.milliseconds
+    return PDTD[density] < 6 || this.milliseconds === b.milliseconds
       ? 0
       : comp(this.milliseconds, b.milliseconds);
   }
@@ -386,28 +388,25 @@ export class PlainDateTime extends ValueObject<void> {
    *   - positive result = other dateTime was later
    *   - negative result = other dateTime was earlier
    * - units depending on density:
-   *   - "Y" / "YM" / "YMD" = days
-   *   - "YMDH" = hours
-   *   - "YMDHM" = minutes
-   *   - "YMDHMS" = seconds
-   *   - "YMDHMSs" = milliseconds (default)
+   *   - "years" | "months" | "days" = days
+   *   - all other are fitting
    * @param other the PlainDate to compare to / 'now' to use the current date
    * @param density the density the comparison has to have
-   * @returns the distance in days
+   * @returns the distance between the dates
    */
-  distance(toOther: PlainDateTime | 'now', density: PlainDateTimeDensity = 'YMDHMSs') {
+  distance(toOther: PlainDateTime | 'now', density: PlainDateTimeDensity = 'milliseconds') {
     const b = toOther === 'now' ? PlainDateTime.now() : toOther;
     const distance = b.toDate(density).getTime() - this.toDate(density).getTime();
-    switch (density.length) {
+    switch (PDTD[density]) {
+      case 0:
       case 1:
       case 2:
-      case 3:
         return distance / (1000 * 60 * 60 * 24);
-      case 4:
+      case 3:
         return distance / (1000 * 60 * 60);
-      case 5:
+      case 4:
         return distance / (1000 * 60);
-      case 6:
+      case 5:
         return distance / 1000;
       default:
         return distance;
@@ -439,37 +438,39 @@ export class PlainDateTime extends ValueObject<void> {
     };
   }
 
-  toDate(density: PlainDateTimeDensity = 'YMDHMSs', timeZoned: boolean = false) {
+  toDate(density: PlainDateTimeDensity = 'milliseconds', timeZoned: boolean = false) {
     const tzOff = new Date().getTimezoneOffset();
-    const minutes = (density.length > 4 ? this.minutes : 0) + (timeZoned ? tzOff : 0);
+    const minutes = (PDTD[density] > 3 ? this.minutes : 0) + (timeZoned ? tzOff : 0);
 
     return new Date(
       Date.UTC(
         this.year,
-        density.length > 1 ? this.month : 0,
-        density.length > 2 ? this.date : 1,
-        density.length > 3 ? this.hours : 0,
+        PDTD[density] > 0 ? this.month : 0,
+        PDTD[density] > 1 ? this.date : 1,
+        PDTD[density] > 2 ? this.hours : 0,
         minutes,
-        density.length > 5 ? this.seconds : 0,
-        density.length > 6 ? this.milliseconds : 0
+        PDTD[density] > 4 ? this.seconds : 0,
+        PDTD[density] > 5 ? this.milliseconds : 0
       )
     );
   }
 }
 
-/**
- * the density / accuracy to compare and create dateTimes
- * - "Y" - years
- * - "YM" - months
- * - "YMD" - days
- * - "YMDH" = hours
- * - "YMDHM" = minutes
- * - "YMDHMS" = seconds
- * - "YMDHMSs" = milliseconds
- */
-export type PlainDateTimeDensity = 'Y' | 'YM' | 'YMD' | 'YMDH' | 'YMDHM' | 'YMDHMS' | 'YMDHMSs';
+/** the density / accuracy to compare and create dateTimes */
+export type PlainDateTimeDensity = keyof typeof PDTD;
+enum PDTD {
+  'years',
+  'months',
+  'days',
+  'hours',
+  'minutes',
+  'seconds',
+  'milliseconds',
+}
 
 export interface PlainDateTimeOptions extends CreationOptions {}
 export interface PlainDateTimeNowOptions {
   density?: PlainDateTimeDensity;
 }
+
+PlainDateTime.create({ year: 2020 }).distance('now', 'minutes');
