@@ -89,7 +89,7 @@ export class SafeDate extends ValueObject<Date> {
     return value;
   }
 
-  // VALIDATION #################################################################################
+  // CREATION #################################################################################
 
   /**
    * @param value to create a PositiveIntegerString from

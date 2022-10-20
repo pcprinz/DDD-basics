@@ -21,7 +21,8 @@
     "test": "jest --coverage",
     "lint": "eslint . --ext .ts",
     "prepare": "yarn build",
-    "docs": "typedoc --options typedoc.json"
+    "docs": "typedoc --options typedoc.json",
+    "watch-docs": "typedoc --options typedoc.json --watch"
   },
   "husky": {
     "hooks": {

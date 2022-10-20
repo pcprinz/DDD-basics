@@ -2,12 +2,12 @@ import { ListCreationOptions } from '../ValueObject';
 import { Float, FloatOptions } from './Float';
 
 /**
- * An Integer (number without decimal digits)
+ * An Integer (`number` without decimal digits)
  *
  * @example
  * // create a correct Integer
  * const mi = Integer.create(42, { name: 'MyInteger' }); // a.value === 42
- * const mi = Integer.create(42.3, { name: 'MyRounded', round: 'floor' }); // a.value === 42
+ * const mi = Integer.create(42.6, { name: 'MyRounded', round: 'floor' }); // a.value === 42
  *
  * const mi2 = Integer.create('aw', { name: 'MyInteger2' });
  * // throws "TypeError: MyInteger2 > Integer: the given value (aw: string) must be a number!"

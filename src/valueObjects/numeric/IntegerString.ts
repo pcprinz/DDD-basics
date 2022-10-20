@@ -1,7 +1,7 @@
 import { ListCreationOptions } from '../ValueObject';
 import { Integer, IntegerOptions } from './Integer';
 
-/** An Integer (number without decimal digits) that can also be created from a string representation of an integer.
+/** An Integer (`number` without decimal digits) that can also be created from a string representation of an integer.
  * - this is an extension of `Integer`, so you can also create from `number`s
  *
  * @example
@@ -49,7 +49,7 @@ export class IntegerString extends Integer {
   /**
    * @param value to be validated as a valid integer / string representation of an integer
    * @param options constraints the value has to fulfill
-   * @returns the (possibly parsed) integer (number)
+   * @returns the (possibly parsed) integer (`number`)
    */
   protected static validateIntegerString(
     value: number | string,

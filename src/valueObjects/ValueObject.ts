@@ -57,8 +57,7 @@ export abstract class ValueObject<T> {
   }
 
   /**
-   * this function is invoked by `JSON.stringify()` and converts the inner `"_propertyKey"` to `"propertyKey"`
-   * @returns {{}} the value
+   * this function is invoked by `JSON.stringify()` and returns the internal `value`
    */
   public toJSON(): T {
     return this._value;
