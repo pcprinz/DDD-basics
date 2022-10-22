@@ -1,3 +1,4 @@
+/** @module ValueObjects.PlainDate */
 import { Integer } from '../numeric/Integer';
 import { CreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
