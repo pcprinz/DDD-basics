@@ -5,51 +5,73 @@ import { EventHandler } from './EventHandler';
  * Combines multiple events to let Subscribers listen to any combination of the events. There are 6
  * different combinations that can be achieved by the following chaining of the EventCombiners methods.
  *
- * | method | first call on | subsequent calls on | provided payloads of |
- * |---|---|---|---|
- * | .all() | all events | every event | every events last received |
- * | .some() | any event | every event | every events last (received or not) |
- * | .once().all() | all events | never again | every events last received |
- * | .once().some() | any event | never again | only the first received |
- * | .consume().all() | all events | again all events | every events freshly received |
- * | .consume().some() | any event | every event | only the last received |
+ * | method              | first call on  | subsequent calls on    | provided payloads of                |
+ * |:--------------------|:---------------|:-----------------------|:------------------------------------|
+ * | `.all()`            | all events     | every event            | every events last received          |
+ * | `.some()`           | any event      | every event            | every events last (received or not) |
+ * | `.once().all()`     | all events     | never again            | every events last received          |
+ * | `.once().some()`    | any event      | never again            | only the first received             |
+ * | `.consume().all()`  | all events     | again all events       | every events freshly received       |
+ * | `.consume().some()` | any event      | every event            | only the last received              |
+ * |_____________________|________________|________________________|_____________________________________|
  *
- * ## Detailed overview
+ * @example
+ * const A = new EventHandler<string>('HandlerA');
+ * const B = new EventHandler<number>('HandlerB');
+ *
+ * new EventCombiner('All').all(A, B).then((events) => {
+ *   // events has the type [DomainEvent<string>, DomainEvent<number>]
+ * });
+ * new EventCombiner('Some').some(A, B).then(...);
+ * new EventCombiner('OnceAll').once().all(A, B).then(...);
+ * new EventCombiner('OnceSome').once().some(A, B).then(...);
+ * new EventCombiner('ConsumeAll').consume().all(A, B).then(...);
+ * new EventCombiner('ConsumeSome').consume().some(A, B).then(...);
+ *
+ * A.dispatch('foo'); // (Consume)Some  +  OnceSome
+ * A.dispatch('bar'); // (Consume)Some
+ * B.dispatch(420);   // (Consume)Some  +  All  +  OnceAll  +  ConsumeAll
+ * B.dispatch(69);    // (Consume)Some  +  All
+ * B.dispatch(41);    // (Consume)Some  +  All
+ * A.dispatch('baz'); // (Consume)Some  +  All  +  ConsumeAll
+ *
+ * @description
+ * #### Detailed overview
  *
  * Consider having `new EventCombiner('myCombiner')` as a prefix for the following method chains:
  *
- * ### `.all(HANDLERS).then(CALLBACK)`
+ * ##### `.all(HANDLERS).then(CALLBACK)`
  * - Calls the given CALLBACK once **all** of the given HANDLERS have fired.
  * - After that, every time one of the HANDLERS fires, the CALLBACK is called again.
  * - *use this if you want to react to multiple events, that all* **must** *be fired once*
  *
- * ### `.some(HANDLERS).then(CALLBACK)`
+ * ##### `.some(HANDLERS).then(CALLBACK)`
  * - Calls the given CALLBACK once **one** of the given HANDLERS has fired.
  * - After that, every time one of the HANDLERS fires, the CALLBACK is called again.
  * - *use this to react to multiple events without any restriction*
  *
- * ### `.once().all(HANDLERS).then(CALLBACK)`
+ * ##### `.once().all(HANDLERS).then(CALLBACK)`
  * - Calls the given CALLBACK once **all** of the given HANDLERS have fired.
  * - After that, the CALLBACK is never called again, when one of the HANDLERS is fired.
  * - *use this if you want to react when a whole set of events has fired once*
  *
- * ### `.once().some(HANDLERS).then(CALLBACK)`
+ * ##### `.once().some(HANDLERS).then(CALLBACK)`
  * - Calls the given CALLBACK once **one** of the given HANDLERS has fired.
  * - After that, the CALLBACK is never called again, when one of the HANDLERS is fired.
  * - *use this if you want to react if a random event fires once*
  *
- * ### `.consume().all(HANDLERS).then(CALLBACK)`
+ * ##### `.consume().all(HANDLERS).then(CALLBACK)`
  * - Calls the given CALLBACK once **all** of the given HANDLERS have fired.
  * - After that **all** of the given HANDLERS have to be fired once **again** for another CALLBACK call.
  * - *Use this if you want to react to a synchronously repeated occurrence of a whole set of events*
  *
- * ### `.consume().some(HANDLERS).then(CALLBACK)`
+ * ##### `.consume().some(HANDLERS).then(CALLBACK)`
  * - Calls the given CALLBACK once **one** of the given HANDLERS has fired.
  * - After that, every time one of the HANDLERS fires, the CALLBACK is called again.
  * - *use this to react to multiple events with the restriction, that only the last occurred event
  *   has a payload in the CALLBACK*
  *
- * ## `consume()` behavior
+ * #### `consume()` behavior
  * "consume" can be understood as a consumption of the fired events when the callback is called, so
  * `consume()` resets the received events. This means that the payloads provided in the CALLBACK will
  * only be the ones that have been delivered since the last call of the CALLBACK. Therefore `all()`
@@ -59,15 +81,15 @@ import { EventHandler } from './EventHandler';
  * delivered for every corresponding event - even if the event has fired in a previous iteration
  * of the CALLBACK.
  *
- * ## HANDLERS
+ * #### HANDLERS
  * HANDLERS is a list of `EventHandler`s that one would normally subscribe separately to.
  *
- * ## CALLBACK
+ * #### CALLBACK
  * The CALLBACK is a function that provides the fired `DomainEvent`s from the given HANDLERS as an array. The order of the DomainEvents
  * in the array correlates to the order of the given HANDLERS from the `all(HANDLERS)` or `some(HANDLERS)` method.
  * The DomainEvents including their payloads are also correctly typed corresponding to their HANDLERS.
  *
- * ### ATTENTION:
+ * ##### ATTENTION:
  * Since `some()` means that not all of the HANDLERS have to fire, not all of the provided
  * DomainEvents may exist. Therefore the type is `DomainEvent<any> | 'pending'`, where 'pending' means,
  * that the EVENT has not yet been fired. This has to be catched when working with the `.some(HANDLERS)` payloads.

@@ -20,57 +20,67 @@ different combinations that can be achieved by the following chaining of the Eve
 <table>
 <thead>
 <tr>
-<th>method</th>
-<th>first call on</th>
-<th>subsequent calls on</th>
-<th>provided payloads of</th>
+<th align="left">method</th>
+<th align="left">first call on</th>
+<th align="left">subsequent calls on</th>
+<th align="left">provided payloads of</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>.all()</td>
-<td>all events</td>
-<td>every event</td>
-<td>every events last received</td>
+<td align="left"><code>.all()</code></td>
+<td align="left">all events</td>
+<td align="left">every event</td>
+<td align="left">every events last received</td>
 </tr>
 <tr>
-<td>.some()</td>
-<td>any event</td>
-<td>every event</td>
-<td>every events last (received or not)</td>
+<td align="left"><code>.some()</code></td>
+<td align="left">any event</td>
+<td align="left">every event</td>
+<td align="left">every events last (received or not)</td>
 </tr>
 <tr>
-<td>.once().all()</td>
-<td>all events</td>
-<td>never again</td>
-<td>every events last received</td>
+<td align="left"><code>.once().all()</code></td>
+<td align="left">all events</td>
+<td align="left">never again</td>
+<td align="left">every events last received</td>
 </tr>
 <tr>
-<td>.once().some()</td>
-<td>any event</td>
-<td>never again</td>
-<td>only the first received</td>
+<td align="left"><code>.once().some()</code></td>
+<td align="left">any event</td>
+<td align="left">never again</td>
+<td align="left">only the first received</td>
 </tr>
 <tr>
-<td>.consume().all()</td>
-<td>all events</td>
-<td>again all events</td>
-<td>every events freshly received</td>
+<td align="left"><code>.consume().all()</code></td>
+<td align="left">all events</td>
+<td align="left">again all events</td>
+<td align="left">every events freshly received</td>
 </tr>
 <tr>
-<td>.consume().some()</td>
-<td>any event</td>
-<td>every event</td>
-<td>only the last received</td>
+<td align="left"><code>.consume().some()</code></td>
+<td align="left">any event</td>
+<td align="left">every event</td>
+<td align="left">only the last received</td>
+</tr>
+<tr>
+<td align="left">_____________________</td>
+<td align="left">________________</td>
+<td align="left">________________________</td>
+<td align="left">_____________________________________</td>
 </tr>
 </tbody></table>
 
+<h3>Example</h3><pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">A</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventHandler</span><span class="hl-1">&lt;</span><span class="hl-2">string</span><span class="hl-1">&gt;(</span><span class="hl-6">&#39;HandlerA&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">B</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventHandler</span><span class="hl-1">&lt;</span><span class="hl-2">number</span><span class="hl-1">&gt;(</span><span class="hl-6">&#39;HandlerB&#39;</span><span class="hl-1">);</span><br/><br/><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventCombiner</span><span class="hl-1">(</span><span class="hl-6">&#39;All&#39;</span><span class="hl-1">).</span><span class="hl-5">all</span><span class="hl-1">(</span><span class="hl-9">A</span><span class="hl-1">, </span><span class="hl-9">B</span><span class="hl-1">).</span><span class="hl-5">then</span><span class="hl-1">((</span><span class="hl-4">events</span><span class="hl-1">) </span><span class="hl-0">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-3">// events has the type [DomainEvent&lt;string&gt;, DomainEvent&lt;number&gt;]</span><br/><span class="hl-1">});</span><br/><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventCombiner</span><span class="hl-1">(</span><span class="hl-6">&#39;Some&#39;</span><span class="hl-1">).</span><span class="hl-5">some</span><span class="hl-1">(</span><span class="hl-9">A</span><span class="hl-1">, </span><span class="hl-9">B</span><span class="hl-1">).</span><span class="hl-5">then</span><span class="hl-1">(...);</span><br/><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventCombiner</span><span class="hl-1">(</span><span class="hl-6">&#39;OnceAll&#39;</span><span class="hl-1">).</span><span class="hl-5">once</span><span class="hl-1">().</span><span class="hl-5">all</span><span class="hl-1">(</span><span class="hl-9">A</span><span class="hl-1">, </span><span class="hl-9">B</span><span class="hl-1">).</span><span class="hl-5">then</span><span class="hl-1">(...);</span><br/><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventCombiner</span><span class="hl-1">(</span><span class="hl-6">&#39;OnceSome&#39;</span><span class="hl-1">).</span><span class="hl-5">once</span><span class="hl-1">().</span><span class="hl-5">some</span><span class="hl-1">(</span><span class="hl-9">A</span><span class="hl-1">, </span><span class="hl-9">B</span><span class="hl-1">).</span><span class="hl-5">then</span><span class="hl-1">(...);</span><br/><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventCombiner</span><span class="hl-1">(</span><span class="hl-6">&#39;ConsumeAll&#39;</span><span class="hl-1">).</span><span class="hl-5">consume</span><span class="hl-1">().</span><span class="hl-5">all</span><span class="hl-1">(</span><span class="hl-9">A</span><span class="hl-1">, </span><span class="hl-9">B</span><span class="hl-1">).</span><span class="hl-5">then</span><span class="hl-1">(...);</span><br/><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventCombiner</span><span class="hl-1">(</span><span class="hl-6">&#39;ConsumeSome&#39;</span><span class="hl-1">).</span><span class="hl-5">consume</span><span class="hl-1">().</span><span class="hl-5">some</span><span class="hl-1">(</span><span class="hl-9">A</span><span class="hl-1">, </span><span class="hl-9">B</span><span class="hl-1">).</span><span class="hl-5">then</span><span class="hl-1">(...);</span><br/><br/><span class="hl-9">A</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-6">&#39;foo&#39;</span><span class="hl-1">); </span><span class="hl-3">// (Consume)Some  +  OnceSome</span><br/><span class="hl-9">A</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-6">&#39;bar&#39;</span><span class="hl-1">); </span><span class="hl-3">// (Consume)Some</span><br/><span class="hl-9">B</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-8">420</span><span class="hl-1">);   </span><span class="hl-3">// (Consume)Some  +  All  +  OnceAll  +  ConsumeAll</span><br/><span class="hl-9">B</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-8">69</span><span class="hl-1">);    </span><span class="hl-3">// (Consume)Some  +  All</span><br/><span class="hl-9">B</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-8">41</span><span class="hl-1">);    </span><span class="hl-3">// (Consume)Some  +  All</span><br/><span class="hl-9">A</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-6">&#39;baz&#39;</span><span class="hl-1">); </span><span class="hl-3">// (Consume)Some  +  All  +  ConsumeAll</span>
+</code></pre>
+
+<h3>Description</h3>
 <a href="#detailed-overview" id="detailed-overview" style="color: inherit; text-decoration: none;">
-  <h2>Detailed overview</h2>
+  <h4>Detailed overview</h4>
 </a>
 <p>Consider having <code>new EventCombiner(&#39;myCombiner&#39;)</code> as a prefix for the following method chains:</p>
 
 <a href="#allhandlersthencallback" id="allhandlersthencallback" style="color: inherit; text-decoration: none;">
-  <h3><code>.all(HANDLERS).then(CALLBACK)</code></h3>
+  <h5><code>.all(HANDLERS).then(CALLBACK)</code></h5>
 </a>
 <ul>
 <li>Calls the given CALLBACK once <strong>all</strong> of the given HANDLERS have fired.</li>
@@ -79,7 +89,7 @@ different combinations that can be achieved by the following chaining of the Eve
 </ul>
 
 <a href="#somehandlersthencallback" id="somehandlersthencallback" style="color: inherit; text-decoration: none;">
-  <h3><code>.some(HANDLERS).then(CALLBACK)</code></h3>
+  <h5><code>.some(HANDLERS).then(CALLBACK)</code></h5>
 </a>
 <ul>
 <li>Calls the given CALLBACK once <strong>one</strong> of the given HANDLERS has fired.</li>
@@ -88,7 +98,7 @@ different combinations that can be achieved by the following chaining of the Eve
 </ul>
 
 <a href="#onceallhandlersthencallback" id="onceallhandlersthencallback" style="color: inherit; text-decoration: none;">
-  <h3><code>.once().all(HANDLERS).then(CALLBACK)</code></h3>
+  <h5><code>.once().all(HANDLERS).then(CALLBACK)</code></h5>
 </a>
 <ul>
 <li>Calls the given CALLBACK once <strong>all</strong> of the given HANDLERS have fired.</li>
@@ -97,7 +107,7 @@ different combinations that can be achieved by the following chaining of the Eve
 </ul>
 
 <a href="#oncesomehandlersthencallback" id="oncesomehandlersthencallback" style="color: inherit; text-decoration: none;">
-  <h3><code>.once().some(HANDLERS).then(CALLBACK)</code></h3>
+  <h5><code>.once().some(HANDLERS).then(CALLBACK)</code></h5>
 </a>
 <ul>
 <li>Calls the given CALLBACK once <strong>one</strong> of the given HANDLERS has fired.</li>
@@ -106,7 +116,7 @@ different combinations that can be achieved by the following chaining of the Eve
 </ul>
 
 <a href="#consumeallhandlersthencallback" id="consumeallhandlersthencallback" style="color: inherit; text-decoration: none;">
-  <h3><code>.consume().all(HANDLERS).then(CALLBACK)</code></h3>
+  <h5><code>.consume().all(HANDLERS).then(CALLBACK)</code></h5>
 </a>
 <ul>
 <li>Calls the given CALLBACK once <strong>all</strong> of the given HANDLERS have fired.</li>
@@ -115,7 +125,7 @@ different combinations that can be achieved by the following chaining of the Eve
 </ul>
 
 <a href="#consumesomehandlersthencallback" id="consumesomehandlersthencallback" style="color: inherit; text-decoration: none;">
-  <h3><code>.consume().some(HANDLERS).then(CALLBACK)</code></h3>
+  <h5><code>.consume().some(HANDLERS).then(CALLBACK)</code></h5>
 </a>
 <ul>
 <li>Calls the given CALLBACK once <strong>one</strong> of the given HANDLERS has fired.</li>
@@ -125,7 +135,7 @@ has a payload in the CALLBACK</em></li>
 </ul>
 
 <a href="#consume-behavior" id="consume-behavior" style="color: inherit; text-decoration: none;">
-  <h2><code>consume()</code> behavior</h2>
+  <h4><code>consume()</code> behavior</h4>
 </a>
 <p>&quot;consume&quot; can be understood as a consumption of the fired events when the callback is called, so
 <code>consume()</code> resets the received events. This means that the payloads provided in the CALLBACK will
@@ -136,19 +146,19 @@ delivered for every corresponding event - even if the event has fired in a previ
 of the CALLBACK.</p>
 
 <a href="#handlers" id="handlers" style="color: inherit; text-decoration: none;">
-  <h2>HANDLERS</h2>
+  <h4>HANDLERS</h4>
 </a>
 <p>HANDLERS is a list of <code>EventHandler</code>s that one would normally subscribe separately to.</p>
 
 <a href="#callback" id="callback" style="color: inherit; text-decoration: none;">
-  <h2>CALLBACK</h2>
+  <h4>CALLBACK</h4>
 </a>
 <p>The CALLBACK is a function that provides the fired <code>DomainEvent</code>s from the given HANDLERS as an array. The order of the DomainEvents
 in the array correlates to the order of the given HANDLERS from the <code>all(HANDLERS)</code> or <code>some(HANDLERS)</code> method.
 The DomainEvents including their payloads are also correctly typed corresponding to their HANDLERS.</p>
 
 <a href="#attention" id="attention" style="color: inherit; text-decoration: none;">
-  <h3>ATTENTION:</h3>
+  <h5>ATTENTION:</h5>
 </a>
 <p>Since <code>some()</code> means that not all of the HANDLERS have to fire, not all of the provided
 DomainEvents may exist. Therefore the type is <code>DomainEvent&lt;any&gt; | &#39;pending&#39;</code>, where &#39;pending&#39; means,
@@ -159,7 +169,7 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <ul class="tsd-hierarchy">
 <li><span class="target">EventCombiner</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L75">event/EventCombiner.ts:75</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L97">event/EventCombiner.ts:97</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -204,39 +214,39 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <h5>name: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Events.EventCombiner.html" class="tsd-signature-type" data-tsd-kind="Class">EventCombiner</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L80">event/EventCombiner.ts:80</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L102">event/EventCombiner.ts:102</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="_all" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_all</span><a href="#_all" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_all<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = true</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L84">event/EventCombiner.ts:84</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L106">event/EventCombiner.ts:106</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="_consume" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_consume</span><a href="#_consume" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_consume<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L110">event/EventCombiner.ts:110</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L132">event/EventCombiner.ts:132</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="_eventHandlers" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_event<wbr/>Handlers</span><a href="#_eventHandlers" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_event<wbr/>Handlers<span class="tsd-signature-symbol">:</span> <a href="Events.EventHandler.html" class="tsd-signature-type" data-tsd-kind="Class">EventHandler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L77">event/EventCombiner.ts:77</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L99">event/EventCombiner.ts:99</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="_name" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_name</span><a href="#_name" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L76">event/EventCombiner.ts:76</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L98">event/EventCombiner.ts:98</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="_once" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>_once</span><a href="#_once" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_once<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L102">event/EventCombiner.ts:102</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L124">event/EventCombiner.ts:124</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="_receivedEvents" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_received<wbr/>Events</span><a href="#_receivedEvents" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_received<wbr/>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="Events.DomainEvent.html" class="tsd-signature-type" data-tsd-kind="Class">DomainEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pending&quot;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L78">event/EventCombiner.ts:78</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L100">event/EventCombiner.ts:100</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="all" class="tsd-anchor"></a>
@@ -258,7 +268,7 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <h5><code class="tsd-tag ts-flagRest">Rest</code> <span class="tsd-signature-symbol">...</span>eventHandler: <span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">...</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">EH</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/Events.AllThenType.html" class="tsd-signature-type" data-tsd-kind="Type alias">AllThenType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">EH</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L86">event/EventCombiner.ts:86</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L108">event/EventCombiner.ts:108</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="consume" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>consume</span><a href="#consume" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -309,7 +319,7 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <h5><code class="tsd-tag ts-flagRest">Rest</code> <span class="tsd-signature-symbol">...</span>eventHandler: <span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">...</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">EH</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/Events.SomeThenType.html" class="tsd-signature-type" data-tsd-kind="Type alias">SomeThenType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">EH</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></li></ul></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L112">event/EventCombiner.ts:112</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L134">event/EventCombiner.ts:134</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="logDispatch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>log<wbr/>Dispatch</span><a href="#logDispatch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -317,7 +327,7 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L144">event/EventCombiner.ts:144</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L166">event/EventCombiner.ts:166</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="once" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>once</span><a href="#once" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -368,7 +378,7 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <h5><code class="tsd-tag ts-flagRest">Rest</code> <span class="tsd-signature-symbol">...</span>eventHandler: <span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">...</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">EH</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/Events.SomeThenType.html" class="tsd-signature-type" data-tsd-kind="Type alias">SomeThenType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">EH</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></li></ul></li></ul><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L104">event/EventCombiner.ts:104</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L126">event/EventCombiner.ts:126</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="resetReceivedEvents" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>reset<wbr/>Received<wbr/>Events</span><a href="#resetReceivedEvents" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -376,7 +386,7 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L165">event/EventCombiner.ts:165</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L187">event/EventCombiner.ts:187</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="some-2" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>some</span><a href="#some-2" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -396,7 +406,7 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <h5><code class="tsd-tag ts-flagRest">Rest</code> <span class="tsd-signature-symbol">...</span>eventHandler: <span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">...</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">EH</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="../types/Events.SomeThenType.html" class="tsd-signature-type" data-tsd-kind="Type alias">SomeThenType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">EH</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L94">event/EventCombiner.ts:94</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L116">event/EventCombiner.ts:116</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="then" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>then</span><a href="#then" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -420,7 +430,7 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L118">event/EventCombiner.ts:118</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L140">event/EventCombiner.ts:140</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="thenIsFulfilled" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>then<wbr/>Is<wbr/>Fulfilled</span><a href="#thenIsFulfilled" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -433,7 +443,7 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <h5>all: <span class="tsd-signature-type">boolean</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L148">event/EventCombiner.ts:148</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L170">event/EventCombiner.ts:170</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="unsubscribeEventHandlers" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>unsubscribe<wbr/>Event<wbr/>Handlers</span><a href="#unsubscribeEventHandlers" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -441,7 +451,7 @@ that the EVENT has not yet been fired. This has to be catched when working with 
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventCombiner.ts#L161">event/EventCombiner.ts:161</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventCombiner.ts#L183">event/EventCombiner.ts:183</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

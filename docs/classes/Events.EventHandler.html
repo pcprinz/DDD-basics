@@ -16,7 +16,37 @@
 <h1>Class EventHandler&lt;Payload&gt;</h1></div>
 <section class="tsd-panel tsd-comment">
 <div class="tsd-comment tsd-typography"><p>A Handler that allows Subscribers (any caller) to subscribe to a specific event.
-All Subscribers will be notified if the event dispatcher dispatched the event</p>
+All Subscribers will be notified if the event dispatcher dispatched the event.</p>
+
+<h3>Example</h3><p>At first the EventHandler has to be created with a <strong>unique</strong> name that subscribes the purpose.</p>
+<ul>
+<li>the generic can be of any type / interface</li>
+<li>to create a handler which only handles &quot;notification&quot; (without payload) the generic has to be <code>&lt;void&gt;</code></li>
+<li>the unique name gets relevant when combining EventHandlers with EventCombiners</li>
+</ul>
+<pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">StringEventHandler</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventHandler</span><span class="hl-1">&lt;</span><span class="hl-2">string</span><span class="hl-1">&gt;(</span><span class="hl-6">&#39;StringEventHandler&#39;</span><span class="hl-1">);</span>
+</code></pre>
+<p>To receive messages from the handler, a subscription has to be made with a <strong>unique</strong> name.</p>
+<ul>
+<li>the name of the subscription is relevant when handling multiple subscribers an referencing when unsubscribing</li>
+<li>the <code>event</code> which is provided in the callback is a <code>DomainEvent</code> with the dispatched payload (typed)</li>
+</ul>
+<pre><code class="language-ts"><span class="hl-4">StringEventHandler</span><span class="hl-1">.</span><span class="hl-5">subscribe</span><span class="hl-1">(</span><span class="hl-6">&#39;StringEventLogger&#39;</span><span class="hl-1">, (</span><span class="hl-4">event</span><span class="hl-1">) </span><span class="hl-0">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-5">log</span><span class="hl-1">(</span><span class="hl-4">event</span><span class="hl-1">.</span><span class="hl-4">payload</span><span class="hl-1">);</span><br/><span class="hl-1">});</span>
+</code></pre>
+<p>To send messages a dispatch with the correctly typed value has to be made.</p>
+<pre><code class="language-ts"><span class="hl-4">StringEventHandler</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-6">&#39;my payload&#39;</span><span class="hl-1">); </span><span class="hl-3">// StringEventLogger logs &#39;my payload&#39;</span>
+</code></pre>
+<p>When a Subscription is unsubscribed, the callback will no longer be called</p>
+<pre><code class="language-ts"><span class="hl-4">StringEventHandler</span><span class="hl-1">.</span><span class="hl-5">unsubscribe</span><span class="hl-1">(</span><span class="hl-6">&#39;StringEventLogger&#39;</span><span class="hl-1">);</span><br/><span class="hl-4">StringEventHandler</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-6">&#39;another payload&#39;</span><span class="hl-1">); </span><span class="hl-3">// StringEventLogger is no longer notified</span>
+</code></pre>
+
+<h3>Logging</h3><p>To use the logging functionality the handler has to be extended to activate the following logging methods:</p>
+<ul>
+<li><code>protected logSubscribe(name: string)</code> - log when <code>.subscribe()</code> is called</li>
+<li><code>protected logUnsubscribe(name: string)</code> - log when <code>.unsubscribe()</code> is called</li>
+<li><code>protected logDispatch()</code> - log when <code>dispatch()</code> is called</li>
+<li><code>protected logDispatchedSubscription(subscription: Subscription&lt;Payload&gt;)</code> - log when a subscription is notified</li>
+</ul>
 </div></section> 
 <section class="tsd-panel tsd-type-parameters">
 <h4>Type Parameters</h4>
@@ -28,7 +58,7 @@ All Subscribers will be notified if the event dispatcher dispatched the event</p
 <ul class="tsd-hierarchy">
 <li><span class="target">EventHandler</span></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L12">event/EventHandler.ts:12</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L52">event/EventHandler.ts:52</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -78,24 +108,24 @@ All Subscribers will be notified if the event dispatcher dispatched the event</p
 <h5>name: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="Events.EventHandler.html" class="tsd-signature-type" data-tsd-kind="Class">EventHandler</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Payload</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L17">event/EventHandler.ts:17</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L57">event/EventHandler.ts:57</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="_name" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_name</span><a href="#_name" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L13">event/EventHandler.ts:13</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L53">event/EventHandler.ts:53</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="_occurred" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_occurred</span><a href="#_occurred" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_occurred<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L15">event/EventHandler.ts:15</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L55">event/EventHandler.ts:55</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a id="_subscriptions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_subscriptions</span><a href="#_subscriptions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_subscriptions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/Events.Subscription.html" class="tsd-signature-type" data-tsd-kind="Interface">Subscription</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Payload</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L14">event/EventHandler.ts:14</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L54">event/EventHandler.ts:54</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="name" class="tsd-anchor"></a>
@@ -105,7 +135,7 @@ All Subscribers will be notified if the event dispatcher dispatched the event</p
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L21">event/EventHandler.ts:21</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L61">event/EventHandler.ts:61</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="occurred" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>occurred</span><a href="#occurred" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -115,7 +145,7 @@ All Subscribers will be notified if the event dispatcher dispatched the event</p
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L26">event/EventHandler.ts:26</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L66">event/EventHandler.ts:66</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="dispatch" class="tsd-anchor"></a>
@@ -135,20 +165,24 @@ with the given optional payload.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L58">event/EventHandler.ts:58</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L98">event/EventHandler.ts:98</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="logDispatch" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>log<wbr/>Dispatch</span><a href="#logDispatch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 <li class="tsd-signature tsd-anchor-link" id="logDispatch.logDispatch-1">log<wbr/>Dispatch<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#logDispatch.logDispatch-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>log when <code>dispatch()</code> is called</p>
+</div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L78">event/EventHandler.ts:78</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L120">event/EventHandler.ts:120</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="logDispatchedSubscription" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>log<wbr/>Dispatched<wbr/>Subscription</span><a href="#logDispatchedSubscription" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 <li class="tsd-signature tsd-anchor-link" id="logDispatchedSubscription.logDispatchedSubscription-1">log<wbr/>Dispatched<wbr/>Subscription<span class="tsd-signature-symbol">(</span>subscription<span class="tsd-signature-symbol">: </span><a href="../interfaces/Events.Subscription.html" class="tsd-signature-type" data-tsd-kind="Interface">Subscription</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Payload</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#logDispatchedSubscription.logDispatchedSubscription-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>log when a subscription is notified. Provides the subscription itself (all parameters from <code>subscribe()</code>)</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -156,12 +190,14 @@ with the given optional payload.</p>
 <h5>subscription: <a href="../interfaces/Events.Subscription.html" class="tsd-signature-type" data-tsd-kind="Interface">Subscription</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Payload</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L82">event/EventHandler.ts:82</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L125">event/EventHandler.ts:125</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="logSubscribe" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>log<wbr/>Subscribe</span><a href="#logSubscribe" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 <li class="tsd-signature tsd-anchor-link" id="logSubscribe.logSubscribe-1">log<wbr/>Subscribe<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#logSubscribe.logSubscribe-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>log when <code>.subscribe()</code> is called. Provides the <code>name</code> of the subscription</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -169,12 +205,14 @@ with the given optional payload.</p>
 <h5>name: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L70">event/EventHandler.ts:70</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L110">event/EventHandler.ts:110</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="logUnsubscribe" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>log<wbr/>Unsubscribe</span><a href="#logUnsubscribe" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 <li class="tsd-signature tsd-anchor-link" id="logUnsubscribe.logUnsubscribe-1">log<wbr/>Unsubscribe<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#logUnsubscribe.logUnsubscribe-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>log when <code>.unsubscribe()</code> is called. Provides the <code>name</code> of the subscription</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
@@ -182,7 +220,7 @@ with the given optional payload.</p>
 <h5>name: <span class="tsd-signature-type">string</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L74">event/EventHandler.ts:74</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L115">event/EventHandler.ts:115</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="subscribe" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>subscribe</span><a href="#subscribe" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -216,7 +254,7 @@ with the given optional payload.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L35">event/EventHandler.ts:35</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L75">event/EventHandler.ts:75</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="unsubscribe" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>unsubscribe</span><a href="#unsubscribe" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -231,7 +269,7 @@ with the given optional payload.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/EventHandler.ts#L47">event/EventHandler.ts:47</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/EventHandler.ts#L87">event/EventHandler.ts:87</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

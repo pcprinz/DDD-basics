@@ -12,9 +12,53 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">DDD basics - v0.0.1</a></li>
 <li><a href="Events.html">Events</a></li></ul>
-<h1>Module Events</h1></div><aside class="tsd-sources">
+<h1>Module Events</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography">
+<h3>Overview</h3><p>This module is about domain event handling.
+event handling is used to implement communication between different domains of your application.
+In order to implement a segregation of concerns and to minimize dependencies between the domains,
+they are only allowed to communicate via event handling. If domain <strong>A</strong> has completed a task,
+the result of which domain <strong>B</strong> depends on, <strong>A</strong> triggers an event to which <strong>B</strong> reacts.</p>
+
+<a href="#respond-to-a-handler" id="respond-to-a-handler" style="color: inherit; text-decoration: none;">
+  <h3>Respond to a handler</h3>
+</a>
+<p>In this case, an <code>EventHandler</code> (<code>handlerA</code>) is created for <strong>A</strong>. <strong>B</strong> subscribes to this handler
+so that it will be notified whenever a <code>DomainEvent</code> arrives. Now when <strong>A</strong> has completed a task,
+it sends an event with an (optional) payload via <code>handlerA.dispatch(payload)</code>.
+Now the callback with which <strong>B</strong> subscribed to <code>handlerA</code> is triggered and <strong>B</strong> can react to the
+completion of the task and additionally receives the result of the task from <strong>A</strong> with the payload.
+The code then looks like this:</p>
+<pre><code class="language-ts"><span class="hl-3">// @ domain A</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">handlerA</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventHandler</span><span class="hl-1">&lt;</span><span class="hl-2">TYPE</span><span class="hl-1">&gt;(</span><span class="hl-9">H_NAME</span><span class="hl-1">);</span><br/><span class="hl-4">handlerA</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-9">PAYLOAD</span><span class="hl-1">)</span><br/><br/><span class="hl-3">// @ domain B</span><br/><span class="hl-4">handlerA</span><span class="hl-1">.</span><span class="hl-5">subscribe</span><span class="hl-1">(</span><span class="hl-9">S_NAME</span><span class="hl-1">, </span><span class="hl-9">CALLBACK</span><span class="hl-1">)</span>
+</code></pre>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/event/index.ts#L2">event/index.ts:2</a></li></ul></aside>
+<li><code>TYPE</code> = type of the payload</li>
+<li><code>H_NAME</code> = name of the handler</li>
+<li><code>PAYLOAD</code> = payload sent with the domain event</li>
+<li><code>S_NAME</code> = name of the subscriber</li>
+<li><code>CALLBACK</code> = called when the event was dispatched (provides teh payload)</li>
+<li>further documentation is found on the <a href="../classes/Events.EventHandler.html">EventHandler</a></li>
+</ul>
+
+<a href="#respond-to-multiple-handlers" id="respond-to-multiple-handlers" style="color: inherit; text-decoration: none;">
+  <h3>Respond to multiple handlers</h3>
+</a>
+<p>Suppose domain <strong>C</strong> wants to react to events from domain <strong>A</strong> and <strong>B</strong>.
+More precisely, when <strong>A</strong> AND <strong>B</strong> have completed their tasks.
+Therefore <code>EventHandler</code> for domain <strong>A</strong> (<code>handlerA</code>) and domain <strong>B</strong> (<code>handlerB</code>) are created
+as above. Instead of registering on both handlers with <code>subscribe()</code>, an <code>EventCombiner</code> is
+created for <strong>C</strong>, which reacts when both <code>handlerA</code> and <code>handlerB</code> have dispatched an event.
+The code then looks like this:</p>
+<pre><code class="language-ts"><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventCombiner</span><span class="hl-1">().</span><span class="hl-5">all</span><span class="hl-1">(</span><span class="hl-4">handlerA</span><span class="hl-1">, </span><span class="hl-4">handlerB</span><span class="hl-1">).</span><span class="hl-5">then</span><span class="hl-1">(</span><span class="hl-9">CALLBACK</span><span class="hl-1">);</span>
+</code></pre>
+<ul>
+<li>here the <code>CALLBACK</code> provides a typed, sorted tuple of the last dispatched events from <code>handlerA</code> and <code>handlerB</code></li>
+<li>there are more combinations available (see <a href="../classes/Events.EventCombiner.html">EventCombiner</a>)</li>
+</ul>
+</div></section><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/event/index.ts#L50">event/index.ts:50</a></li></ul></aside>
 <section class="tsd-panel-group">
 <section class="tsd-panel tsd-typography"></section></section>
 <section class="tsd-panel-group tsd-index-group">

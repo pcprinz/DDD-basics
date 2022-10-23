@@ -6,16 +6,16 @@ import { Integer, IntegerOptions } from './Integer';
  *
  * @example
  * // create a correct Integer
- * const mi = Integer.create('42', { name: 'MyInteger' }); // a.value === 42
- * const mi = Integer.create('42.3', { name: 'MyRounded', round: 'floor' }); // a.value === 42
+ * const mi = IntegerString.create('42', { name: 'MyInteger' }); // a.value === 42
+ * const mi = IntegerString.create('42.3', { name: 'MyRounded', round: 'floor' }); // a.value === 42
  *
- * const mi2 = Integer.create('aw', { name: 'MyInteger2' });
+ * const mi2 = IntegerString.create('aw', { name: 'MyInteger2' });
  * // throws "TypeError: MyInteger2 > Integer: the given value (aw: string) must be a number!"
  *
- * const mi3 = Integer.create('42', { name: 'MyInteger3', min: 12, max: 41 });
+ * const mi3 = IntegerString.create('42', { name: 'MyInteger3', min: 12, max: 41 });
  * // throws "RangeError: MyInteger3 > Integer: the given number (42) must be in the interval [12, 41]!"
  *
- * const mi4 = Integer.create('6.9', { name: 'MyInteger4', round: 'deny'});
+ * const mi4 = IntegerString.create('6.9', { name: 'MyInteger4', round: 'deny'});
  * // throws "RangeError: MyInteger4 > Integer: the given value (6.9) must be an integer but has decimal places!"
  */
 export class IntegerString extends Integer {

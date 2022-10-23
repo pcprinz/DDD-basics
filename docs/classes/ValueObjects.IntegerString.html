@@ -20,7 +20,7 @@
 <li>this is an extension of <code>Integer</code>, so you can also create from <code>number</code>s</li>
 </ul>
 
-<h3>Example</h3><pre><code class="language-ts"><span class="hl-3">// create a correct Integer</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">mi</span><span class="hl-1"> = </span><span class="hl-4">Integer</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;42&#39;</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyInteger&#39;</span><span class="hl-1"> }); </span><span class="hl-3">// a.value === 42</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">mi</span><span class="hl-1"> = </span><span class="hl-4">Integer</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;42.3&#39;</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyRounded&#39;</span><span class="hl-1">, </span><span class="hl-4">round:</span><span class="hl-1"> </span><span class="hl-6">&#39;floor&#39;</span><span class="hl-1"> }); </span><span class="hl-3">// a.value === 42</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">mi2</span><span class="hl-1"> = </span><span class="hl-4">Integer</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;aw&#39;</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyInteger2&#39;</span><span class="hl-1"> });</span><br/><span class="hl-3">// throws &quot;TypeError: MyInteger2 &gt; Integer: the given value (aw: string) must be a number!&quot;</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">mi3</span><span class="hl-1"> = </span><span class="hl-4">Integer</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;42&#39;</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyInteger3&#39;</span><span class="hl-1">, </span><span class="hl-4">min:</span><span class="hl-1"> </span><span class="hl-8">12</span><span class="hl-1">, </span><span class="hl-4">max:</span><span class="hl-1"> </span><span class="hl-8">41</span><span class="hl-1"> });</span><br/><span class="hl-3">// throws &quot;RangeError: MyInteger3 &gt; Integer: the given number (42) must be in the interval [12, 41]!&quot;</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">mi4</span><span class="hl-1"> = </span><span class="hl-4">Integer</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;6.9&#39;</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyInteger4&#39;</span><span class="hl-1">, </span><span class="hl-4">round:</span><span class="hl-1"> </span><span class="hl-6">&#39;deny&#39;</span><span class="hl-1">});</span><br/><span class="hl-3">// throws &quot;RangeError: MyInteger4 &gt; Integer: the given value (6.9) must be an integer but has decimal places!&quot;</span>
+<h3>Example</h3><pre><code class="language-ts"><span class="hl-3">// create a correct Integer</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">mi</span><span class="hl-1"> = </span><span class="hl-4">IntegerString</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;42&#39;</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyInteger&#39;</span><span class="hl-1"> }); </span><span class="hl-3">// a.value === 42</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">mi</span><span class="hl-1"> = </span><span class="hl-4">IntegerString</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;42.3&#39;</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyRounded&#39;</span><span class="hl-1">, </span><span class="hl-4">round:</span><span class="hl-1"> </span><span class="hl-6">&#39;floor&#39;</span><span class="hl-1"> }); </span><span class="hl-3">// a.value === 42</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">mi2</span><span class="hl-1"> = </span><span class="hl-4">IntegerString</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;aw&#39;</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyInteger2&#39;</span><span class="hl-1"> });</span><br/><span class="hl-3">// throws &quot;TypeError: MyInteger2 &gt; Integer: the given value (aw: string) must be a number!&quot;</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">mi3</span><span class="hl-1"> = </span><span class="hl-4">IntegerString</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;42&#39;</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyInteger3&#39;</span><span class="hl-1">, </span><span class="hl-4">min:</span><span class="hl-1"> </span><span class="hl-8">12</span><span class="hl-1">, </span><span class="hl-4">max:</span><span class="hl-1"> </span><span class="hl-8">41</span><span class="hl-1"> });</span><br/><span class="hl-3">// throws &quot;RangeError: MyInteger3 &gt; Integer: the given number (42) must be in the interval [12, 41]!&quot;</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">mi4</span><span class="hl-1"> = </span><span class="hl-4">IntegerString</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;6.9&#39;</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyInteger4&#39;</span><span class="hl-1">, </span><span class="hl-4">round:</span><span class="hl-1"> </span><span class="hl-6">&#39;deny&#39;</span><span class="hl-1">});</span><br/><span class="hl-3">// throws &quot;RangeError: MyInteger4 &gt; Integer: the given value (6.9) must be an integer but has decimal places!&quot;</span>
 </code></pre>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
@@ -30,7 +30,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">IntegerString</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/IntegerString.ts#L21">valueObjects/numeric/IntegerString.ts:21</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/IntegerString.ts#L21">valueObjects/numeric/IntegerString.ts:21</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -80,7 +80,7 @@
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.IntegerString.html" class="tsd-signature-type" data-tsd-kind="Class">IntegerString</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/IntegerString.ts#L22">valueObjects/numeric/IntegerString.ts:22</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/IntegerString.ts#L22">valueObjects/numeric/IntegerString.ts:22</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="_value" class="tsd-anchor"></a>
@@ -90,7 +90,7 @@
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#_value">_value</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/ValueObject.ts#L6">valueObjects/ValueObject.ts:6</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/ValueObject.ts#L6">valueObjects/ValueObject.ts:6</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="value" class="tsd-anchor"></a>
@@ -103,7 +103,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span></h4><aside class="tsd-sources">
 <p>Inherited from Integer.value</p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/ValueObject.ts#L15">valueObjects/ValueObject.ts:15</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/ValueObject.ts#L15">valueObjects/ValueObject.ts:15</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="equals" class="tsd-anchor"></a>
@@ -123,7 +123,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#equals">equals</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/IntegerString.ts#L26">valueObjects/numeric/IntegerString.ts:26</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/IntegerString.ts#L26">valueObjects/numeric/IntegerString.ts:26</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="toJSON" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>toJSON</span><a href="#toJSON" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -134,7 +134,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#toJSON">toJSON</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/ValueObject.ts#L62">valueObjects/ValueObject.ts:62</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/ValueObject.ts#L62">valueObjects/ValueObject.ts:62</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="create" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>create</span><a href="#create" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -157,7 +157,7 @@
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.IntegerString.html" class="tsd-signature-type" data-tsd-kind="Class">IntegerString</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#create">create</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/IntegerString.ts#L89">valueObjects/numeric/IntegerString.ts:89</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/IntegerString.ts#L89">valueObjects/numeric/IntegerString.ts:89</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="fromList" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from<wbr/>List</span><a href="#fromList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -180,7 +180,7 @@
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.IntegerString.html" class="tsd-signature-type" data-tsd-kind="Class">IntegerString</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#fromList">fromList</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/IntegerString.ts#L98">valueObjects/numeric/IntegerString.ts:98</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/IntegerString.ts#L98">valueObjects/numeric/IntegerString.ts:98</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="listEquals" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>list<wbr/>Equals</span><a href="#listEquals" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -209,7 +209,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#listEquals">listEquals</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/ValueObject.ts#L31">valueObjects/ValueObject.ts:31</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/ValueObject.ts#L31">valueObjects/ValueObject.ts:31</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="parse" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>parse</span><a href="#parse" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -228,7 +228,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/IntegerString.ts#L78">valueObjects/numeric/IntegerString.ts:78</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/IntegerString.ts#L78">valueObjects/numeric/IntegerString.ts:78</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="prefix" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>prefix</span><a href="#prefix" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -257,7 +257,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#prefix">prefix</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/ValueObject.ts#L78">valueObjects/ValueObject.ts:78</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/ValueObject.ts#L78">valueObjects/ValueObject.ts:78</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="toList" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>to<wbr/>List</span><a href="#toList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -276,7 +276,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#toList">toList</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/IntegerString.ts#L109">valueObjects/numeric/IntegerString.ts:109</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/IntegerString.ts#L109">valueObjects/numeric/IntegerString.ts:109</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="validate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>validate</span><a href="#validate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -305,7 +305,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#validate">validate</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/IntegerString.ts#L43">valueObjects/numeric/IntegerString.ts:43</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/IntegerString.ts#L43">valueObjects/numeric/IntegerString.ts:43</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="validateInteger" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>validate<wbr/>Integer</span><a href="#validateInteger" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -329,7 +329,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#validateInteger">validateInteger</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/Integer.ts#L55">valueObjects/numeric/Integer.ts:55</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/Integer.ts#L55">valueObjects/numeric/Integer.ts:55</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a id="validateIntegerString" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>validate<wbr/>Integer<wbr/>String</span><a href="#validateIntegerString" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
@@ -351,7 +351,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/IntegerString.ts#L54">valueObjects/numeric/IntegerString.ts:54</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/IntegerString.ts#L54">valueObjects/numeric/IntegerString.ts:54</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="validateInterval" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>validate<wbr/>Interval</span><a href="#validateInterval" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -367,7 +367,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#validateInterval">validateInterval</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/ValueObject.ts#L87">valueObjects/ValueObject.ts:87</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/ValueObject.ts#L87">valueObjects/ValueObject.ts:87</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="validateList" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>validate<wbr/>List</span><a href="#validateList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -388,7 +388,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">list</span><span class="tsd-signature-symbol"> is </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Primitive</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#validateList">validateList</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/ValueObject.ts#L102">valueObjects/ValueObject.ts:102</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/ValueObject.ts#L102">valueObjects/ValueObject.ts:102</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="validateNumber" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>validate<wbr/>Number</span><a href="#validateNumber" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -408,7 +408,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.Integer.html">Integer</a>.<a href="ValueObjects.Integer.html#validateNumber">validateNumber</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/89984f0/src/valueObjects/numeric/Float.ts#L47">valueObjects/numeric/Float.ts:47</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f0d6ed3/src/valueObjects/numeric/Float.ts#L47">valueObjects/numeric/Float.ts:47</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
