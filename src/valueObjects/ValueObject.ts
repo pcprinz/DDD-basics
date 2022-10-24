@@ -1,4 +1,4 @@
-import { Serializable } from '../basic';
+import {Serializable} from '../basic';
 
 /** A basic ValueObject that wraps a primitive value immutably and does validation on creation */
 export abstract class ValueObject<T> {
@@ -84,6 +84,7 @@ export abstract class ValueObject<T> {
     return `${fixedName + symbol + this.name + add}: `;
   }
 
+  /** @throws `RangeError` if the value is not inside the interval */
   protected static validateInterval(
     value: number | string,
     options: IntervalCreationOptions
@@ -98,7 +99,10 @@ export abstract class ValueObject<T> {
       );
     }
   }
-
+  /** 
+   * @throws `TypeError` if list is undefined but must not be
+   * @throws `RangeError` if the list length not matching
+   */
   protected static validateList<Primitive>(
     list: Primitive[] | undefined,
     options?: CreationOptions & ListCreationOptions

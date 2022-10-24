@@ -1,7 +1,26 @@
-import { ListCreationOptions } from '../ValueObject';
-import { OptionalString, OptionalStringOptions } from './OptionalString';
+import {ListCreationOptions} from '../ValueObject';
+import {OptionalString, OptionalStringOptions} from './OptionalString';
 
-/** A String that is definitely a String that is not empty */
+/** A String that is definitely a String that is not empty
+ * @example
+ * const nes = NonEmptyString.create('foo', { name: 'MyNES' });
+ * const rangeNes = NonEmptyString.create('bar', { range: ['foo', 'bar', 'baz'] });
+ * enum myEnum {
+ *   'foo',
+ *   'bar',
+ *   'baz',
+ * }
+ * const enumNes = NonEmptyString.create('baz', { range: myEnum });
+ * const enumNes2 = NonEmptyString.create(myEnum.baz, { range: myEnum });
+ * const sizeNes = NonEmptyString.create('long_enough', { min: 3, max: 69 });
+ * const regexNes = NonEmptyString.create('foo', { regex: /oo/ });
+ * 
+ * @throws
+ * - `TypeError` if not a string or empty
+ * - `TypeError` if the value doesn't fit the given enum / range
+ * - `RangeError` if the value is not matching the regex
+ * - `RangeError` if the value's length is not inside the interval
+ */
 export class NonEmptyString extends OptionalString {
   protected constructor(value: string) {
     super(value);
@@ -18,7 +37,7 @@ export class NonEmptyString extends OptionalString {
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
    * @throws `TypeError` if not a string or empty
-   * @throws `TypeError` if the value doesn't fit the given enum
+   * @throws `TypeError` if the value doesn't fit the given enum / range
    * @throws `RangeError` if the value is not matching the regex
    * @throws `RangeError` if the value's length is not inside the interval
    */
@@ -39,6 +58,7 @@ export class NonEmptyString extends OptionalString {
   /**
    * @param value to be validated as a valid string that is not the empty string (`""`)
    * @param options constraints the value has to fulfill
+   * @throws `TypeError` if not a string or empty
    */
   private static validateNonEmptyString(
     value: string,
@@ -57,6 +77,7 @@ export class NonEmptyString extends OptionalString {
   /**
    * @param value to be validated to match a given range (enum / string[])
    * @param options constraints the value has to fulfill
+   * @throws `RangeError` if the value is not matching the regex
    */
   private static validateRange(value: string, options: NonEmptyStringOptions): void {
     if (!options.range) {
@@ -116,19 +137,29 @@ export class NonEmptyString extends OptionalString {
  * so a list of other strings or a string enum
  */
 export interface NonEmptyStringOptions extends OptionalStringOptions {
-  /** a list of all possible values the given value can match. This can either be a simple Array:
-   * ```typescript
-   * ['first', 'second', ..., 'last']
-   * ```
-   * or a String enum structured like this:
-   * ```typescript
-   * enum MyEnum {
-   *   first = 'first',
-   *   second = 'second',
-   *   ...
-   *   last = 'last',
+  /** 
+   * a `string[]` or `enum` of all possible values the given value can match.
+   * - for the enums the `keys` as well as the `values` will be looked up to match!
+   * - technically its possible to use any kind of object that has strings as keys and/or values
+   * 
+   * @example
+   * const stringArray = ['first', 'second', ...];
+   * 
+   * enum NumericEnum {
+   *   first, second, ...
    * }
-   * ```
+   * 
+   * enum AlsoNumericEnum {
+   *   first = 1, second = 2, ... 
+   * }
+   * 
+   * enum StringEnum {
+   *   first = 'first', second = 'second', ...
+   * }
+   * 
+   * enum HeterogenousEnum {
+   *   first = 1, second = 'second', ...
+   * }
    */
-  range?: string[] | readonly string[] | { [s: string]: string };
+  range?: string[] | readonly string[] | {[s: string]: string | number} | {[s: number]: string};
 }

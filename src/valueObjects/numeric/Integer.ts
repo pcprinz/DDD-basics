@@ -1,22 +1,18 @@
-import { ListCreationOptions } from '../ValueObject';
-import { Float, FloatOptions } from './Float';
+import {ListCreationOptions} from '../ValueObject';
+import {Float, FloatOptions} from './Float';
 
 /**
  * An Integer (`number` without decimal digits)
  *
  * @example
- * // create a correct Integer
- * const mi = Integer.create(42, { name: 'MyInteger' }); // a.value === 42
- * const mi = Integer.create(42.6, { name: 'MyRounded', round: 'floor' }); // a.value === 42
- *
- * const mi2 = Integer.create('aw', { name: 'MyInteger2' });
- * // throws "TypeError: MyInteger2 > Integer: the given value (aw: string) must be a number!"
- *
- * const mi3 = Integer.create(42, { name: 'MyInteger3', min: 12, max: 41 });
- * // throws "RangeError: MyInteger3 > Integer: the given number (42) must be in the interval [12, 41]!"
- *
- * const mi4 = Integer.create(6.9, { name: 'MyInteger4', round: 'deny'});
- * // throws "RangeError: MyInteger4 > Integer: the given value (6.9) must be an integer but has decimal places!"
+ * const int = Integer.create(42, { name: 'MyInteger' }); // a.value === 42
+ * const roundInt = Integer.create(42.6, { round: 'floor' }); // a.value === 42
+ * const rangeInt = Integer.create(42, { min: 12, max: 43 });
+ * 
+ * @throws
+ * - `TypeError` if not a valid integer
+ * - `RangeError` if the value has not allowed decimal digits
+ * - `RangeError` if the value is not inside the interval
  */
 export class Integer extends Float {
   protected constructor(value: number) {
@@ -51,6 +47,9 @@ export class Integer extends Float {
    * @param value to be validated as a valid integer
    * @param options constraints the value has to fulfill
    * @returns the (possibly rounded) integer
+   * @throws `TypeError` if not a valid number
+   * @throws `RangeError` if the value has not allowed decimal digits
+   * @throws `TypeError` if round option incorrect
    */
   protected static validateInteger(value: number, options?: IntegerOptions): number {
     this.validateNumber(value, options);

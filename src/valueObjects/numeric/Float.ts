@@ -1,18 +1,16 @@
-import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
+import {IntervalCreationOptions, ListCreationOptions, ValueObject} from '../ValueObject';
 
 /** A floating point number.
  *
  * @example
- * // create a correct Float:
  * const mi = Float.create(42.69, { name: 'MyFloat' }); // a.value === 42.69
- *
- * // Errors:
- * const mi2 = Float.create('aw', { name: 'MyFloat2' });
- * // => throws "TypeError: MyFloat2 > Float: the given value (aw: string) must be a number!"
- *
- * const mi3 = Float.create(42, { name: 'MyFloat3', min: 12.1, max: 41.9 });
- * // => throws "RangeError: MyFloat3 > Float: the given number (42) must be in the interval [12, 41]!"
- * */
+ * const mi2 = Float.create(42, { name: 'MyFloat2' });
+ * const mi3 = Float.create(21.4, { name: 'MyFloat3', min: 12.1, max: 41.9 });
+ * 
+ * @throws
+ * - `TypeError` if not a valid number
+ * - `RangeError` if the value is not inside the interval
+ */
 export class Float extends ValueObject<number> {
   constructor(value: number) {
     super(value);
@@ -43,6 +41,7 @@ export class Float extends ValueObject<number> {
   /**
    * @param value to be validated as a valid number (not NaN)
    * @param options constraints the value has to fulfill
+   * @throws `TypeError` if not a valid number
    */
   protected static validateNumber(value: number, options?: FloatOptions): void {
     if (typeof value !== 'number') {

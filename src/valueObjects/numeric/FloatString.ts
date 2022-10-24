@@ -1,7 +1,20 @@
-import { ListCreationOptions } from '../ValueObject';
-import { Float, FloatOptions } from './Float';
+import {ListCreationOptions} from '../ValueObject';
+import {Float, FloatOptions} from './Float';
 
-/** a floating point number that can also be created from a string representation of a floating point number */
+/** A floating point number that can also be created from a string representation of a floating point number
+ * 
+ * @example
+ * const mi = FloatString.create(42.69, { name: 'MyFloat' }); // a.value === 42.69
+ * const mi2 = FloatString.create(42, { name: 'MyFloat2' });
+ * const mi3 = FloatString.create(21.4, { name: 'MyFloat3', min: 12.1, max: 41.9 });
+ * const stringMi = FloatString.create('42.69', { name: 'MyFloat' });
+ * const stringMi2 = FloatString.create('42', { name: 'MyFloat2' });
+ * const stringMi3 = FloatString.create('21.4', { name: 'MyFloat3', min: 12.1, max: 41.9 });
+ * 
+ * @throws
+ * - `TypeError` if the value is not a parsable number
+ * - `RangeError` if the value is not inside the interval
+ */
 export class FloatString extends Float {
   protected constructor(value: number) {
     super(value);
@@ -20,7 +33,7 @@ export class FloatString extends Float {
    * @param value to be validated as a float with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws `TypeError` if not a positive number
+   * @throws `TypeError` if the value is not a parsable number
    * @throws `RangeError` if the value is not inside the interval
    */
   public static validate(value: number | string, options?: FloatStringOptions): number {
@@ -33,6 +46,7 @@ export class FloatString extends Float {
    * @param value to be validated as a valid number / string representation of a valid number
    * @param options constraints the value has to fulfill
    * @returns the (possibly parsed) number
+   * @throws `TypeError` if the value is not a parsable number
    */
   protected static validateFloatString(
     value: number | string,

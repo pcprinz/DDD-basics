@@ -1,6 +1,20 @@
-import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
+import {IntervalCreationOptions, ListCreationOptions, ValueObject} from '../ValueObject';
 
-/** A String that can be also created from  either `"" | undefined | null` (falsy values) => ends up being converted to `""` */
+/** A String that can be also created from either `""` or `undefined`.
+ * - `undefined` ends up being converted to `""`
+ *
+ * @example
+ * const os = OptionalString.create('not empty', {name: 'MyOS'});
+ * const os2 = OptionalString.create(''); // a.value === ''
+ * const os3 = OptionalString.create(undefined); // a.value === ''
+ * const sizeOS = OptionalString.create('foo', {min: 3, max: 4});
+ * const regexOS = OptionalString.create('foo', {regex: /fo/});
+ *
+ * @throws 
+ * - `TypeError` if not a string (when defined)
+ * - `RangeError` if the value is not matching the regex (when defined)
+ * - `RangeError` if the value is not inside the interval (when defined)
+ */
 export class OptionalString extends ValueObject<string> {
   protected constructor(value: string) {
     super(value);
@@ -16,7 +30,6 @@ export class OptionalString extends ValueObject<string> {
    * @param value to be validated as a string with the corresponding constraints (options)
    * @returns the value if the validation was successful
    * @throws `TypeError` if not a string (when defined)
-   * @throws `TypeError` if doesn't fit the given enum (when defined)
    * @throws `RangeError` if the value is not matching the regex (when defined)
    * @throws `RangeError` if the value is not inside the interval (when defined)
    */
@@ -35,14 +48,14 @@ export class OptionalString extends ValueObject<string> {
   /**
    * @param value to be validated to match the given regular expression
    * @param options constraints the value has to fulfill
+   * @throws `RangeError` if the value is not matching the regex (when defined)
    */
   protected static validateRegex(value: string, options: OptionalStringOptions): void {
     if (options.regex && !options.regex.test(value)) {
       throw new RangeError(
         `${this.prefix(
           options
-        )}the given value (${value}: ${typeof value}) does not match the regular expression (${
-          options.regex
+        )}the given value (${value}: ${typeof value}) does not match the regular expression (${options.regex
         })!`
       );
     }
@@ -51,6 +64,7 @@ export class OptionalString extends ValueObject<string> {
   /**
    * @param value to be validated as a valid string
    * @param options constraints the value has to fulfill
+   * @throws `TypeError` if not a string
    */
   protected static validateString(value: string, options?: OptionalStringOptions): void {
     if (typeof value !== 'string') {
@@ -115,7 +129,9 @@ export class OptionalString extends ValueObject<string> {
 export interface OptionalStringOptions extends IntervalCreationOptions {
   /** a regular expression the given value must match */
   regex?: RegExp;
-  /** an array of possible formatting operations:
+  /**
+   * @alpha
+   * an array of possible formatting operations:
    * - `'umlauts'`: replaces all unicode umlauts with the correct ones
    * - `'singleSpace'` converts all spaces with single spaces
    * - `'stripHTML'` deletes all HTML stuff, but converts line breaks and lists
@@ -128,8 +144,8 @@ export interface OptionalStringOptions extends IntervalCreationOptions {
 export type FormatOptions = FormatOption[];
 export type FormatOption = 'umlauts' | 'singleSpace' | 'stripHTML';
 export function format(text: string, options: FormatOptions): string {
-  let r: { [key: string]: string } = options.includes('umlauts') ? umlauts : {};
-  r = options.includes('stripHTML') ? { ...r, ...html } : r;
+  let r: {[key: string]: string} = options.includes('umlauts') ? umlauts : {};
+  r = options.includes('stripHTML') ? {...r, ...html} : r;
   // r = options.includes('entities') ? { ...r, ...entities } : r;
 
   const regex = new RegExp(Object.keys(r).join('|'), 'g');

@@ -1,22 +1,21 @@
-import { ListCreationOptions } from '../ValueObject';
-import { Integer, IntegerOptions } from './Integer';
+import {ListCreationOptions} from '../ValueObject';
+import {Integer, IntegerOptions} from './Integer';
 
 /** An Integer (`number` without decimal digits) that can also be created from a string representation of an integer.
  * - this is an extension of `Integer`, so you can also create from `number`s
  *
  * @example
- * // create a correct Integer
- * const mi = IntegerString.create('42', { name: 'MyInteger' }); // a.value === 42
- * const mi = IntegerString.create('42.3', { name: 'MyRounded', round: 'floor' }); // a.value === 42
- *
- * const mi2 = IntegerString.create('aw', { name: 'MyInteger2' });
- * // throws "TypeError: MyInteger2 > Integer: the given value (aw: string) must be a number!"
- *
- * const mi3 = IntegerString.create('42', { name: 'MyInteger3', min: 12, max: 41 });
- * // throws "RangeError: MyInteger3 > Integer: the given number (42) must be in the interval [12, 41]!"
- *
- * const mi4 = IntegerString.create('6.9', { name: 'MyInteger4', round: 'deny'});
- * // throws "RangeError: MyInteger4 > Integer: the given value (6.9) must be an integer but has decimal places!"
+ * const is = IntegerString.create(42, { name: 'MyInteger' }); // a.value === 42
+ * const roundIs = IntegerString.create(42.6, { round: 'floor' }); // a.value === 42
+ * const rangeIs = IntegerString.create(42, { min: 12, max: 43 });
+ * const is2 = IntegerString.create('42', { name: 'MyInteger' });
+ * const roundIs2 = IntegerString.create('42.6', { round: 'floor' });
+ * const rangeIs2 = IntegerString.create('42', { min: 12, max: 43 });
+ * 
+ * @throws
+ * - `TypeError` if not a parsable integer
+ * - `RangeError` if the value has not allowed decimal digits
+ * - `RangeError` if the value is not inside the interval
  */
 export class IntegerString extends Integer {
   protected constructor(value: number) {
@@ -36,7 +35,7 @@ export class IntegerString extends Integer {
    * @param value to be validated as an integer with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws `TypeError` if not a valid integer
+   * @throws `TypeError` if not a parsable integer
    * @throws `RangeError` if the value has not allowed decimal digits
    * @throws `RangeError` if the value is not inside the interval
    */
@@ -50,6 +49,7 @@ export class IntegerString extends Integer {
    * @param value to be validated as a valid integer / string representation of an integer
    * @param options constraints the value has to fulfill
    * @returns the (possibly parsed) integer (`number`)
+   * @throws `TypeError` if the value is not a parsable number
    */
   protected static validateIntegerString(
     value: number | string,
