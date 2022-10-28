@@ -30,14 +30,14 @@ it sends an event with an (optional) payload via <code>handlerA.dispatch(payload
 Now the callback with which <strong>B</strong> subscribed to <code>handlerA</code> is triggered and <strong>B</strong> can react to the
 completion of the task and additionally receives the result of the task from <strong>A</strong> with the payload.
 The code then looks like this:</p>
-<pre><code class="language-ts"><span class="hl-3">// @ domain A</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">handlerA</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventHandler</span><span class="hl-1">&lt;</span><span class="hl-2">TYPE</span><span class="hl-1">&gt;(</span><span class="hl-9">H_NAME</span><span class="hl-1">);</span><br/><span class="hl-4">handlerA</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-9">PAYLOAD</span><span class="hl-1">)</span><br/><br/><span class="hl-3">// @ domain B</span><br/><span class="hl-4">handlerA</span><span class="hl-1">.</span><span class="hl-5">subscribe</span><span class="hl-1">(</span><span class="hl-9">S_NAME</span><span class="hl-1">, </span><span class="hl-9">CALLBACK</span><span class="hl-1">)</span>
+<pre><code class="language-ts"><span class="hl-3">// @ domain A</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">handlerA</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventHandler</span><span class="hl-1">&lt;</span><span class="hl-2">TYPE</span><span class="hl-1">&gt;(</span><span class="hl-9">H_NAME</span><span class="hl-1">);</span><br/><br/><span class="hl-3">// @ domain B</span><br/><span class="hl-4">handlerA</span><span class="hl-1">.</span><span class="hl-5">subscribe</span><span class="hl-1">(</span><span class="hl-9">S_NAME</span><span class="hl-1">, </span><span class="hl-9">CALLBACK</span><span class="hl-1">)</span><br/><br/><span class="hl-3">// @ domain A</span><br/><span class="hl-4">handlerA</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-9">PAYLOAD</span><span class="hl-1">)</span>
 </code></pre>
 <ul>
 <li><code>TYPE</code> = type of the payload</li>
 <li><code>H_NAME</code> = name of the handler</li>
 <li><code>PAYLOAD</code> = payload sent with the domain event</li>
 <li><code>S_NAME</code> = name of the subscriber</li>
-<li><code>CALLBACK</code> = called when the event was dispatched (provides teh payload)</li>
+<li><code>CALLBACK</code> = called when the event was dispatched (provides the payload)</li>
 <li>further documentation is found on the <a href="../classes/Events.EventHandler.html">EventHandler</a></li>
 </ul>
 
@@ -58,7 +58,7 @@ The code then looks like this:</p>
 </ul>
 </div></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/4f5b1aa/src/event/index.ts#L50">event/index.ts:50</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/event/index.ts#L52">event/index.ts:52</a></li></ul></aside>
 <section class="tsd-panel-group">
 <section class="tsd-panel tsd-typography"></section></section>
 <section class="tsd-panel-group tsd-index-group">

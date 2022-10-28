@@ -2,7 +2,7 @@ import { ANSIFormat } from 'loxer';
 import { EventCombiner, DomainEvent, EventHandler } from '../src';
 
 let result = 'EventCombiners:\n';
-// afterAll(() => result.length > 0 && console.log(ANSIFormat.fgSuccess(result)));
+afterAll(() => result.length > 0 && console.log(ANSIFormat.fgSuccess(result)));
 
 function getPayload(es: (DomainEvent<any> | 'pending')[]) {
   return JSON.stringify(es.map((e) => (e === 'pending' ? 'pending' : e.payload)));
@@ -55,8 +55,8 @@ test('EventCombiner', () => {
     .once()
     .some(E1, E2)
     .then((es) => (result += `onceSome: ${getPayload(es)}\n`));
-  new EventCombiner('consumeSome')
-    .consume()
+  const cs = new EventCombiner('consumeSome');
+  cs.consume()
     .some(E1, E2)
     .then((es) => (result += `consumeSome: ${getPayload(es)}\n`));
 
@@ -88,6 +88,7 @@ test('EventCombiner', () => {
   E1.dispatch('g');
   result += '\n|> 7\n';
   E2.dispatch(7);
+  cs.destroy();
   result += '\n|> h\n';
   E1.dispatch('h');
   result += '\n';

@@ -19,17 +19,19 @@
  * ```ts
  * // @ domain A
  * const handlerA = new EventHandler<TYPE>(H_NAME);
- * handlerA.dispatch(PAYLOAD)
  *
  * // @ domain B
  * handlerA.subscribe(S_NAME, CALLBACK)
+ * 
+ * // @ domain A
+ * handlerA.dispatch(PAYLOAD)
  * ```
  *
  * - `TYPE` = type of the payload
  * - `H_NAME` = name of the handler
  * - `PAYLOAD` = payload sent with the domain event
  * - `S_NAME` = name of the subscriber
- * - `CALLBACK` = called when the event was dispatched (provides teh payload)
+ * - `CALLBACK` = called when the event was dispatched (provides the payload)
  * - further documentation is found on the {@link EventHandler}
  *
  * ### Respond to multiple handlers

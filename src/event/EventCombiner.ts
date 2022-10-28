@@ -98,15 +98,19 @@ export class EventCombiner {
   protected _name: string;
   protected _eventHandlers: EventHandler<any>[] = [];
   protected _receivedEvents: Map<string, DomainEvent<any> | 'pending'> = new Map();
+  protected _destroyed = false;
+  private _all: boolean = false;
+  private _once: boolean = false;
+  private _consume: boolean = false;
 
   constructor(name: string) {
     this._name = name;
   }
 
-  private _all: Partial<boolean> = true;
   /** When all given events occur ... */
   all = <EH extends EventHandler<any>[]>(...eventHandler: [...EH]): AllThenType<EH> => {
     this._eventHandlers = eventHandler;
+    this._all = true;
 
     // @ts-ignore
     return { then: this.then };
@@ -115,13 +119,11 @@ export class EventCombiner {
   /** When one of the given events occurs ... */
   some = <EH extends EventHandler<any>[]>(...eventHandler: [...EH]): SomeThenType<EH> => {
     this._eventHandlers = eventHandler;
-    this._all = false;
 
     // @ts-ignore
     return { then: this.then };
   };
 
-  private _once: boolean = false;
   /** Just the first time ... */
   once = () => {
     this._once = true;
@@ -129,7 +131,6 @@ export class EventCombiner {
     return { all: this.all, some: this.some };
   };
 
-  private _consume: boolean = false;
   /** Every time ... */
   consume = () => {
     this._consume = true;
@@ -138,6 +139,7 @@ export class EventCombiner {
   };
 
   private then = (callback: (events: (DomainEvent<any> | 'pending')[]) => void) => {
+    this._destroyed && this.onLog('alreadyDestroyed');
     this._eventHandlers?.forEach((handler) => {
       // set empty events
       this._receivedEvents.set(handler.name, 'pending');
@@ -146,8 +148,8 @@ export class EventCombiner {
         this._name,
         (event) => {
           this._receivedEvents.set(handler.name, event);
-          if (this.thenIsFulfilled(this._all)) {
-            this.logDispatch();
+          if (this.thenIsFulfilled()) {
+            this.onLog('then');
             const events = [...this._receivedEvents.values()];
             callback(events);
             if (this._once) {
@@ -163,25 +165,47 @@ export class EventCombiner {
     });
   };
 
-  protected logDispatch() {
+  /** unsubscribes from all listened `EventHandlers` and marks this combiner as destroyed.
+   * Further chains that end with `.then(...)` will not subscribe to the given handlers and thus
+   * no listening will happen, but the extendable `onLog()` method will be called with
+   * `type = 'alreadyDestroyed'`
+   */
+  public destroy() {
+    this.unsubscribeEventHandlers();
+    this._destroyed = true;
+  }
+
+  /** This method is called when the `.then(...)` callback is called, the combiner is destroyed,
+   * or the callback is called, when already destroyed. The original method will do nothing.
+   * To utilize this method (eg. for a Logger integration) this class must be extended:
+   *
+   * @example
+   * class MyEventCombiner extends EventCombiner {
+   *   protected onLog(type: 'then' | 'destroy' | 'alreadyDestroyed'): void {
+   *     console.log(type, this._name, this._receivedEvents, this._eventHandlers);
+   *   }
+   * }
+   */
+  protected onLog(type: 'then' | 'destroy' | 'alreadyDestroyed') {
     // extend this class to implement this function in order to inject logging
   }
 
-  private thenIsFulfilled(all: boolean): boolean {
+  private thenIsFulfilled(): boolean {
     for (const event of this._receivedEvents.values()) {
-      if (all && event === 'pending') {
+      if (this._all && event === 'pending') {
         return false;
       }
-      if (!all && event !== 'pending') {
+      if (!this._all && event !== 'pending') {
         return true;
       }
     }
 
-    return all; // ===   all & no event pending   ||  !all (some) & every event pending
+    return this._all; // ===   all & no event pending   ||  !all (some) & every event pending
   }
 
   private unsubscribeEventHandlers(): void {
     this._eventHandlers.forEach((handler) => handler.unsubscribe(this._name));
+    this.onLog('destroy');
   }
 
   private resetReceivedEvents(): void {
