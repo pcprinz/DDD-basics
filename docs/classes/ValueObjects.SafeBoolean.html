@@ -15,7 +15,10 @@
 <li><a href="ValueObjects.SafeBoolean.html">SafeBoolean</a></li></ul>
 <h1>Class SafeBoolean</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>A Boolean that is definitely a Boolean that (with options) can be undefined or a string</p>
+<div class="tsd-comment tsd-typography">
+<a href="#a-boolean-that-is-definitely-a-boolean-that-with-options-can-be-undefined-or-a-string" id="a-boolean-that-is-definitely-a-boolean-that-with-options-can-be-undefined-or-a-string" style="color: inherit; text-decoration: none;">
+  <h3>A Boolean that is definitely a Boolean that (with options) can be undefined or a string</h3>
+</a>
 
 <h3>Example</h3><pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">sb</span><span class="hl-1"> = </span><span class="hl-4">SafeBoolean</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-0">true</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyBoolean&#39;</span><span class="hl-1"> });</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">stringSb</span><span class="hl-1"> = </span><span class="hl-4">SafeBoolean</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;true&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">undefSb</span><span class="hl-1"> = </span><span class="hl-4">SafeBoolean</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-0">undefined</span><span class="hl-1">, { </span><span class="hl-4">allowUndefinedAs:</span><span class="hl-1"> </span><span class="hl-0">true</span><span class="hl-1"> });</span>
 </code></pre>
@@ -32,7 +35,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">SafeBoolean</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L13">valueObjects/SafeBoolean.ts:13</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L14">valueObjects/SafeBoolean.ts:14</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -78,7 +81,7 @@
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L14">valueObjects/SafeBoolean.ts:14</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L15">valueObjects/SafeBoolean.ts:15</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="_value" class="tsd-anchor"></a>
@@ -121,7 +124,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#equals">equals</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L18">valueObjects/SafeBoolean.ts:18</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L19">valueObjects/SafeBoolean.ts:19</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="toJSON" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>toJSON</span><a href="#toJSON" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -154,7 +157,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L71">valueObjects/SafeBoolean.ts:71</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L72">valueObjects/SafeBoolean.ts:72</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="fromList" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from<wbr/>List</span><a href="#fromList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -176,7 +179,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L83">valueObjects/SafeBoolean.ts:83</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L84">valueObjects/SafeBoolean.ts:84</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="listEquals" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>list<wbr/>Equals</span><a href="#listEquals" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -252,7 +255,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L94">valueObjects/SafeBoolean.ts:94</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L95">valueObjects/SafeBoolean.ts:95</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="validate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>validate</span><a href="#validate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -278,7 +281,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L36">valueObjects/SafeBoolean.ts:36</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeBoolean.ts#L37">valueObjects/SafeBoolean.ts:37</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="validateInterval" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>validate<wbr/>Interval</span><a href="#validateInterval" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">

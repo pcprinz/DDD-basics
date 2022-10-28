@@ -8,7 +8,7 @@ import {
   PlainDateTimeObject,
 } from './PlainDateTime';
 
-/** a special version of a `PlainDateTime` which offers expire calculations */
+/** ### A special version of a `PlainDateTime` which offers expire calculations */
 export class Timestamp extends PlainDateTime {
   /**
    * @param range to add to the existing Timestamp

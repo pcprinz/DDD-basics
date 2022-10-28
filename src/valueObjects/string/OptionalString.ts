@@ -1,6 +1,6 @@
-import {IntervalCreationOptions, ListCreationOptions, ValueObject} from '../ValueObject';
+import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
-/** A String that can be also created from either `""` or `undefined`.
+/** ### A String that can be also created from either `""` or `undefined`
  * - `undefined` ends up being converted to `""`
  *
  * @example
@@ -10,7 +10,7 @@ import {IntervalCreationOptions, ListCreationOptions, ValueObject} from '../Valu
  * const sizeOS = OptionalString.create('foo', {min: 3, max: 4});
  * const regexOS = OptionalString.create('foo', {regex: /fo/});
  *
- * @throws 
+ * @throws
  * - `TypeError` if not a string (when defined)
  * - `RangeError` if the value is not matching the regex (when defined)
  * - `RangeError` if the value is not inside the interval (when defined)
@@ -55,7 +55,8 @@ export class OptionalString extends ValueObject<string> {
       throw new RangeError(
         `${this.prefix(
           options
-        )}the given value (${value}: ${typeof value}) does not match the regular expression (${options.regex
+        )}the given value (${value}: ${typeof value}) does not match the regular expression (${
+          options.regex
         })!`
       );
     }
@@ -144,8 +145,8 @@ export interface OptionalStringOptions extends IntervalCreationOptions {
 export type FormatOptions = FormatOption[];
 export type FormatOption = 'umlauts' | 'singleSpace' | 'stripHTML';
 export function format(text: string, options: FormatOptions): string {
-  let r: {[key: string]: string} = options.includes('umlauts') ? umlauts : {};
-  r = options.includes('stripHTML') ? {...r, ...html} : r;
+  let r: { [key: string]: string } = options.includes('umlauts') ? umlauts : {};
+  r = options.includes('stripHTML') ? { ...r, ...html } : r;
   // r = options.includes('entities') ? { ...r, ...entities } : r;
 
   const regex = new RegExp(Object.keys(r).join('|'), 'g');

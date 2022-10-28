@@ -1,10 +1,11 @@
 import { v4 as uuid } from 'uuid';
 import { Serializable } from '../basic';
 
-/** An event passed from an EventHandler to a Subscriber.
+/** ### An event passed from an EventHandler to a Subscriber
+ *
  * Usually this will not be created manually but automatically
- * while `dispatch`ing events at the `EventHandler`. 
- * 
+ * while `dispatch`ing events at the `EventHandler`.
+ *
  * This event will be provided at `EventHandler.subscribe(event => ...)`.*/
 export class DomainEvent<Payload> extends Serializable {
   private _id: string = uuid();

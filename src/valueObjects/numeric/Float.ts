@@ -1,12 +1,12 @@
-import {IntervalCreationOptions, ListCreationOptions, ValueObject} from '../ValueObject';
+import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
-/** A floating point number.
+/** ### A floating point number
  *
  * @example
  * const mi = Float.create(42.69, { name: 'MyFloat' }); // a.value === 42.69
  * const mi2 = Float.create(42, { name: 'MyFloat2' });
  * const mi3 = Float.create(21.4, { name: 'MyFloat3', min: 12.1, max: 41.9 });
- * 
+ *
  * @throws
  * - `TypeError` if not a valid number
  * - `RangeError` if the value is not inside the interval

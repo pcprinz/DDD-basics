@@ -1,6 +1,6 @@
-import {Serializable} from '../basic';
+import { Serializable } from '../basic';
 
-/** A basic ValueObject that wraps a primitive value immutably and does validation on creation */
+/** ### A basic ValueObject that wraps a primitive value immutably and does validation on creation */
 export abstract class ValueObject<T> {
   /** the actual value of the ValueObject */
   protected readonly _value: T;
@@ -99,7 +99,7 @@ export abstract class ValueObject<T> {
       );
     }
   }
-  /** 
+  /**
    * @throws `TypeError` if list is undefined but must not be
    * @throws `RangeError` if the list length not matching
    */

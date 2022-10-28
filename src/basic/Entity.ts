@@ -2,8 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { Serializable } from './Serializable';
 import { NonEmptyString } from '../valueObjects/string/NonEmptyString';
 
-/**
- * An abstract Entity with an `id`, which can be serialized to its private attributes.
+/** ### An abstract Entity with an `id`, which can be serialized to its private attributes
  *
  * @example
  * A common example would be:

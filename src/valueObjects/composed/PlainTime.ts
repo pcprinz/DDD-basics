@@ -17,7 +17,8 @@ export type PlainTimeArray = [
 /** everything that might be parsable to a valid `PlainTime` */
 export type PlainTimeValue = PlainTimeObject | PlainTimeArray | string;
 
-/** This is a more simplified, but also flexible version of a `Date` which specifically represents just the time.
+/** ### A more simplified, but also flexible version of a `Date` which specifically represents just the time
+ *
  * Related to `PlainDate` for dates and `PlaneDateTime` for a combination of both.
  */
 export class PlainTime extends ValueObject<void> {

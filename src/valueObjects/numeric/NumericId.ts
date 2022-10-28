@@ -1,13 +1,13 @@
-import {IntervalCreationOptions, ListCreationOptions} from '../ValueObject';
-import {Integer, IntegerOptions} from './Integer';
+import { IntervalCreationOptions, ListCreationOptions } from '../ValueObject';
+import { Integer, IntegerOptions } from './Integer';
 
-/** A special Integer with the predefined interval [0,∞] 
- * which will not accept and parse floating point numbers. 
- * 
+/** ### A special Integer with the predefined interval [0,∞]
+ * which will not accept and parse floating point numbers.
+ *
  * @example
  * const ni = NumericId.create(11, {name: 'MyID'});
  * const maxNi = NumericId.create(420, {max: 421});
- * 
+ *
  * @throws
  * - `TypeError` if not a valid integer
  * - `RangeError` if the value has decimal digits
@@ -33,7 +33,7 @@ export class NumericId extends Integer {
    * @throws `RangeError` if the value is not inside the interval (at least positive)
    */
   public static validate(value: number, options?: NumericIdOptions): number {
-    const intOpts: IntegerOptions = {...options, min: 0, round: 'deny'};
+    const intOpts: IntegerOptions = { ...options, min: 0, round: 'deny' };
     super.validate(value, intOpts);
 
     return value;

@@ -15,7 +15,10 @@
 <li><a href="Basic.Serializable.html">Serializable</a></li></ul>
 <h1>Class Serializable<code class="tsd-tag ts-flagAbstract">Abstract</code> </h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>An abstract class that overrides the <code>toJSON()</code> method to serialize private attributes.</p>
+<div class="tsd-comment tsd-typography">
+<a href="#an-abstract-class-that-overrides-the-tojson-method-to-serialize-private-attributes" id="an-abstract-class-that-overrides-the-tojson-method-to-serialize-private-attributes" style="color: inherit; text-decoration: none;">
+  <h3>An abstract class that overrides the <code>toJSON()</code> method to serialize private attributes</h3>
+</a>
 <p><strong>Only underscored values are serialized!</strong></p>
 
 <h3>Example</h3><pre><code class="language-ts"><span class="hl-0">class</span><span class="hl-1"> </span><span class="hl-2">MyClass</span><span class="hl-1"> </span><span class="hl-0">extends</span><span class="hl-1"> </span><span class="hl-2">Serializable</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-0">private</span><span class="hl-1"> </span><span class="hl-4">_myNumber</span><span class="hl-1"> = </span><span class="hl-8">69</span><span class="hl-1">;</span><br/><span class="hl-1">  </span><span class="hl-0">private</span><span class="hl-1"> </span><span class="hl-4">_myString</span><span class="hl-1"> = </span><span class="hl-6">&#39;420&#39;</span><span class="hl-1">;</span><br/><span class="hl-1">  </span><span class="hl-4">myNotSerializedValue</span><span class="hl-1"> = </span><span class="hl-8">13</span><span class="hl-1">;</span><br/><span class="hl-1">  </span><span class="hl-3">// ... not serialized constructor and methods ...</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-5">log</span><span class="hl-1">(</span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">MyClass</span><span class="hl-1">().</span><span class="hl-5">toJSON</span><span class="hl-1">());</span><br/><span class="hl-3">// { myNumber: 69, myString: &quot;420&quot; }</span>
@@ -29,7 +32,7 @@
 <li><a href="Basic.Entity.html" class="tsd-signature-type" data-tsd-kind="Class">Entity</a></li>
 <li><a href="Events.DomainEvent.html" class="tsd-signature-type" data-tsd-kind="Class">DomainEvent</a></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/basic/Serializable.ts#L17">basic/Serializable.ts:17</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/basic/Serializable.ts#L16">basic/Serializable.ts:16</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -52,7 +55,7 @@
 <li class="tsd-description">
 <h4 class="tsd-returns-title">Returns <a href="Basic.Serializable.html" class="tsd-signature-type" data-tsd-kind="Class">Serializable</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/basic/Serializable.ts#L18">basic/Serializable.ts:18</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/basic/Serializable.ts#L17">basic/Serializable.ts:17</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="toJSON" class="tsd-anchor"></a>
@@ -68,7 +71,7 @@ All non-underscored attributes and methods will be omitted.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/basic/Serializable.ts#L29">basic/Serializable.ts:29</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/basic/Serializable.ts#L28">basic/Serializable.ts:28</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

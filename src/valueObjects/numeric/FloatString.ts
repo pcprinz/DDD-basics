@@ -1,8 +1,8 @@
-import {ListCreationOptions} from '../ValueObject';
-import {Float, FloatOptions} from './Float';
+import { ListCreationOptions } from '../ValueObject';
+import { Float, FloatOptions } from './Float';
 
-/** A floating point number that can also be created from a string representation of a floating point number
- * 
+/** ### A floating point number that can also be created from a string representation of a floating point number
+ *
  * @example
  * const mi = FloatString.create(42.69, { name: 'MyFloat' }); // a.value === 42.69
  * const mi2 = FloatString.create(42, { name: 'MyFloat2' });
@@ -10,7 +10,7 @@ import {Float, FloatOptions} from './Float';
  * const stringMi = FloatString.create('42.69', { name: 'MyFloat' });
  * const stringMi2 = FloatString.create('42', { name: 'MyFloat2' });
  * const stringMi3 = FloatString.create('21.4', { name: 'MyFloat3', min: 12.1, max: 41.9 });
- * 
+ *
  * @throws
  * - `TypeError` if the value is not a parsable number
  * - `RangeError` if the value is not inside the interval

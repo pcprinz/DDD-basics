@@ -1,8 +1,9 @@
 import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject';
 
-/** a Date that is definitely a Date that can be created from either a Date or a string that
- * represents a Date or a number that represents the Time in ms. Every creation that the original
- * JS `Date` offers is allowed.
+/** ### A Date that is definitely a Date
+ *
+ * ... that can be created from either a Date or a string that represents a Date,
+ * or a number that represents the Time in ms. Every creation that the original JS `Date` offers is allowed.
  *
  * @example
  * const sd = SafeDate.create(new Date(), { name: 'NewSafeDate' });

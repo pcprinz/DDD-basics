@@ -1,9 +1,9 @@
 import { DomainEvent } from './DomainEvent';
 import { EventHandler } from './EventHandler';
 
-/**
- * Combines multiple events to let Subscribers listen to any combination of the events. There are 6
- * different combinations that can be achieved by the following chaining of the EventCombiners methods.
+/** ### Combines multiple events to let Subscribers listen to any combination of the events
+ *
+ * There are 6 different combinations that can be achieved by the following chaining of the EventCombiners methods.
  *
  * | method              | first call on  | subsequent calls on    | provided payloads of                |
  * |:--------------------|:---------------|:-----------------------|:------------------------------------|

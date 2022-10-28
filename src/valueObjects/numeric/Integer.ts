@@ -1,14 +1,13 @@
-import {ListCreationOptions} from '../ValueObject';
-import {Float, FloatOptions} from './Float';
+import { ListCreationOptions } from '../ValueObject';
+import { Float, FloatOptions } from './Float';
 
-/**
- * An Integer (`number` without decimal digits)
+/** ### An Integer (`number` without decimal digits)
  *
  * @example
  * const int = Integer.create(42, { name: 'MyInteger' }); // a.value === 42
  * const roundInt = Integer.create(42.6, { round: 'floor' }); // a.value === 42
  * const rangeInt = Integer.create(42, { min: 12, max: 43 });
- * 
+ *
  * @throws
  * - `TypeError` if not a valid integer
  * - `RangeError` if the value has not allowed decimal digits

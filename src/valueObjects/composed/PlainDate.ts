@@ -12,8 +12,8 @@ export type PlainDateArray = [year: number, month?: number, date?: number];
 /** everything that might be parsable to a valid `PlainDate` */
 export type PlainDateValue = PlainDateObject | PlainDateArray | string;
 
-/** This is a more simplified, but also flexible version of a `Date` which specifically represents
- * just the date (without the time).
+/** ### A more simplified, but also flexible version of a `Date` which specifically represents just the date (without the time)
+ *
  * Related to `PlainTime` for the time and `PlaneDateTime` for a combination of both.
  */
 export class PlainDate extends ValueObject<void> {

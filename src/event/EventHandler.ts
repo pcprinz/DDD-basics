@@ -6,8 +6,10 @@ export interface Subscription<Payload> {
   suppressLogging?: boolean;
 }
 
-/** A Handler that allows Subscribers (any caller) to subscribe to a specific event.
+/** ### A Handler that allows Subscribers (any caller) to subscribe to a specific event
+ *
  * All Subscribers will be notified if the event dispatcher dispatched the event.
+ *
  * @example
  * At first the EventHandler has to be created with a **unique** name that subscribes the purpose.
  * - the generic can be of any type / interface

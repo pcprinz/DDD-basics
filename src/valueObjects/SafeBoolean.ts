@@ -1,6 +1,7 @@
 import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject';
 
-/** A Boolean that is definitely a Boolean that (with options) can be undefined or a string
+/** ### A Boolean that is definitely a Boolean that (with options) can be undefined or a string
+ *
  * @example
  * const sb = SafeBoolean.create(true, { name: 'MyBoolean' });
  * const stringSb = SafeBoolean.create('true');

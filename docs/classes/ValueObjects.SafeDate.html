@@ -15,9 +15,12 @@
 <li><a href="ValueObjects.SafeDate.html">SafeDate</a></li></ul>
 <h1>Class SafeDate</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>a Date that is definitely a Date that can be created from either a Date or a string that
-represents a Date or a number that represents the Time in ms. Every creation that the original
-JS <code>Date</code> offers is allowed.</p>
+<div class="tsd-comment tsd-typography">
+<a href="#a-date-that-is-definitely-a-date" id="a-date-that-is-definitely-a-date" style="color: inherit; text-decoration: none;">
+  <h3>A Date that is definitely a Date</h3>
+</a>
+<p>... that can be created from either a Date or a string that represents a Date,
+or a number that represents the Time in ms. Every creation that the original JS <code>Date</code> offers is allowed.</p>
 
 <h3>Example</h3><pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">sd</span><span class="hl-1"> = </span><span class="hl-4">SafeDate</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">Date</span><span class="hl-1">(), { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;NewSafeDate&#39;</span><span class="hl-1"> });</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">numericSd</span><span class="hl-1"> = </span><span class="hl-4">SafeDate</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-8">1666945777309</span><span class="hl-1">); </span><span class="hl-3">// === 2022-10-28T08:29:37.309Z</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">stringSd</span><span class="hl-1"> = </span><span class="hl-4">SafeDate</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;2022-10-28T08:29:37.309Z&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">rangeSd</span><span class="hl-1"> = </span><span class="hl-4">SafeDate</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;2022-10-28T08:31:00.914Z&#39;</span><span class="hl-1">, {</span><br/><span class="hl-1">  </span><span class="hl-4">min:</span><span class="hl-1"> </span><span class="hl-6">&#39;2022-10-14T00:00:00.000Z&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">max:</span><span class="hl-1"> </span><span class="hl-6">&#39;2022-11-01T00:00:00.000Z&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">});</span>
 </code></pre>
@@ -34,7 +37,7 @@ JS <code>Date</code> offers is allowed.</p>
 <ul class="tsd-hierarchy">
 <li><span class="target">SafeDate</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L20">valueObjects/SafeDate.ts:20</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L21">valueObjects/SafeDate.ts:21</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -84,7 +87,7 @@ JS <code>Date</code> offers is allowed.</p>
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.SafeDate.html" class="tsd-signature-type" data-tsd-kind="Class">SafeDate</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L21">valueObjects/SafeDate.ts:21</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L22">valueObjects/SafeDate.ts:22</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="_value" class="tsd-anchor"></a>
@@ -127,7 +130,7 @@ JS <code>Date</code> offers is allowed.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#equals">equals</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L25">valueObjects/SafeDate.ts:25</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L26">valueObjects/SafeDate.ts:26</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="toJSON" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>toJSON</span><a href="#toJSON" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -138,7 +141,7 @@ JS <code>Date</code> offers is allowed.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#toJSON">toJSON</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L159">valueObjects/SafeDate.ts:159</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L160">valueObjects/SafeDate.ts:160</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="create" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>create</span><a href="#create" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -160,7 +163,7 @@ JS <code>Date</code> offers is allowed.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.SafeDate.html" class="tsd-signature-type" data-tsd-kind="Class">SafeDate</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L130">valueObjects/SafeDate.ts:130</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L131">valueObjects/SafeDate.ts:131</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="fromList" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from<wbr/>List</span><a href="#fromList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -182,7 +185,7 @@ JS <code>Date</code> offers is allowed.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.SafeDate.html" class="tsd-signature-type" data-tsd-kind="Class">SafeDate</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L143">valueObjects/SafeDate.ts:143</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L144">valueObjects/SafeDate.ts:144</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="listEquals" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>list<wbr/>Equals</span><a href="#listEquals" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -226,7 +229,7 @@ JS <code>Date</code> offers is allowed.</p>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/ValueObjects.CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.SafeDate.html" class="tsd-signature-type" data-tsd-kind="Class">SafeDate</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L134">valueObjects/SafeDate.ts:134</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L135">valueObjects/SafeDate.ts:135</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="parseDottedFormat" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>parse<wbr/>Dotted<wbr/>Format</span><a href="#parseDottedFormat" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -239,7 +242,7 @@ JS <code>Date</code> offers is allowed.</p>
 <h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Date</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Date</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L113">valueObjects/SafeDate.ts:113</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L114">valueObjects/SafeDate.ts:114</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="prefix" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>prefix</span><a href="#prefix" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -286,7 +289,7 @@ JS <code>Date</code> offers is allowed.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L154">valueObjects/SafeDate.ts:154</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L155">valueObjects/SafeDate.ts:155</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="validate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>validate</span><a href="#validate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -312,7 +315,7 @@ JS <code>Date</code> offers is allowed.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L49">valueObjects/SafeDate.ts:49</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L50">valueObjects/SafeDate.ts:50</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="validateDate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagPrivate">Private</code> <span>validate<wbr/>Date</span><a href="#validateDate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -338,7 +341,7 @@ JS <code>Date</code> offers is allowed.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L93">valueObjects/SafeDate.ts:93</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L94">valueObjects/SafeDate.ts:94</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="validateDateInterval" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagPrivate">Private</code> <span>validate<wbr/>Date<wbr/>Interval</span><a href="#validateDateInterval" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -357,7 +360,7 @@ JS <code>Date</code> offers is allowed.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L65">valueObjects/SafeDate.ts:65</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/SafeDate.ts#L66">valueObjects/SafeDate.ts:66</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="validateInterval" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>validate<wbr/>Interval</span><a href="#validateInterval" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">

@@ -1,7 +1,7 @@
-import {ListCreationOptions} from '../ValueObject';
-import {Integer, IntegerOptions} from './Integer';
+import { ListCreationOptions } from '../ValueObject';
+import { Integer, IntegerOptions } from './Integer';
 
-/** An Integer (`number` without decimal digits) that can also be created from a string representation of an integer.
+/** ### An Integer (`number` without decimal digits) that can also be created from a string representation of an integer
  * - this is an extension of `Integer`, so you can also create from `number`s
  *
  * @example
@@ -11,7 +11,7 @@ import {Integer, IntegerOptions} from './Integer';
  * const is2 = IntegerString.create('42', { name: 'MyInteger' });
  * const roundIs2 = IntegerString.create('42.6', { round: 'floor' });
  * const rangeIs2 = IntegerString.create('42', { min: 12, max: 43 });
- * 
+ *
  * @throws
  * - `TypeError` if not a parsable integer
  * - `RangeError` if the value has not allowed decimal digits

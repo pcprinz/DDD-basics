@@ -1,5 +1,4 @@
-/**
- * An abstract class that overrides the `toJSON()` method to serialize private attributes.
+/** ### An abstract class that overrides the `toJSON()` method to serialize private attributes
  *
  * **Only underscored values are serialized!**
  *

@@ -1,7 +1,7 @@
-import {ListCreationOptions} from '../ValueObject';
-import {OptionalString, OptionalStringOptions} from './OptionalString';
+import { ListCreationOptions } from '../ValueObject';
+import { OptionalString, OptionalStringOptions } from './OptionalString';
 
-/** A String that is definitely a String that is not empty
+/** ### A String that is definitely a String that is not empty
  * @example
  * const nes = NonEmptyString.create('foo', { name: 'MyNES' });
  * const rangeNes = NonEmptyString.create('bar', { range: ['foo', 'bar', 'baz'] });
@@ -14,7 +14,7 @@ import {OptionalString, OptionalStringOptions} from './OptionalString';
  * const enumNes2 = NonEmptyString.create(myEnum.baz, { range: myEnum });
  * const sizeNes = NonEmptyString.create('long_enough', { min: 3, max: 69 });
  * const regexNes = NonEmptyString.create('foo', { regex: /oo/ });
- * 
+ *
  * @throws
  * - `TypeError` if not a string or empty
  * - `TypeError` if the value doesn't fit the given enum / range
@@ -137,29 +137,29 @@ export class NonEmptyString extends OptionalString {
  * so a list of other strings or a string enum
  */
 export interface NonEmptyStringOptions extends OptionalStringOptions {
-  /** 
+  /**
    * a `string[]` or `enum` of all possible values the given value can match.
    * - for the enums the `keys` as well as the `values` will be looked up to match!
    * - technically its possible to use any kind of object that has strings as keys and/or values
-   * 
+   *
    * @example
    * const stringArray = ['first', 'second', ...];
-   * 
+   *
    * enum NumericEnum {
    *   first, second, ...
    * }
-   * 
+   *
    * enum AlsoNumericEnum {
-   *   first = 1, second = 2, ... 
+   *   first = 1, second = 2, ...
    * }
-   * 
+   *
    * enum StringEnum {
    *   first = 'first', second = 'second', ...
    * }
-   * 
+   *
    * enum HeterogenousEnum {
    *   first = 1, second = 'second', ...
    * }
    */
-  range?: string[] | readonly string[] | {[s: string]: string | number} | {[s: number]: string};
+  range?: string[] | readonly string[] | { [s: string]: string | number } | { [s: number]: string };
 }
