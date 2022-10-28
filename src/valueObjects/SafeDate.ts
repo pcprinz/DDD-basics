@@ -1,7 +1,22 @@
 import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject';
 
 /** a Date that is definitely a Date that can be created from either a Date or a string that
- * represents a Date or a number that represents the Time in ms */
+ * represents a Date or a number that represents the Time in ms. Every creation that the original
+ * JS `Date` offers is allowed.
+ *
+ * @example
+ * const sd = SafeDate.create(new Date(), { name: 'NewSafeDate' });
+ * const numericSd = SafeDate.create(1666945777309); // === 2022-10-28T08:29:37.309Z
+ * const stringSd = SafeDate.create('2022-10-28T08:29:37.309Z');
+ * const rangeSd = SafeDate.create('2022-10-28T08:31:00.914Z', {
+ *   min: '2022-10-14T00:00:00.000Z',
+ *   max: '2022-11-01T00:00:00.000Z',
+ * });
+ *
+ * @throws
+ * - `TypeError` if not parsable to a valid Date
+ * - `RangeError` if the value's length is not inside the interval
+ */
 export class SafeDate extends ValueObject<Date> {
   protected constructor(value: Date) {
     super(value);
@@ -29,36 +44,52 @@ export class SafeDate extends ValueObject<Date> {
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
    * @throws `TypeError` if not parsable to a valid Date
+   * @throws `RangeError` if the value's length is not inside the interval
    */
   public static validate(value: Date | string | number, options?: SafeDateOptions): Date {
     // safe date
     const safeDate: Date = SafeDate.validateDate(value, options);
 
     if (options) {
-      // interval
-      const safeMin =
-        options.min !== undefined
-          ? this.validate(options.min, { name: `${options.name}.min` })
-          : undefined;
-      const safeMax =
-        options.max !== undefined
-          ? this.validate(options.max, { name: `${options.name}.max` })
-          : undefined;
-      if (
-        (safeMin && safeDate.getTime() < safeMin.getTime()) ||
-        (safeMax && safeDate.getTime() > safeMax.getTime())
-      ) {
-        throw new RangeError(
-          `${this.prefix(options)}the given Date (${safeDate}) must be in the interval [${
-            safeMin ?? '*'
-          }, ${safeMax ?? '*'}]!`
-        );
-      }
+      SafeDate.validateDateInterval(safeDate, options);
     }
 
     return safeDate;
   }
 
+  /**
+   *
+   * @param date to be validated in the given date range
+   * @param options constraints the value has to fulfill
+   */
+  private static validateDateInterval(date: Date, options: SafeDateOptions) {
+    const safeMin =
+      options.min !== undefined
+        ? this.validate(options.min, { name: `${options.name}.min` })
+        : undefined;
+    const safeMax =
+      options.max !== undefined
+        ? this.validate(options.max, { name: `${options.name}.max` })
+        : undefined;
+    if (
+      (safeMin && date.getTime() < safeMin.getTime()) ||
+      (safeMax && date.getTime() > safeMax.getTime())
+    ) {
+      throw new RangeError(
+        `${this.prefix(options)}the given Date (${date}) must be in the interval [${
+          safeMin ?? '*'
+        }, ${safeMax ?? '*'}]!`
+      );
+    }
+  }
+
+  /**
+   * @param value to be validated as a parsable `Date`
+   * @param options constraints the value has to fulfil
+   * @returns the validated `Date`
+   * @throws `TypeError` if the value is not parsable
+   * @throws `TypeError` if the value is not a `Date | string | number`
+   */
   private static validateDate(value: Date | string | number, options?: SafeDateOptions): Date {
     value = this.parseDottedFormat(value);
     if (typeof value === 'string' || typeof value === 'number') {

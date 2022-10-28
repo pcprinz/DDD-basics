@@ -1,6 +1,15 @@
 import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject';
 
-/** A Boolean that is definitely a Boolean that (with options) can be undefined or a string */
+/** A Boolean that is definitely a Boolean that (with options) can be undefined or a string
+ * @example
+ * const sb = SafeBoolean.create(true, { name: 'MyBoolean' });
+ * const stringSb = SafeBoolean.create('true');
+ * const undefSb = SafeBoolean.create(undefined, { allowUndefinedAs: true });
+ *
+ * @throws
+ * - `TypeError` if undefined (and not allowed to)
+ * - `TypeError` if not a (parsable) boolean
+ */
 export class SafeBoolean extends ValueObject<boolean> {
   protected constructor(value: boolean) {
     super(value);
@@ -22,7 +31,7 @@ export class SafeBoolean extends ValueObject<boolean> {
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
    * @throws `TypeError` if undefined (and not allowed to)
-   * @throws `TypeError` if not a boolean
+   * @throws `TypeError` if not a (parsable) boolean
    */
   public static validate(
     value: boolean | string | undefined,

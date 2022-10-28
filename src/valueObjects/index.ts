@@ -82,6 +82,23 @@
  * - `PlainTime` - for simple times (without the date)
  * - `PlainDateTime` - a combination of both (This is like JS's `Date` but with more / other / better functionality)
  * - `TimeStamp` - a special `PlainDateTime` with additional measuring functionality (like "expiresIn")
+ *
+ * # General usage
+ * Due to the better readability and reusability, it is recommended not to use the ValueObjects directly,
+ * but to expand them. For example, if a ValueObject "Book title" is to be created for an entity "Book",
+ * which is a string with at least 1 and a maximum of 50 characters, then the ValueObject
+ * `NonEmptyString` is expanded as follows:
+ *
+ * ```ts
+ * const BookTitle = (title: string) => NonEmptyString.create(title, { name: 'Book.title', max: 50});
+ * ```
+ *
+ * There is now a "constructor" for a "book title" that always requires the same constraints.
+ * It is then used as follows:
+ *
+ * ```ts
+ * this._title = BookTitle('Domain Driven Design');
+ * ```
  */
 
 export * from './composed/PlainDate';

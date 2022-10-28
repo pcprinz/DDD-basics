@@ -101,9 +101,23 @@ These options can be used to define constraints for the passed value(s).</p>
 <li><code>PlainDateTime</code> - a combination of both (This is like JS&#39;s <code>Date</code> but with more / other / better functionality)</li>
 <li><code>TimeStamp</code> - a special <code>PlainDateTime</code> with additional measuring functionality (like &quot;expiresIn&quot;)</li>
 </ul>
+
+<a href="#general-usage" id="general-usage" style="color: inherit; text-decoration: none;">
+  <h1>General usage</h1>
+</a>
+<p>Due to the better readability and reusability, it is recommended not to use the ValueObjects directly,
+but to expand them. For example, if a ValueObject &quot;Book title&quot; is to be created for an entity &quot;Book&quot;,
+which is a string with at least 1 and a maximum of 50 characters, then the ValueObject
+<code>NonEmptyString</code> is expanded as follows:</p>
+<pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-5">BookTitle</span><span class="hl-1"> = (</span><span class="hl-4">title</span><span class="hl-1">: </span><span class="hl-2">string</span><span class="hl-1">) </span><span class="hl-0">=&gt;</span><span class="hl-1"> </span><span class="hl-4">NonEmptyString</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-4">title</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;Book.title&#39;</span><span class="hl-1">, </span><span class="hl-4">max:</span><span class="hl-1"> </span><span class="hl-8">50</span><span class="hl-1">});</span>
+</code></pre>
+<p>There is now a &quot;constructor&quot; for a &quot;book title&quot; that always requires the same constraints.
+It is then used as follows:</p>
+<pre><code class="language-ts"><span class="hl-0">this</span><span class="hl-1">.</span><span class="hl-4">_title</span><span class="hl-1"> = </span><span class="hl-5">BookTitle</span><span class="hl-1">(</span><span class="hl-6">&#39;Domain Driven Design&#39;</span><span class="hl-1">);</span>
+</code></pre>
 </div></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/b52a3da/src/valueObjects/index.ts#L87">valueObjects/index.ts:87</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/2978609/src/valueObjects/index.ts#L104">valueObjects/index.ts:104</a></li></ul></aside>
 <section class="tsd-panel-group">
 <section class="tsd-panel tsd-typography"></section></section>
 <section class="tsd-panel-group tsd-index-group">

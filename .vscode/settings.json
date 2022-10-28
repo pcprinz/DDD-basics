@@ -4,6 +4,6 @@
   "cSpell.words": ["INVALIDMOD", "INVALIDMODULE"],
   "jest.jestCommandLine": "yarn test",
   "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
