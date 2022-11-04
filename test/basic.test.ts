@@ -1,4 +1,4 @@
-import { Entity } from '../src';
+import { Entity, Entity2, Integer, NonEmptyString, NonEmptyStringOptions } from '../src';
 
 test('Entity', () => {
   const givenId = '2k90t9fdjh3s';
@@ -53,3 +53,55 @@ class SpecialEntity extends Entity {
   public special: number = 69;
   private _underscored: string = 'abc';
 }
+
+// playground
+
+class BookTitle extends NonEmptyString {
+  // recommended to access the options
+  static readonly options: NonEmptyStringOptions = { name: 'Book.title' };
+
+  // required for clean creation
+  public static create(title: string) {
+    return super.create(title, BookTitle.options);
+  }
+
+  // optional if separate validation is needed:
+  public static validate(value: string): string {
+    return super.validate(value, BookTitle.options);
+  }
+}
+
+class SoldBooksAmount extends Integer {
+  public static create(amount: number) {
+    return super.create(amount, { min: 0, name: 'Book.soldBooksAmount' });
+  }
+}
+
+interface BookProps {
+  title: BookTitle;
+  soldBooksAmount: SoldBooksAmount;
+}
+
+class Book extends Entity2<BookProps> {
+  public static create(isbn: string, title: string, amount: number = 0) {
+    return new this({
+      id: isbn,
+      title: BookTitle.create(title),
+      soldBooksAmount: SoldBooksAmount.create(amount),
+    });
+  }
+
+  get title() {
+    return this.props.title.value;
+  }
+
+  get soldBooksAmount() {
+    return this.props.soldBooksAmount;
+  }
+
+  increaseSoldBooksAmount() {
+    this.props.soldBooksAmount = SoldBooksAmount.create(this.soldBooksAmount.value + 1);
+  }
+}
+
+const b2 = Book.create('2098', 'nseo ij');

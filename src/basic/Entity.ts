@@ -92,3 +92,44 @@ export abstract class Entity extends Serializable {
     return value instanceof Entity;
   }
 }
+
+export abstract class Entity2<T> {
+  protected readonly _id: NonEmptyString;
+  protected props: T;
+
+  /**
+   * @param id (optional) identifier. Will be a generated `UUID` if omitted
+   */
+  protected constructor(props: T & { id?: string }) {
+    const idName = `${this.constructor.name}.id`;
+    this._id = NonEmptyString.create(props.id ?? uuid(), { name: idName });
+    this.props = props;
+  }
+
+  /** The identifier of this Entity is an internal `NonEmptyString` */
+  public get id() {
+    return this._id.value;
+  }
+
+  /** Entities are compared based on their `id`. */
+  public equals(object?: Entity2<T>): boolean {
+    if (object == null) {
+      return false;
+    }
+
+    if (this === object) {
+      return true;
+    }
+
+    if (!Entity2.isEntity<T>(object)) {
+      return false;
+    }
+
+    return this._id.equals(object._id);
+  }
+
+  /** ensures that the given `value` is an instance of `Entity` */
+  public static isEntity<T>(value: unknown): value is Entity2<T> {
+    return value instanceof Entity2<T>;
+  }
+}

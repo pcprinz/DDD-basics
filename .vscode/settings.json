@@ -5,5 +5,8 @@
   "jest.jestCommandLine": "yarn test",
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
   }
 }
