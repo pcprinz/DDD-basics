@@ -1,4 +1,12 @@
-import { Entity, Entity2, Integer, NonEmptyString, NonEmptyStringOptions } from '../src';
+import {
+  Entity,
+  Entity2,
+  Integer,
+  NonEmptyString,
+  NonEmptyStringOptions,
+  SafeBoolean,
+} from '../src';
+import { Result } from '../src/basic/Result';
 
 test('Entity', () => {
   const givenId = '2k90t9fdjh3s';
@@ -105,3 +113,10 @@ class Book extends Entity2<BookProps> {
 }
 
 const b2 = Book.create('2098', 'nseo ij');
+
+const a = Result.combine({
+  title: SafeBoolean.create('title'),
+  soldBooksAmount: SafeBoolean.create(true),
+});
+
+const aV = a.getValue();

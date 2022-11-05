@@ -1,4 +1,4 @@
-import { Serializable } from '../basic';
+import { Result } from '../basic/Result';
 
 /** ### A basic ValueObject that wraps a primitive value immutably and does validation on creation */
 export abstract class ValueObject<T> {
@@ -85,19 +85,22 @@ export abstract class ValueObject<T> {
   }
 
   /** @throws `RangeError` if the value is not inside the interval */
-  protected static validateInterval(
-    value: number | string,
+  protected static validateInterval<Value = string | number>(
+    value: Value,
     options: IntervalCreationOptions
-  ): void {
+  ): Result<Value> {
     const v = typeof value === 'string' ? value.length : value;
     const str = typeof value === 'string' ? `string's length` : `number`;
     if (options && ((options.min && v < options.min) || (options.max && v > options.max))) {
       const min = options.min ?? '-∞';
       const max = options.max ?? '∞';
-      throw new RangeError(
-        `${this.prefix(options)}the given ${str} (${v}) must be in the interval [${min}, ${max}]!`
+      return Result.fail(
+        new RangeError(
+          `${this.prefix(options)}the given ${str} (${v}) must be in the interval [${min}, ${max}]!`
+        )
       );
     }
+    return Result.ok(value);
   }
   /**
    * @throws `TypeError` if list is undefined but must not be
@@ -106,46 +109,71 @@ export abstract class ValueObject<T> {
   protected static validateList<Primitive>(
     list: Primitive[] | undefined,
     options?: CreationOptions & ListCreationOptions
-  ): list is Primitive[] {
+  ): Result<Primitive[]> {
     const pfx = this.prefix(options, 'fromList');
     if (list == null) {
       if (options?.forbidUndefined) {
-        throw new TypeError(`${pfx}list is undefined but forbidden as a valid input!`);
+        return Result.fail(
+          new TypeError(`${pfx}list is undefined but forbidden as a valid input!`)
+        );
       } else {
-        return false;
+        return Result.ok([]);
       }
     }
     const lsz = options?.listSize;
     if (!lsz) {
-      return true;
+      return Result.ok(list);
     }
     if (lsz.fix && lsz.max && lsz.max !== lsz.fix) {
-      throw new RangeError(
-        `${pfx}the list options have a fixed (${lsz.fix}) and a deviating max (${lsz.max}) listSize!`
+      return Result.fail(
+        new RangeError(
+          `${pfx}the list options have a fixed (${lsz.fix}) and a deviating max (${lsz.max}) listSize!`
+        )
       );
     }
     if (lsz.fix && lsz.min && lsz.min !== lsz.fix) {
-      throw new RangeError(
-        `${pfx}the list options have a fixed (${lsz.fix}) and a deviating min (${lsz.min}) listSize!`
+      return Result.fail(
+        new RangeError(
+          `${pfx}the list options have a fixed (${lsz.fix}) and a deviating min (${lsz.min}) listSize!`
+        )
       );
     }
     if (lsz.fix && list.length !== lsz.fix) {
-      throw new RangeError(
-        `${pfx}the given list must have ${lsz.fix} values, but has ${list.length}!`
+      return Result.fail(
+        new RangeError(`${pfx}the given list must have ${lsz.fix} values, but has ${list.length}!`)
       );
     }
     if (lsz.min && list.length < lsz.min) {
-      throw new RangeError(
-        `${pfx}the given list must have at least ${lsz.min} values, but has ${list.length}!`
+      return Result.fail(
+        new RangeError(
+          `${pfx}the given list must have at least ${lsz.min} values, but has ${list.length}!`
+        )
       );
     }
     if (lsz.max && list.length > lsz.max) {
-      throw new RangeError(
-        `${pfx}the given list must not have more than ${lsz.max} values, but has ${list.length}!`
+      return Result.fail(
+        new RangeError(
+          `${pfx}the given list must not have more than ${lsz.max} values, but has ${list.length}!`
+        )
       );
     }
 
-    return true;
+    return Result.ok(list);
+  }
+
+  protected static createList<T, V>(
+    list: Result<V[]>,
+    createCallback: (v: V) => Result<T>
+  ): Result<T[]> {
+    let verified = [];
+    for (const value of list.getValue()) {
+      const created = createCallback(value);
+      if (created.isFailure) {
+        return Result.fail(created.error);
+      }
+      verified.push(created.getValue());
+    }
+    return Result.ok(verified);
   }
 }
 

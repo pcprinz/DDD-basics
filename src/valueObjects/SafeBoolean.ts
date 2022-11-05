@@ -1,3 +1,4 @@
+import { Result } from '../basic/Result';
 import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject';
 
 /** ### A Boolean that is definitely a Boolean that (with options) can be undefined or a string
@@ -37,11 +38,13 @@ export class SafeBoolean extends ValueObject<boolean> {
   public static validate(
     value: boolean | string | undefined,
     options?: SafeBooleanOptions
-  ): boolean {
+  ): Result<boolean> {
     let safeBoolean = value;
     if (safeBoolean === undefined) {
       if (options?.allowUndefinedAs === undefined) {
-        throw new TypeError(`${this.prefix(options)}the given boolean has to be defined!`);
+        return Result.fail<boolean>(
+          new TypeError(`${this.prefix(options)}the given boolean has to be defined!`)
+        );
       } else if (options?.allowUndefinedAs !== undefined) {
         safeBoolean = options.allowUndefinedAs === true; // otherwise = false
       }
@@ -52,14 +55,16 @@ export class SafeBoolean extends ValueObject<boolean> {
 
     // type
     if (typeof safeBoolean !== 'boolean') {
-      throw new TypeError(
-        `${this.prefix(
-          options
-        )}the given value (${safeBoolean}: ${typeof safeBoolean}) has to be a (parsable) boolean!`
+      return Result.fail<boolean>(
+        new TypeError(
+          `${this.prefix(
+            options
+          )}the given value (${safeBoolean}: ${typeof safeBoolean}) has to be a (parsable) boolean!`
+        )
       );
     }
 
-    return safeBoolean;
+    return Result.ok(safeBoolean);
   }
 
   // CREATION ###################################################################################
@@ -72,8 +77,11 @@ export class SafeBoolean extends ValueObject<boolean> {
   public static create(
     value: boolean | string | undefined,
     options?: SafeBooleanOptions
-  ): SafeBoolean {
-    return new SafeBoolean(this.validate(value, options));
+  ): Result<SafeBoolean> {
+    const valid = this.validate(value, options);
+    return valid.isSuccess
+      ? Result.ok(new SafeBoolean(valid.getValue()))
+      : Result.fail<SafeBoolean>(valid.error);
   }
 
   /**
@@ -84,8 +92,12 @@ export class SafeBoolean extends ValueObject<boolean> {
   public static fromList(
     values: (boolean | string | undefined)[] | undefined,
     options?: SafeBooleanOptions & ListCreationOptions
-  ): SafeBoolean[] {
-    return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
+  ): Result<SafeBoolean[]> {
+    const list = this.validateList(values, options);
+    if (list.isFailure) {
+      return Result.fail(list.error);
+    }
+    return ValueObject.createList(list, (value) => this.create(value, options));
   }
 
   /**
