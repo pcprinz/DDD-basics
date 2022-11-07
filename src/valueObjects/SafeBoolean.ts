@@ -8,9 +8,9 @@ import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject
  * const stringSb = SafeBoolean.create('true');
  * const undefSb = SafeBoolean.create(undefined, { allowUndefinedAs: true });
  *
- * @throws
- * - `TypeError` if undefined (and not allowed to)
- * - `TypeError` if not a (parsable) boolean
+ * @fails
+ * - if undefined (and not allowed to)
+ * - if not a (parsable) boolean
  */
 export class SafeBoolean extends ValueObject<boolean> {
   protected constructor(value: boolean) {
@@ -32,39 +32,42 @@ export class SafeBoolean extends ValueObject<boolean> {
    * @param value to be validated as a valid boolean / string representation of a boolean
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws `TypeError` if undefined (and not allowed to)
-   * @throws `TypeError` if not a (parsable) boolean
+   * @fails if undefined (and not allowed to)
+   * @fails if not a (parsable) boolean
    */
   public static validate(
     value: boolean | string | undefined,
     options?: SafeBooleanOptions
   ): Result<boolean> {
-    let safeBoolean = value;
-    if (safeBoolean === undefined) {
+    let defined = value;
+    if (defined === undefined) {
       if (options?.allowUndefinedAs === undefined) {
-        return Result.fail<boolean>(
-          new TypeError(`${this.prefix(options)}the given boolean has to be defined!`)
-        );
+        return Result.fail(`${this.prefix(options)}the given boolean has to be defined!`);
       } else if (options?.allowUndefinedAs !== undefined) {
-        safeBoolean = options.allowUndefinedAs === true; // otherwise = false
+        defined = options.allowUndefinedAs === true; // otherwise = false
       }
     } else {
-      safeBoolean =
-        typeof safeBoolean === 'boolean' ? safeBoolean : (JSON.parse(safeBoolean) as boolean);
+      try {
+        defined = typeof defined === 'boolean' ? defined : (JSON.parse(defined) as boolean);
+      } catch (error) {
+        return Result.fail(
+          `${this.prefix(
+            options
+          )}the given value (${defined}: ${typeof defined}) can not be parsed boolean!`
+        );
+      }
     }
 
     // type
-    if (typeof safeBoolean !== 'boolean') {
-      return Result.fail<boolean>(
-        new TypeError(
-          `${this.prefix(
-            options
-          )}the given value (${safeBoolean}: ${typeof safeBoolean}) has to be a (parsable) boolean!`
-        )
+    if (typeof defined !== 'boolean') {
+      return Result.fail(
+        `${this.prefix(
+          options
+        )}the given value (${defined}: ${typeof defined}) has to be a (parsable) boolean!`
       );
     }
 
-    return Result.ok(safeBoolean);
+    return Result.ok(defined);
   }
 
   // CREATION ###################################################################################
@@ -78,10 +81,7 @@ export class SafeBoolean extends ValueObject<boolean> {
     value: boolean | string | undefined,
     options?: SafeBooleanOptions
   ): Result<SafeBoolean> {
-    const valid = this.validate(value, options);
-    return valid.isSuccess
-      ? Result.ok(new SafeBoolean(valid.getValue()))
-      : Result.fail<SafeBoolean>(valid.error);
+    return this.validate(value, options).convertTo((valid) => new SafeBoolean(valid));
   }
 
   /**
@@ -93,11 +93,7 @@ export class SafeBoolean extends ValueObject<boolean> {
     values: (boolean | string | undefined)[] | undefined,
     options?: SafeBooleanOptions & ListCreationOptions
   ): Result<SafeBoolean[]> {
-    const list = this.validateList(values, options);
-    if (list.isFailure) {
-      return Result.fail(list.error);
-    }
-    return ValueObject.createList(list, (value) => this.create(value, options));
+    return ValueObject.createList(values, (value) => this.create(value, options), options);
   }
 
   /**

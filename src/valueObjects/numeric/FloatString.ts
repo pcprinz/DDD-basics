@@ -1,4 +1,5 @@
-import { ListCreationOptions } from '../ValueObject';
+import { Result } from '../../basic/Result';
+import { ListCreationOptions, ValueObject } from '../ValueObject';
 import { Float, FloatOptions } from './Float';
 
 /** ### A floating point number that can also be created from a string representation of a floating point number
@@ -11,9 +12,9 @@ import { Float, FloatOptions } from './Float';
  * const stringMi2 = FloatString.create('42', { name: 'MyFloat2' });
  * const stringMi3 = FloatString.create('21.4', { name: 'MyFloat3', min: 12.1, max: 41.9 });
  *
- * @throws
- * - `TypeError` if the value is not a parsable number
- * - `RangeError` if the value is not inside the interval
+ * @fails
+ * - if the value is not a parsable number
+ * - if the value is not inside the interval
  */
 export class FloatString extends Float {
   protected constructor(value: number) {
@@ -33,38 +34,39 @@ export class FloatString extends Float {
    * @param value to be validated as a float with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws `TypeError` if the value is not a parsable number
-   * @throws `RangeError` if the value is not inside the interval
+   * @fails if the value is not a parsable number
+   * @fails if the value is not inside the interval
    */
-  public static validate(value: number | string, options?: FloatStringOptions): number {
-    const converted = this.validateFloatString(value, options);
-
-    return super.validate(converted, options);
+  public static validate(value: number | string, options?: FloatStringOptions): Result<number> {
+    return this.validateFloatString(value, options).chain((valid) =>
+      super.validate(valid, options)
+    );
   }
 
   /**
    * @param value to be validated as a valid number / string representation of a valid number
    * @param options constraints the value has to fulfill
    * @returns the (possibly parsed) number
-   * @throws `TypeError` if the value is not a parsable number
+   * @fails if the value is not a parsable number
    */
   protected static validateFloatString(
     value: number | string,
     options?: FloatStringOptions
-  ): number {
+  ): Result<number> {
     if (typeof value !== 'number') {
-      if (isNaN(this.parse(value))) {
-        throw new TypeError(
+      const parsed = this.parse(value);
+      if (isNaN(parsed)) {
+        return Result.fail(
           `${this.prefix(
             options
           )}the given value (${value}: ${typeof value}) has to be a number or a string representing a number!`
         );
       }
 
-      return this.parse(value);
+      return Result.ok(parsed);
     }
 
-    return value;
+    return Result.ok(value);
   }
 
   /**
@@ -83,8 +85,8 @@ export class FloatString extends Float {
    * @param options constraints the value has to fulfill
    * @returns the created ValueObject
    */
-  public static create(value: number | string, options?: FloatStringOptions): FloatString {
-    return new FloatString(this.validate(value, options));
+  public static create(value: number | string, options?: FloatStringOptions): Result<FloatString> {
+    return this.validate(value, options).convertTo((valid) => new FloatString(valid));
   }
 
   /**
@@ -95,8 +97,8 @@ export class FloatString extends Float {
   public static fromList(
     values: (number | string)[] | undefined,
     options?: FloatStringOptions & ListCreationOptions
-  ): FloatString[] {
-    return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
+  ): Result<FloatString[]> {
+    return ValueObject.createList(values, (value) => this.create(value, options), options);
   }
 
   /**

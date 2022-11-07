@@ -1,4 +1,5 @@
-import { ListCreationOptions } from '../ValueObject';
+import { Result } from '../../basic/Result';
+import { ListCreationOptions, ValueObject } from '../ValueObject';
 import { OptionalString, OptionalStringOptions } from './OptionalString';
 
 /** ### A String that is definitely a String that is not empty
@@ -15,11 +16,11 @@ import { OptionalString, OptionalStringOptions } from './OptionalString';
  * const sizeNes = NonEmptyString.create('long_enough', { min: 3, max: 69 });
  * const regexNes = NonEmptyString.create('foo', { regex: /oo/ });
  *
- * @throws
- * - `TypeError` if not a string or empty
- * - `TypeError` if the value doesn't fit the given enum / range
- * - `RangeError` if the value is not matching the regex
- * - `RangeError` if the value's length is not inside the interval
+ * @fails
+ * - if not a string or empty
+ * - if the value doesn't fit the given enum / range
+ * - if the value is not matching the regex
+ * - if the value's length is not inside the interval
  */
 export class NonEmptyString extends OptionalString {
   protected constructor(value: string) {
@@ -36,68 +37,65 @@ export class NonEmptyString extends OptionalString {
    * @param value to be validated as a not empty string with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws `TypeError` if not a string or empty
-   * @throws `TypeError` if the value doesn't fit the given enum / range
-   * @throws `RangeError` if the value is not matching the regex
-   * @throws `RangeError` if the value's length is not inside the interval
+   * @fails if not a string or empty
+   * @fails if the value doesn't fit the given enum / range
+   * @fails if the value is not matching the regex
+   * @fails if the value's length is not inside the interval
    */
-  public static validate(value: string, options?: NonEmptyStringOptions): string {
+  public static validate(value: string, options?: NonEmptyStringOptions): Result<string> {
     // format first so that the result passed validation
-    const result = options?.format ? this.format(value, options) : value;
-    this.validateNonEmptyString(result, options);
-
-    if (options) {
-      this.validateRange(result, options);
-      this.validateInterval(result, options);
-      this.validateRegex(result, options);
-    }
-
-    return result;
+    return this.validateString(value, options).chain(
+      (valid) => this.format(valid, options),
+      (valid) => this.validateNonEmptyString(valid, options),
+      (valid) => this.validateRange(valid, options),
+      (valid) => this.validateInterval(valid, options),
+      (valid) => this.validateRegex(valid, options)
+    );
   }
 
   /**
    * @param value to be validated as a valid string that is not the empty string (`""`)
    * @param options constraints the value has to fulfill
-   * @throws `TypeError` if not a string or empty
+   * @fails if empty
    */
   private static validateNonEmptyString(
     value: string,
     options: NonEmptyStringOptions | undefined
-  ): void {
-    this.validateString(value, options);
+  ): Result<string> {
     if (value === '') {
-      throw new TypeError(
+      return Result.fail(
         `${this.prefix(
           options
         )}the given value (${value}: ${typeof value}) has to be a string with length > 0!`
       );
     }
+    return Result.ok(value);
   }
 
   /**
    * @param value to be validated to match a given range (enum / string[])
    * @param options constraints the value has to fulfill
-   * @throws `RangeError` if the value is not matching the regex
+   * @fails if the value is not matching the regex
    */
-  private static validateRange(value: string, options: NonEmptyStringOptions): void {
-    if (!options.range) {
-      return;
+  private static validateRange(value: string, options?: NonEmptyStringOptions): Result<string> {
+    if (options && options.range) {
+      const notInArray = Array.isArray(options.range) && !options.range.includes(value);
+      const notInObjectValues =
+        typeof options.range === 'object' && !Object.values(options.range).includes(value);
+      const notInObjectKeys =
+        typeof options.range === 'object' && !Object.keys(options.range).includes(value);
+      const notInObject = notInObjectKeys && notInObjectValues;
+      if (notInArray || notInObject) {
+        return Result.fail(
+          `${this.prefix(
+            options
+          )}the given value (${value}: ${typeof value}) is not in the range ${JSON.stringify(
+            options?.range
+          )}`
+        );
+      }
     }
-    const notInArray = Array.isArray(options.range) && !options.range.includes(value);
-    const notInObjectValues =
-      typeof options.range === 'object' && !Object.values(options.range).includes(value);
-    const notInObjectKeys =
-      typeof options.range === 'object' && !Object.keys(options.range).includes(value);
-    const notInObject = notInObjectKeys && notInObjectValues;
-    if (notInArray || notInObject) {
-      throw new RangeError(
-        `${this.prefix(
-          options
-        )}the given value (${value}: ${typeof value}) is not in the range ${JSON.stringify(
-          options?.range
-        )}`
-      );
-    }
+    return Result.ok(value);
   }
 
   // CREATION ###################################################################################
@@ -107,8 +105,8 @@ export class NonEmptyString extends OptionalString {
    * @param options constraints the value has to fulfill
    * @returns the created ValueObject
    */
-  public static create(value: string, options?: NonEmptyStringOptions): NonEmptyString {
-    return new NonEmptyString(this.validate(value, options));
+  public static create(value: string, options?: NonEmptyStringOptions): Result<NonEmptyString> {
+    return this.validate(value, options).convertTo((valid) => new NonEmptyString(valid));
   }
 
   /**
@@ -119,8 +117,8 @@ export class NonEmptyString extends OptionalString {
   public static fromList(
     values: string[] | undefined,
     options?: NonEmptyStringOptions & ListCreationOptions
-  ): NonEmptyString[] {
-    return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
+  ): Result<NonEmptyString[]> {
+    return ValueObject.createList(values, (value) => this.create(value, options), options);
   }
 
   /**

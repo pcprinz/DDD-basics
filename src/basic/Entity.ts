@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { Serializable } from './Serializable';
 import { NonEmptyString } from '../valueObjects/string/NonEmptyString';
+import { Serializable } from './Serializable';
 
 /** ### An abstract Entity with an `id`, which can be serialized to its private attributes
  *
@@ -62,7 +62,7 @@ export abstract class Entity extends Serializable {
   constructor(id?: string) {
     super();
     const idName = `${this.constructor.name}.id`;
-    this._id = NonEmptyString.create(id ?? uuid(), { name: idName });
+    this._id = NonEmptyString.create(id ?? uuid(), { name: idName }).getValue();
   }
 
   /** The identifier of this Entity is an internal `NonEmptyString` */
@@ -100,9 +100,9 @@ export abstract class Entity2<T> {
   /**
    * @param id (optional) identifier. Will be a generated `UUID` if omitted
    */
-  protected constructor(props: T & { id?: string }) {
+  protected constructor(props: T & { id?: NonEmptyString }) {
     const idName = `${this.constructor.name}.id`;
-    this._id = NonEmptyString.create(props.id ?? uuid(), { name: idName });
+    this._id = props.id ?? NonEmptyString.create(uuid(), { name: idName }).getValue();
     this.props = props;
   }
 

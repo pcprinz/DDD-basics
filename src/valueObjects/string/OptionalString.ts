@@ -1,3 +1,4 @@
+import { Result } from '../../basic/Result';
 import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
 /** ### A String that can be also created from either `""` or `undefined`
@@ -10,10 +11,10 @@ import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../Va
  * const sizeOS = OptionalString.create('foo', {min: 3, max: 4});
  * const regexOS = OptionalString.create('foo', {regex: /fo/});
  *
- * @throws
- * - `TypeError` if not a string (when defined)
- * - `RangeError` if the value is not matching the regex (when defined)
- * - `RangeError` if the value is not inside the interval (when defined)
+ * @fails
+ * - if not a string (when defined)
+ * - if the value is not matching the regex (when defined)
+ * - if the value is not inside the interval (when defined)
  */
 export class OptionalString extends ValueObject<string> {
   protected constructor(value: string) {
@@ -29,30 +30,26 @@ export class OptionalString extends ValueObject<string> {
   /**
    * @param value to be validated as a string with the corresponding constraints (options)
    * @returns the value if the validation was successful
-   * @throws `TypeError` if not a string (when defined)
-   * @throws `RangeError` if the value is not matching the regex (when defined)
-   * @throws `RangeError` if the value is not inside the interval (when defined)
+   * @fails if not a string (when defined)
+   * @fails if the value is not matching the regex (when defined)
+   * @fails if the value is not inside the interval (when defined)
    */
-  public static validate(value: string, options?: OptionalStringOptions): string {
-    let result = value;
-    this.validateString(result, options);
-    if (result.length > 0 && options) {
-      result = this.format(result, options);
-      this.validateInterval(result, options);
-      this.validateRegex(result, options);
-    }
-
-    return result;
+  public static validate(value: string, options?: OptionalStringOptions): Result<string> {
+    return this.validateString(value, options).chain(
+      (val) => this.format(val, options),
+      (val) => this.validateInterval(val, options),
+      (val) => this.validateRegex(val, options)
+    );
   }
 
   /**
    * @param value to be validated to match the given regular expression
    * @param options constraints the value has to fulfill
-   * @throws `RangeError` if the value is not matching the regex (when defined)
+   * @fails if the value is not matching the regex (when defined)
    */
-  protected static validateRegex(value: string, options: OptionalStringOptions): void {
-    if (options.regex && !options.regex.test(value)) {
-      throw new RangeError(
+  protected static validateRegex(value: string, options?: OptionalStringOptions): Result<string> {
+    if (options && options.regex && !options.regex.test(value)) {
+      return Result.fail(
         `${this.prefix(
           options
         )}the given value (${value}: ${typeof value}) does not match the regular expression (${
@@ -60,19 +57,21 @@ export class OptionalString extends ValueObject<string> {
         })!`
       );
     }
+    return Result.ok(value);
   }
 
   /**
    * @param value to be validated as a valid string
    * @param options constraints the value has to fulfill
-   * @throws `TypeError` if not a string
+   * @fails if not a string
    */
-  protected static validateString(value: string, options?: OptionalStringOptions): void {
+  protected static validateString(value: string, options?: OptionalStringOptions): Result<string> {
     if (typeof value !== 'string') {
-      throw new TypeError(
+      return Result.fail(
         `${this.prefix(options)}the given value (${value}: ${typeof value}) has to be a string!`
       );
     }
+    return Result.ok(value);
   }
 
   /**
@@ -80,13 +79,13 @@ export class OptionalString extends ValueObject<string> {
    * @param value to be formatted with the given formatting options
    * @param options constraints the value has to fulfill
    * @returns the formatted string
-   * @throws `Error` if the formatting failed
+   * @fails if the formatting throws an error
    */
-  protected static format(value: string, options?: OptionalStringOptions): string {
+  protected static format(value: string, options?: OptionalStringOptions): Result<string> {
     try {
-      return options?.format ? format(value, options?.format) : value;
+      return Result.ok(options?.format ? format(value, options?.format) : value);
     } catch (error) {
-      throw new Error(
+      return Result.fail(
         `${this.prefix(options)}the given string is not formattable with (${options?.format})`
       );
     }
@@ -99,8 +98,11 @@ export class OptionalString extends ValueObject<string> {
    * @param options constraints the value has to fulfill
    * @returns the created ValueObject
    */
-  public static create(value: string | undefined, options?: OptionalStringOptions): OptionalString {
-    return new OptionalString(this.validate(value ?? '', options));
+  public static create(
+    value: string | undefined,
+    options?: OptionalStringOptions
+  ): Result<OptionalString> {
+    return this.validate(value ?? '', options).convertTo((valid) => new OptionalString(valid));
   }
 
   /**
@@ -111,8 +113,8 @@ export class OptionalString extends ValueObject<string> {
   public static fromList(
     values: string[] | undefined,
     options?: OptionalStringOptions & ListCreationOptions
-  ): OptionalString[] {
-    return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
+  ): Result<OptionalString[]> {
+    return ValueObject.createList(values, (value) => this.create(value, options), options);
   }
 
   /**

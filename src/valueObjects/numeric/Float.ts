@@ -1,3 +1,4 @@
+import { Result } from '../../basic/Result';
 import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
 /** ### A floating point number
@@ -7,9 +8,9 @@ import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../Va
  * const mi2 = Float.create(42, { name: 'MyFloat2' });
  * const mi3 = Float.create(21.4, { name: 'MyFloat3', min: 12.1, max: 41.9 });
  *
- * @throws
- * - `TypeError` if not a valid number
- * - `RangeError` if the value is not inside the interval
+ * @fails
+ * - if not a valid number
+ * - if the value is not inside the interval
  */
 export class Float extends ValueObject<number> {
   constructor(value: number) {
@@ -26,35 +27,32 @@ export class Float extends ValueObject<number> {
    * @param value to be validated as a float with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws `TypeError` if not a valid number
-   * @throws `RangeError` if the value is not inside the interval
+   * @fails if not a valid number
+   * @fails if the value is not inside the interval
    */
-  public static validate(value: number, options?: FloatOptions): number {
-    this.validateNumber(value, options);
-    if (options) {
-      this.validateInterval(value, options);
-    }
-
-    return value;
+  public static validate(value: number, options?: FloatOptions): Result<number> {
+    return this.validateNumber(value, options).chain((valid) =>
+      this.validateInterval(valid, options)
+    );
   }
 
   /**
    * @param value to be validated as a valid number (not NaN)
    * @param options constraints the value has to fulfill
-   * @throws `TypeError` if not a valid number
+   * @fails if not a valid number
    */
-  protected static validateNumber(value: number, options?: FloatOptions): void {
+  protected static validateNumber(value: number, options?: FloatOptions): Result<number> {
     if (typeof value !== 'number') {
-      throw new TypeError(
+      return Result.fail(
         `${this.prefix(options)}the given value (${value}: ${typeof value}) must be a number!`
       );
     }
-
     if (isNaN(value)) {
-      throw new TypeError(
+      return Result.fail(
         `${this.prefix(options)}the given value (${value}: ${typeof value}) is not a number (NaN)!`
       );
     }
+    return Result.ok(value);
   }
 
   // CREATION ###################################################################################
@@ -64,8 +62,8 @@ export class Float extends ValueObject<number> {
    * @param options constraints the value has to fulfill
    * @returns the created ValueObject
    */
-  public static create(value: number, options?: FloatOptions): Float {
-    return new Float(this.validate(value, options));
+  public static create(value: number, options?: FloatOptions): Result<Float> {
+    return this.validate(value, options).convertTo((valid) => new Float(valid));
   }
 
   /**
@@ -76,8 +74,8 @@ export class Float extends ValueObject<number> {
   public static fromList(
     values: number[] | undefined,
     options?: FloatOptions & ListCreationOptions
-  ): Float[] {
-    return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
+  ): Result<Float[]> {
+    return ValueObject.createList(values, (value) => this.create(value, options), options);
   }
 
   /**

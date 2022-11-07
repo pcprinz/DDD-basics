@@ -1,4 +1,5 @@
 /** @module ValueObjects.PlainDate */
+import { Result } from '../../basic/Result';
 import { Integer } from '../numeric/Integer';
 import { CreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
@@ -62,8 +63,8 @@ export class PlainDate extends ValueObject<void> {
    * @param options constraints the value has to fulfill
    * @returns the created ValueObject
    */
-  public static create(value: PlainDateValue, options?: PlainDateOptions) {
-    return new PlainDate(this.validate(value, options));
+  public static create(value: PlainDateValue, options?: PlainDateOptions): Result<PlainDate> {
+    return this.validate(value, options).convertTo((valid) => new PlainDate(valid));
   }
 
   /**
@@ -74,12 +75,12 @@ export class PlainDate extends ValueObject<void> {
   public static fromList(
     values: PlainDateValue[] | undefined,
     options?: PlainDateOptions & ListCreationOptions
-  ) {
-    return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
+  ): Result<PlainDate[]> {
+    return ValueObject.createList(values, (value) => this.create(value, options), options);
   }
 
   /** creates a `PlainDate` from the current date. Similar to `new Date()` */
-  public static now(options?: PlainDateOptions & PlainDateNowOptions) {
+  public static now(options?: PlainDateOptions & PlainDateNowOptions): Result<PlainDate> {
     const today = new Date(Date.now());
     const density = options?.density ?? 'days';
 
@@ -96,7 +97,7 @@ export class PlainDate extends ValueObject<void> {
   /** creates a new `PlainDate` derived from the existing date, where the given `newData`
    * partial replaces the old data.
    */
-  createSet(newData: Partial<PlainDateObject>, options?: PlainDateOptions) {
+  createSet(newData: Partial<PlainDateObject>, options?: PlainDateOptions): Result<PlainDate> {
     return PlainDate.create(
       {
         year: newData.year ?? this.year,
@@ -108,7 +109,7 @@ export class PlainDate extends ValueObject<void> {
   }
 
   /** creates a new `PlainDate` derived from the existing date, with a given offset */
-  createOffset(offset: Partial<PlainDateObject>, options?: PlainDateOptions) {
+  createOffset(offset: Partial<PlainDateObject>, options?: PlainDateOptions): Result<PlainDate> {
     const date = new Date(
       Date.UTC(
         this.year + (offset.year ?? 0),
@@ -138,14 +139,32 @@ export class PlainDate extends ValueObject<void> {
   public static validate(
     value: PlainDateValue,
     options?: PlainDateOptions
-  ): Required<PlainDateObject> {
-    value = this.validatePlainDateable(value, options);
-    value = this.parseString(value, options);
-    const year = Array.isArray(value) ? value[0] : value.year;
-    const month = (Array.isArray(value) ? value[1] : value.month) ?? 0;
-    const date = (Array.isArray(value) ? value[2] : value.date) ?? 1;
-    Integer.validate(year, { name: this.prefix(options, 'year'), min: 0 });
-    Integer.validate(month, { name: this.prefix(options, 'month'), min: 0, max: 11 });
+  ): Result<Required<PlainDateObject>> {
+    const validPlainDateableResult = this.validatePlainDateable(value, options);
+    if (validPlainDateableResult.isFailure) return Result.fail(validPlainDateableResult.error);
+    const validDateStringResult = this.parseString(validPlainDateableResult.getValue(), options);
+    if (validDateStringResult.isFailure) return Result.fail(validDateStringResult.error);
+    const valid = validDateStringResult.getValue();
+
+    return this.validatePlainDate(valid, options);
+  }
+
+  private static validatePlainDate(
+    pDate: PlainDateArray | PlainDateObject,
+    options: PlainDateOptions | undefined
+  ): Result<Required<PlainDateObject>> {
+    const year = Array.isArray(pDate) ? pDate[0] : pDate.year;
+    const month = (Array.isArray(pDate) ? pDate[1] : pDate.month) ?? 0;
+    const date = (Array.isArray(pDate) ? pDate[2] : pDate.date) ?? 1;
+    const validYearResult = Integer.validate(year, { name: this.prefix(options, 'year'), min: 0 });
+    if (validYearResult.isFailure) return Result.fail(validYearResult.error);
+    const validMonthResult = Integer.validate(month, {
+      name: this.prefix(options, 'month'),
+      min: 0,
+      max: 11,
+    });
+    if (validMonthResult.isFailure) return Result.fail(validMonthResult.error);
+    let validDateResult: Result<number>;
     switch (month) {
       case 0:
       case 2:
@@ -154,22 +173,34 @@ export class PlainDate extends ValueObject<void> {
       case 7:
       case 9:
       case 11:
-        Integer.validate(date, { name: this.prefix(options, 'date'), min: 1, max: 31 });
+        validDateResult = Integer.validate(date, {
+          name: this.prefix(options, 'date'),
+          min: 1,
+          max: 31,
+        });
         break;
       case 1:
         const isSchalt = year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0);
-        Integer.validate(date, {
+        validDateResult = Integer.validate(date, {
           name: `${options?.name}(PlainDate.date)`,
           min: 1,
           max: isSchalt ? 29 : 28,
         });
         break;
       default:
-        Integer.validate(date, { name: this.prefix(options, 'date'), min: 1, max: 30 });
+        validDateResult = Integer.validate(date, {
+          name: this.prefix(options, 'date'),
+          min: 1,
+          max: 30,
+        });
         break;
     }
 
-    return { year, month, date };
+    return Result.combine({
+      year: validYearResult,
+      month: validMonthResult,
+      date: validDateResult,
+    });
   }
 
   /**
@@ -180,48 +211,49 @@ export class PlainDate extends ValueObject<void> {
   public static validatePlainDateable(
     value: PlainDateValue,
     options?: PlainDateOptions
-  ): PlainDateValue {
+  ): Result<PlainDateValue> {
     if (typeof value !== 'string' && !Array.isArray(value) && !value.year) {
-      throw new TypeError(
+      return Result.fail(
         `${this.prefix(options)}the given value is not a parsable Object, Array, or string!`
       );
     }
 
-    return value;
+    return Result.ok(value);
   }
 
   private static parseString(
     value: PlainDateValue,
     options?: PlainDateOptions
-  ): PlainDateArray | PlainDateObject {
+  ): Result<PlainDateArray | PlainDateObject> {
     if (typeof value === 'string') {
       if (/\d{1,2}\.\d{1,2}\.\d\d\d\d/.test(value)) {
         const parts = value.split('.');
 
-        return [Number(parts[2]), Number(parts[1]) - 1, Number(parts[0])];
+        return Result.ok([Number(parts[2]), Number(parts[1]) - 1, Number(parts[0])]);
       }
       if (/\d\d\d\d-\d{1,2}-\d{1,2}/.test(value)) {
         const parts = value.split('-');
 
-        return [Number(parts[0]), Number(parts[1]) - 1, Number(parts[2])];
+        return Result.ok([Number(parts[0]), Number(parts[1]) - 1, Number(parts[2])]);
       }
-      throw new TypeError(
+      return Result.fail(
         `${this.prefix(options)}the given (${value}: ${typeof value}) is not parsable!`
       );
     } else {
-      return value;
+      return Result.ok(value);
     }
   }
 
   // COMPARISON #################################################################################
 
   equals(obj: PlainDate | PlainDateValue, density: PlainDateDensity = 'days') {
-    let comp;
-    try {
-      comp = obj instanceof PlainDate ? obj : PlainDate.create(obj, { name: 'PlainDate.equals' });
-    } catch (error) {
-      // definitely not equal
-      return false;
+    let comp: PlainDate;
+    if (obj instanceof PlainDate) {
+      comp = obj;
+    } else {
+      const objResult = PlainDate.create(obj, { name: 'PlainDate.equals' });
+      if (objResult.isFailure) return false;
+      comp = objResult.getValue();
     }
     const y = comp.year === this.year;
     const m = PDD[density] >= 1 ? comp.month === this.month : true;
@@ -248,7 +280,7 @@ export class PlainDate extends ValueObject<void> {
    */
   compare(other: PlainDate | 'now', density: PlainDateDensity = 'days'): -1 | 0 | 1 {
     const comp = (fst: number, snd: number) => (fst > snd ? 1 : -1);
-    const b = other === 'now' ? PlainDate.now() : PlainDate.validate(other);
+    const b = other === 'now' ? PlainDate.now().getValue() : other;
     const y = this.year === b.year ? 0 : comp(this.year, b.year);
     if (y !== 0) {
       return y;
@@ -273,7 +305,7 @@ export class PlainDate extends ValueObject<void> {
    * @returns the distance in days
    */
   distance(toOther: PlainDate | 'now', density: PlainDateDensity = 'days') {
-    const b = toOther === 'now' ? PlainDate.now() : toOther;
+    const b = toOther === 'now' ? PlainDate.now().getValue() : toOther;
     const distance = b.toDate(density).getTime() - this.toDate(density).getTime();
 
     return distance / (1000 * 60 * 60 * 24);

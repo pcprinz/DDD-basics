@@ -10,7 +10,7 @@ test('create and validate', () => {
   expect(undefinedFalse.value).toBe(false);
   const undefinedTrue = SafeBoolean.create(undefined, { allowUndefinedAs: true }).getValue();
   expect(undefinedTrue.value).toBe(true);
-  expect(SafeBoolean.create(undefined).error.message).toEqual(
+  expect(SafeBoolean.create(undefined).error).toEqual(
     ' > SafeBoolean: the given boolean has to be defined!'
   );
 
@@ -18,7 +18,7 @@ test('create and validate', () => {
   expect(stringFalse.value).toBe(false);
   const stringTrue = SafeBoolean.create('true').getValue();
   expect(stringTrue.value).toBe(true);
-  expect(SafeBoolean.create('12').error.message).toEqual(
+  expect(SafeBoolean.create('12').error).toEqual(
     ' > SafeBoolean: the given value (12: number) has to be a (parsable) boolean!'
   );
 });

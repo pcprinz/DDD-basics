@@ -74,7 +74,7 @@ class BookTitle extends NonEmptyString {
   }
 
   // optional if separate validation is needed:
-  public static validate(value: string): string {
+  public static validate(value: string) {
     return super.validate(value, BookTitle.options);
   }
 }
@@ -91,12 +91,12 @@ interface BookProps {
 }
 
 class Book extends Entity2<BookProps> {
-  public static create(isbn: string, title: string, amount: number = 0) {
-    return new this({
-      id: isbn,
+  public static create(isbn: string, title: string, amount: number = 0): Result<Book> {
+    return Result.combine({
+      id: NonEmptyString.create(isbn, { name: 'Book.isbn [ID]' }),
       title: BookTitle.create(title),
       soldBooksAmount: SoldBooksAmount.create(amount),
-    });
+    }).convertTo((validProps) => new this(validProps));
   }
 
   get title() {
@@ -108,15 +108,18 @@ class Book extends Entity2<BookProps> {
   }
 
   increaseSoldBooksAmount() {
-    this.props.soldBooksAmount = SoldBooksAmount.create(this.soldBooksAmount.value + 1);
+    SoldBooksAmount.create(this.soldBooksAmount.value + 1)
+      .onSuccess((value) => (this.props.soldBooksAmount = value))
+      .onFail((error) => console.log('something strange happened: ' + error));
   }
 }
 
 const b2 = Book.create('2098', 'nseo ij');
 
 const a = Result.combine({
-  title: SafeBoolean.create('title'),
+  title: SafeBoolean.create('false'),
   soldBooksAmount: SafeBoolean.create(true),
 });
+console.log(a);
 
 const aV = a.getValue();
