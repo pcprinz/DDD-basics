@@ -101,7 +101,7 @@
  * ```
  */
 
-export * from './composed/PlainDate';
+// export * from './composed/PlainDate.ts.TODO';
 // export * from './composed/PlainDateTime.ts.disabled';
 // export * from './composed/PlainTime.ts.disabled';
 // export * from './composed/SemVersion.ts.disabled';

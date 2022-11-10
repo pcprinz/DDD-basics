@@ -29,7 +29,7 @@ export class SafeDate extends ValueObject<Date> {
     if (obj instanceof SafeDate) return obj.value.toJSON() === this._value.toJSON();
 
     const comparable = SafeDate.create(obj, { name: 'SafeDate.equals' });
-    if (comparable.isFailure) return false;
+    if (!comparable.isSuccess()) return false;
 
     return comparable.getValue().value.toJSON() === this._value.toJSON();
   }
@@ -47,11 +47,11 @@ export class SafeDate extends ValueObject<Date> {
   public static validate(value: Date | string | number, options?: SafeDateOptions): Result<Date> {
     // safe date
     const validDate = SafeDate.validateDate(value, options);
-    if (validDate.isFailure) return validDate;
+    if (!validDate.isSuccess()) return validDate;
 
     if (options) {
       const validInterval = SafeDate.validateDateInterval(validDate.getValue(), options);
-      if (validInterval.isFailure) return validInterval;
+      if (!validInterval.isSuccess()) return validInterval;
     }
 
     return Result.ok(validDate.getValue());
@@ -68,13 +68,13 @@ export class SafeDate extends ValueObject<Date> {
       options.min !== undefined
         ? this.validate(options.min, { name: `${options.name}.min` })
         : undefined;
-    if (validMin?.isFailure) return validMin;
+    if (validMin && !validMin.isSuccess()) return validMin;
 
     const validMax =
       options.max !== undefined
         ? this.validate(options.max, { name: `${options.name}.max` })
         : undefined;
-    if (validMax?.isFailure) return validMax;
+    if (validMax && !validMax.isSuccess()) return validMax;
 
     if (
       (validMin && date.getTime() < validMin.getValue().getTime()) ||
@@ -113,6 +113,7 @@ export class SafeDate extends ValueObject<Date> {
     } else if (value instanceof Date) {
       return Result.ok(value);
     }
+
     return Result.fail(
       `${this.prefix(
         options
@@ -165,10 +166,9 @@ export class SafeDate extends ValueObject<Date> {
     return values.map((pi) => pi.value);
   }
 
-  /* @ts-ignore */
   toJSON() {
     // TODO it works but check why this can't be the super.toJSON()
-    return this._value.toJSON();
+    return this._value.toJSON() as any;
   }
 }
 

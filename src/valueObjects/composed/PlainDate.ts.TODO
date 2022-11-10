@@ -141,9 +141,9 @@ export class PlainDate extends ValueObject<void> {
     options?: PlainDateOptions
   ): Result<Required<PlainDateObject>> {
     const validPlainDateableResult = this.validatePlainDateable(value, options);
-    if (validPlainDateableResult.isFailure) return Result.fail(validPlainDateableResult.error);
+    if (validPlainDateableResult.isFailure()) return Result.fail(validPlainDateableResult.error);
     const validDateStringResult = this.parseString(validPlainDateableResult.getValue(), options);
-    if (validDateStringResult.isFailure) return Result.fail(validDateStringResult.error);
+    if (validDateStringResult.isFailure()) return Result.fail(validDateStringResult.error);
     const valid = validDateStringResult.getValue();
 
     return this.validatePlainDate(valid, options);
@@ -157,13 +157,13 @@ export class PlainDate extends ValueObject<void> {
     const month = (Array.isArray(pDate) ? pDate[1] : pDate.month) ?? 0;
     const date = (Array.isArray(pDate) ? pDate[2] : pDate.date) ?? 1;
     const validYearResult = Integer.validate(year, { name: this.prefix(options, 'year'), min: 0 });
-    if (validYearResult.isFailure) return Result.fail(validYearResult.error);
+    if (validYearResult.isFailure()) return Result.fail(validYearResult.error);
     const validMonthResult = Integer.validate(month, {
       name: this.prefix(options, 'month'),
       min: 0,
       max: 11,
     });
-    if (validMonthResult.isFailure) return Result.fail(validMonthResult.error);
+    if (validMonthResult.isFailure()) return Result.fail(validMonthResult.error);
     let validDateResult: Result<number>;
     switch (month) {
       case 0:
@@ -252,7 +252,7 @@ export class PlainDate extends ValueObject<void> {
       comp = obj;
     } else {
       const objResult = PlainDate.create(obj, { name: 'PlainDate.equals' });
-      if (objResult.isFailure) return false;
+      if (objResult.isFailure()) return false;
       comp = objResult.getValue();
     }
     const y = comp.year === this.year;

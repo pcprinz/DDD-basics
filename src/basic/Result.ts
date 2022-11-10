@@ -3,35 +3,33 @@
  * - `isFailure` => has an `error`(string) and `throws Error` when `getValue()`is called
  */
 export class Result<T> {
-  public readonly isSuccess: boolean;
-  public readonly isFailure: boolean;
+  protected readonly _isSuccess: boolean;
   public readonly error: string;
-  private _value: T;
+  protected _value: T;
 
-  private constructor(isSuccess: boolean, error?: string, value?: T) {
-    if (isSuccess && error) {
-      throw new Error(`InvalidOperation: A result cannot be 
-          successful and contain an error`);
-    }
+  protected constructor(isSuccess: boolean, error?: string, value?: T) {
     if (!isSuccess && !error) {
-      throw new Error(`InvalidOperation: A failing result 
-          needs to contain an error message`);
+      throw new Error(`InvalidOperation: A failing result needs to contain an error message`);
     }
 
-    this.isSuccess = isSuccess;
-    this.isFailure = !isSuccess;
+    this._isSuccess = isSuccess;
     this.error = error ?? '';
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this._value = value!;
 
     Object.freeze(this);
   }
 
+  public isSuccess(): this is Result<T> & { getValue: () => T } {
+    return this._isSuccess;
+  }
+  // make protected to insure getValue can only be called on validated result
   /**
    * @returns the `value` provided in `Result.ok(value)`
    * @throws **an `Error` if called on a failed Result!**
    */
-  public getValue(): T {
-    if (!this.isSuccess) {
+  protected getValue(): T {
+    if (!this._isSuccess) {
       throw new Error(`Cant retrieve the value from a failed result.`);
     }
 
@@ -75,12 +73,12 @@ export class Result<T> {
       [K in keyof ResultMap]: ResultMap[K] extends Result<infer X> ? X : never;
     }
   >(map: ResultMap): Result<Output> {
-    let result: { [key: string]: any } = {};
-    for (let [key, value] of Object.entries(map)) {
-      if (value.isFailure) {
+    const result: { [key: string]: any } = {};
+    for (const [key, value] of Object.entries(map)) {
+      if (!value._isSuccess) {
         return value;
       }
-      result[key] = value.getValue();
+      result[key] = value._value;
     }
 
     return Result.ok(result as Output);
@@ -101,14 +99,14 @@ export class Result<T> {
    * );
    */
   public chain = <F extends (value: T) => Result<T>>(...members: F[]) => {
-    if (this.isFailure) return this;
+    if (!this._isSuccess) return this;
 
-    let currentValue = this.getValue();
+    let currentValue = this._value;
 
     for (const member of members) {
       const nextResult = member(currentValue);
-      if (nextResult.isFailure) return nextResult;
-      else currentValue = nextResult.getValue();
+      if (!nextResult._isSuccess) return nextResult;
+      else currentValue = nextResult._value;
     }
 
     return Result.ok(currentValue);
@@ -124,7 +122,7 @@ export class Result<T> {
    * this.validate(420).convertTo((valid) => new Integer(valid));
    */
   public convertTo<R>(callback: (valid: T) => R): Result<R> {
-    return this.isSuccess ? Result.ok(callback(this._value)) : Result.fail(this.error);
+    return this._isSuccess ? Result.ok(callback(this._value)) : Result.fail(this.error);
   }
 
   /**
@@ -139,12 +137,10 @@ export class Result<T> {
    *   .onSuccess((value) => console.log(`Yes ${value} is an integer`));
    *   .onFail((error) => console.error(error))
    */
-  public onSuccess(callback: (value: T) => void) {
-    this.successCallback(callback);
+  public onSuccess(callback: (value: T) => void): Omit<this, 'onSuccess'> {
+    if (this._isSuccess) callback(this._value);
 
-    return {
-      onFail: this.failCallback,
-    };
+    return this;
   }
   /**
    * Calls the given `callback` if the `Result` fails.
@@ -158,18 +154,13 @@ export class Result<T> {
    *   .onFail((error) => console.error(error))
    *   .onSuccess((value) => console.log(`Yes ${value} is an integer`));
    */
-  public onFail(callback: (error: string) => void) {
-    this.failCallback(callback);
+  public onFail(callback: (error: string) => void): Omit<this, 'onFail'> {
+    if (!this._isSuccess) callback(this.error);
 
-    return {
-      onSuccess: this.successCallback,
-    };
-  }
-
-  private failCallback(callback: (error: string) => void) {
-    if (this.isFailure) callback(this.error);
-  }
-  private successCallback(callback: (value: T) => void) {
-    if (this.isFailure) callback(this._value);
+    return this;
   }
 }
+
+export type ResultsOf<EP extends Record<any, any>> = {
+  [Key in keyof EP]: EP[Key] extends infer X ? Result<X> : never;
+};

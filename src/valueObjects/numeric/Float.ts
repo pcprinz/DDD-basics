@@ -52,6 +52,7 @@ export class Float extends ValueObject<number> {
         `${this.prefix(options)}the given value (${value}: ${typeof value}) is not a number (NaN)!`
       );
     }
+
     return Result.ok(value);
   }
 

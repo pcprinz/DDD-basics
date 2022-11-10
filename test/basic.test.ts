@@ -1,22 +1,17 @@
-import {
-  Entity,
-  Entity2,
-  Integer,
-  NonEmptyString,
-  NonEmptyStringOptions,
-  SafeBoolean,
-} from '../src';
+import { v4 as uuid } from 'uuid';
+import { Entity, Integer, NonEmptyString, NonEmptyStringOptions, SafeBoolean } from '../src';
 import { Result } from '../src/basic/Result';
+import { testValue } from './TestResult';
 
 test('Entity', () => {
   const givenId = '2k90t9fdjh3s';
-  const entityWithGivenId = new TestEntity(givenId);
-  const entityWithoutId = new TestEntity();
+  const entityWithGivenId = testValue(TestEntity.create(givenId));
+  const entityWithoutId = testValue(TestEntity.create());
 
   const referencedEntity = entityWithoutId;
   const jsonEntity = entityWithGivenId.toJSON();
   const copiedEntity = JSON.parse(JSON.stringify(entityWithGivenId));
-  const recreatedEntity = new TestEntity(entityWithoutId.id);
+  const recreatedEntity = testValue(TestEntity.create(entityWithoutId.id));
 
   // is entity
   expect(Entity.isEntity(entityWithGivenId)).toBeTruthy();
@@ -49,17 +44,28 @@ test('Entity', () => {
 });
 
 test('Serializable', () => {
-  const specialEntity = new SpecialEntity('1234');
+  const specialEntity = testValue(SpecialEntity.create('1234'));
   const jsoned = JSON.parse(JSON.stringify(specialEntity));
-  expect(jsoned.special).toBeUndefined();
-  expect(jsoned.underscored).toStrictEqual('abc');
   expect(jsoned.id).toStrictEqual('1234');
+  expect(jsoned.special).toBeDefined();
+  expect(jsoned.special).toStrictEqual(69);
 });
 
-class TestEntity extends Entity {}
-class SpecialEntity extends Entity {
-  public special: number = 69;
-  private _underscored: string = 'abc';
+class TestEntity extends Entity<{ testVal: Integer }> {
+  static create(id?: string) {
+    return Result.combine({
+      id: NonEmptyString.create(id ?? uuid()),
+      testVal: Integer.create(42),
+    }).convertTo((validProps) => new this(validProps));
+  }
+}
+class SpecialEntity extends Entity<{ special: Integer }> {
+  static create(id: string) {
+    return Result.combine({
+      id: NonEmptyString.create(id),
+      special: Integer.create(69),
+    }).convertTo((vp) => new this(vp));
+  }
 }
 
 // playground
@@ -85,12 +91,12 @@ class SoldBooksAmount extends Integer {
   }
 }
 
-interface BookProps {
+type BookProps = {
   title: BookTitle;
   soldBooksAmount: SoldBooksAmount;
-}
+};
 
-class Book extends Entity2<BookProps> {
+class Book extends Entity<BookProps> {
   public static create(isbn: string, title: string, amount: number = 0): Result<Book> {
     return Result.combine({
       id: NonEmptyString.create(isbn, { name: 'Book.isbn [ID]' }),
@@ -121,5 +127,3 @@ const a = Result.combine({
   soldBooksAmount: SafeBoolean.create(true),
 });
 console.log(a);
-
-const aV = a.getValue();

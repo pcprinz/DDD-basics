@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid';
+import { ValueObject } from '../valueObjects';
 import { NonEmptyString } from '../valueObjects/string/NonEmptyString';
 import { Serializable } from './Serializable';
 
@@ -53,56 +53,13 @@ import { Serializable } from './Serializable';
  * }
  * ```
  */
-export abstract class Entity extends Serializable {
-  private _id: NonEmptyString;
-
-  /**
-   * @param id (optional) identifier. Will be a generated `UUID` if omitted
-   */
-  constructor(id?: string) {
-    super();
-    const idName = `${this.constructor.name}.id`;
-    this._id = NonEmptyString.create(id ?? uuid(), { name: idName }).getValue();
-  }
-
-  /** The identifier of this Entity is an internal `NonEmptyString` */
-  public get id() {
-    return this._id.value;
-  }
-
-  /** Entities are compared based on their `id`. */
-  public equals(object?: Entity): boolean {
-    if (object == null) {
-      return false;
-    }
-
-    if (this === object) {
-      return true;
-    }
-
-    if (!Entity.isEntity(object)) {
-      return false;
-    }
-
-    return this._id.equals(object._id);
-  }
-
-  /** ensures that the given `value` is an instance of `Entity` */
-  public static isEntity(value: unknown): value is Entity {
-    return value instanceof Entity;
-  }
-}
-
-export abstract class Entity2<T> {
+export abstract class Entity<T extends EntityPropsType> extends Serializable {
   protected readonly _id: NonEmptyString;
   protected props: T;
 
-  /**
-   * @param id (optional) identifier. Will be a generated `UUID` if omitted
-   */
-  protected constructor(props: T & { id?: NonEmptyString }) {
-    const idName = `${this.constructor.name}.id`;
-    this._id = props.id ?? NonEmptyString.create(uuid(), { name: idName }).getValue();
+  protected constructor(props: T & { id: NonEmptyString }) {
+    super();
+    this._id = props.id;
     this.props = props;
   }
 
@@ -112,7 +69,7 @@ export abstract class Entity2<T> {
   }
 
   /** Entities are compared based on their `id`. */
-  public equals(object?: Entity2<T>): boolean {
+  public equals(object?: Entity<T>): boolean {
     if (object == null) {
       return false;
     }
@@ -121,7 +78,7 @@ export abstract class Entity2<T> {
       return true;
     }
 
-    if (!Entity2.isEntity<T>(object)) {
+    if (!Entity.isEntity<T>(object)) {
       return false;
     }
 
@@ -129,7 +86,16 @@ export abstract class Entity2<T> {
   }
 
   /** ensures that the given `value` is an instance of `Entity` */
-  public static isEntity<T>(value: unknown): value is Entity2<T> {
-    return value instanceof Entity2<T>;
+  public static isEntity<T extends EntityPropsType>(value: unknown): value is Entity<T> {
+    return value instanceof Entity<T>;
+  }
+
+  toJSON(): Record<any, any> {
+    return {
+      id: this.id,
+      ...this.props,
+    };
   }
 }
+
+type EntityPropsType = Record<string, ValueObject<any>>;

@@ -69,6 +69,7 @@ export class NonEmptyString extends OptionalString {
         )}the given value (${value}: ${typeof value}) has to be a string with length > 0!`
       );
     }
+
     return Result.ok(value);
   }
 
@@ -95,6 +96,7 @@ export class NonEmptyString extends OptionalString {
         );
       }
     }
+
     return Result.ok(value);
   }
 

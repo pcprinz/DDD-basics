@@ -86,12 +86,14 @@ export abstract class ValueObject<T> {
     if (options && ((options.min && v < options.min) || (options.max && v > options.max))) {
       const min = options.min ?? '-∞';
       const max = options.max ?? '∞';
+
       return Result.fail(
         `${this.prefix(
           options
         )}the given ${comparison} (${v}) must be in the interval [${min}, ${max}]!`
       );
     }
+
     return Result.ok(value);
   }
   /**
@@ -159,15 +161,16 @@ export abstract class ValueObject<T> {
     options?: CreationOptions & ListCreationOptions
   ): Result<Created[]> {
     const validList = this.validateListSize(values, options);
-    if (validList.isFailure) return Result.fail(validList.error);
+    if (!validList.isSuccess()) return Result.fail(validList.error);
 
-    let verified = [];
+    const verified = [];
     for (const value of validList.getValue()) {
       const created = createCallback(value);
-      if (created.isFailure) return Result.fail(created.error);
+      if (!created.isSuccess()) return Result.fail(created.error);
 
       verified.push(created.getValue());
     }
+
     return Result.ok(verified);
   }
 }

@@ -57,6 +57,7 @@ export class OptionalString extends ValueObject<string> {
         })!`
       );
     }
+
     return Result.ok(value);
   }
 
@@ -71,6 +72,7 @@ export class OptionalString extends ValueObject<string> {
         `${this.prefix(options)}the given value (${value}: ${typeof value}) has to be a string!`
       );
     }
+
     return Result.ok(value);
   }
 
