@@ -1,9 +1,9 @@
 import { v4 as uuid } from 'uuid';
-import { Entity, Integer, NonEmptyString, NonEmptyStringOptions, SafeBoolean } from '../src';
-import { Result } from '../src/basic/Result';
+import { Entity, Integer, NonEmptyString, NonEmptyStringOptions } from '../../src';
+import { Result } from '../../src/basic/Result';
 import { testValue } from './TestResult';
 
-test('Entity', () => {
+test('create', () => {
   const givenId = '2k90t9fdjh3s';
   const entityWithGivenId = testValue(TestEntity.create(givenId));
   const entityWithoutId = testValue(TestEntity.create());
@@ -20,6 +20,15 @@ test('Entity', () => {
   expect(Entity.isEntity(jsonEntity)).toBeFalsy();
   expect(Entity.isEntity(copiedEntity)).toBeFalsy();
   expect(Entity.isEntity(recreatedEntity)).toBeTruthy();
+});
+
+test('id', () => {
+  const givenId = '2k90t9fdjh3s';
+  const entityWithGivenId = testValue(TestEntity.create(givenId));
+  const entityWithoutId = testValue(TestEntity.create());
+
+  const referencedEntity = entityWithoutId;
+  const recreatedEntity = testValue(TestEntity.create(entityWithoutId.id));
 
   // test id
   expect(entityWithGivenId.id).toEqual(givenId);
@@ -28,6 +37,17 @@ test('Entity', () => {
   expect(referencedEntity.id).not.toEqual(givenId);
   expect(recreatedEntity.id).toEqual(entityWithoutId.id);
   expect(recreatedEntity.id).not.toEqual(givenId);
+});
+
+test('equals', () => {
+  const givenId = '2k90t9fdjh3s';
+  const entityWithGivenId = testValue(TestEntity.create(givenId));
+  const entityWithoutId = testValue(TestEntity.create());
+
+  const referencedEntity = entityWithoutId;
+  const jsonEntity = entityWithGivenId.toJSON();
+  const copiedEntity = JSON.parse(JSON.stringify(entityWithGivenId));
+  const recreatedEntity = testValue(TestEntity.create(entityWithoutId.id));
 
   // equals
   expect(referencedEntity.equals(entityWithoutId)).toBeTruthy();
@@ -43,7 +63,7 @@ test('Entity', () => {
   expect(recreatedEntity.equals(undefined)).toBeFalsy();
 });
 
-test('Serializable', () => {
+test('toJSON', () => {
   const specialEntity = testValue(SpecialEntity.create('1234'));
   const jsoned = JSON.parse(JSON.stringify(specialEntity));
   expect(jsoned.id).toStrictEqual('1234');
@@ -120,10 +140,4 @@ class Book extends Entity<BookProps> {
   }
 }
 
-const b2 = Book.create('2098', 'nseo ij');
-
-const a = Result.combine({
-  title: SafeBoolean.create('false'),
-  soldBooksAmount: SafeBoolean.create(true),
-});
-console.log(a);
+const book = Book.create('2098', 'nseo ij');

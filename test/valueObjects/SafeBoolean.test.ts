@@ -1,4 +1,4 @@
-import { testValue } from '../TestResult';
+import { testValue } from '../basic/TestResult';
 import { SafeBoolean } from './../../src/valueObjects/SafeBoolean';
 
 test('create and validate', () => {
@@ -21,6 +21,10 @@ test('create and validate', () => {
   expect(stringTrue.value).toBe(true);
   expect(SafeBoolean.create('12').error).toEqual(
     ' > SafeBoolean: the given value (12: number) has to be a (parsable) boolean!'
+  );
+
+  expect(SafeBoolean.create('xyz').error).toEqual(
+    ' > SafeBoolean: the given value (xyz: string) can not be parsed to a boolean!'
   );
 });
 

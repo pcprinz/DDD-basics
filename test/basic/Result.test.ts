@@ -1,9 +1,9 @@
-import { Result } from '../src/basic/Result';
+import { Result } from '../../src/basic/Result';
 import { TestResult } from './TestResult';
 
 // THE TESTS
-describe('Result creation', () => {
-  test('TestResult', () => {
+describe('create', () => {
+  test('<TestResult>', () => {
     const tr = TestResult.ok('test').getValue();
     expect(tr).toStrictEqual('test');
   });
@@ -28,7 +28,7 @@ describe('Result creation', () => {
   });
 });
 
-describe('Result combination', () => {
+describe('combine', () => {
   test('combine with success', () => {
     const combined = Result.combine({
       myString: Result.ok('str'),
@@ -57,7 +57,7 @@ describe('Result combination', () => {
   });
 });
 
-describe('Result chaining', () => {
+describe('chain', () => {
   test('chain with success', () => {
     const validate1 = (value: string) => Result.ok(value);
     const validate2 = (value: string) => Result.ok(value + ', second');
@@ -93,7 +93,7 @@ describe('Result chaining', () => {
   });
 });
 
-test('convert result', () => {
+test('convert', () => {
   const result = Result.ok(42);
   const converted = result.convertTo((num) => `The number is ${num}`);
 
@@ -101,7 +101,7 @@ test('convert result', () => {
   expect((converted as TestResult<string>).getValue()).toStrictEqual('The number is 42');
 });
 
-describe('reactive methods', () => {
+describe('on...', () => {
   test('onSuccess', () => {
     let value = 'not set';
     let error = 'not occurred';

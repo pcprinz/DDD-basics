@@ -53,7 +53,7 @@ export class SafeBoolean extends ValueObject<boolean> {
         return Result.fail(
           `${this.prefix(
             options
-          )}the given value (${defined}: ${typeof defined}) can not be parsed boolean!`
+          )}the given value (${defined}: ${typeof defined}) can not be parsed to a boolean!`
         );
       }
     }

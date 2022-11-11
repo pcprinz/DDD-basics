@@ -1,42 +1,13 @@
-import { ANSIFormat } from 'loxer';
-import { EventCombiner, DomainEvent, EventHandler } from '../src';
+import { DomainEvent, EventCombiner, EventHandler } from '../../src';
 
 let result = 'EventCombiners:\n';
-afterAll(() => result.length > 0 && console.log(ANSIFormat.fgSuccess(result)));
+// afterAll(() => result.length > 0 && console.log(ANSIFormat.fgSuccess(result)));
 
 function getPayload(es: (DomainEvent<any> | 'pending')[]) {
   return JSON.stringify(es.map((e) => (e === 'pending' ? 'pending' : e.payload)));
 }
 
-test('EventHandler', () => {
-  const handler = new EventHandler<string>('testHandler');
-
-  expect(handler.name).toEqual('testHandler');
-  expect(handler.occurred).toBeFalsy();
-
-  const event = new DomainEvent<string>('plainEvent', 'plainPayload');
-
-  expect(event.id).toBeDefined();
-  expect(event.timestamp).toBeDefined();
-  expect(event.name).toEqual('plainEvent');
-  expect(event.payload).toEqual('plainPayload');
-
-  handler.subscribe('testSubscription', (dispatchedEvent) => {
-    expect(dispatchedEvent.name).toEqual('testHandler');
-    expect(dispatchedEvent.payload).toEqual('testPayload');
-  });
-
-  handler.dispatch('testPayload');
-
-  expect(handler.occurred).toBeTruthy();
-
-  handler.unsubscribe('testSubscription');
-  // now this event will not be handled, though the expected payload will not fail
-  handler.dispatch('failing payload');
-});
-
-// TODO write expectations
-test('EventCombiner', () => {
+test('all methods', () => {
   const E1 = new EventHandler<string>('E1');
   const E2 = new EventHandler<number>('E2');
 
@@ -91,5 +62,94 @@ test('EventCombiner', () => {
   cs.destroy();
   result += '\n|> h\n';
   E1.dispatch('h');
-  result += '\n';
+
+  expect(result).toStrictEqual(expectedResult);
+
+  let error = 'no error';
+  cs.all(E1).then((_) => (error = `There schould be no 'then' called after destruction`));
+  expect(error).toStrictEqual('no error');
 });
+
+const expectedResult = `EventCombiners:
+
+|> a
+some: ["a","pending"]
+onceSome: ["a","pending"]
+consumeSome: ["a","pending"]
+
+|> b
+some: ["b","pending"]
+consumeSome: ["b","pending"]
+
+|> 1
+all: ["b",1]
+onceAll: ["b",1]
+consumeAll: ["b",1]
+some: ["b",1]
+consumeSome: ["pending",1]
+
+|> c
+all: ["c",1]
+some: ["c",1]
+consumeSome: ["c","pending"]
+
+|> 2
+all: ["c",2]
+consumeAll: ["c",2]
+some: ["c",2]
+consumeSome: ["pending",2]
+
+|> 3
+all: ["c",3]
+some: ["c",3]
+consumeSome: ["pending",3]
+
+|> d
+all: ["d",3]
+consumeAll: ["d",3]
+some: ["d",3]
+consumeSome: ["d","pending"]
+
+|> 4
+all: ["d",4]
+some: ["d",4]
+consumeSome: ["pending",4]
+
+|> e
+all: ["e",4]
+consumeAll: ["e",4]
+some: ["e",4]
+consumeSome: ["e","pending"]
+
+|> f
+all: ["f",4]
+some: ["f",4]
+consumeSome: ["f","pending"]
+
+|> 5
+all: ["f",5]
+consumeAll: ["f",5]
+some: ["f",5]
+consumeSome: ["pending",5]
+
+|> 6
+all: ["f",6]
+some: ["f",6]
+consumeSome: ["pending",6]
+
+|> g
+all: ["g",6]
+consumeAll: ["g",6]
+some: ["g",6]
+consumeSome: ["g","pending"]
+
+|> 7
+all: ["g",7]
+some: ["g",7]
+consumeSome: ["pending",7]
+
+|> h
+all: ["h",7]
+consumeAll: ["h",7]
+some: ["h",7]
+`;
