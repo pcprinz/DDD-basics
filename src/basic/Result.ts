@@ -9,7 +9,7 @@ export class Result<T> {
 
   protected constructor(isSuccess: boolean, error?: string, value?: T) {
     if (!isSuccess && !error) {
-      throw new Error(`InvalidOperation: A failing result needs to contain an error message`);
+      throw new Error(`[Result]: A failing result needs to contain an error message`);
     }
 
     this._isSuccess = isSuccess;
@@ -30,7 +30,9 @@ export class Result<T> {
    */
   protected getValue(): T {
     if (!this._isSuccess) {
-      throw new Error(`Cant retrieve the value from a failed result.`);
+      throw new Error(
+        `[Result]: Can't retrieve the value from a failed result. [Error]: ${this.error}`
+      );
     }
 
     return this._value;

@@ -81,9 +81,9 @@ export class SafeDate extends ValueObject<Date> {
       (validMax && date.getTime() > validMax.getValue().getTime())
     ) {
       return Result.fail(
-        `${this.prefix(options)}the given Date (${date}) must be in the interval [${
-          validMin ?? '*'
-        }, ${validMax ?? '*'}]!`
+        `${this.prefix(options)}the given Date (${date.toISOString()}) must be in the interval [${
+          validMin?.getValue().toISOString() ?? '*'
+        }, ${validMax?.getValue().toISOString() ?? '*'}]!`
       );
     }
 
@@ -122,7 +122,7 @@ export class SafeDate extends ValueObject<Date> {
   }
 
   static parseDottedFormat(value: Date | string | number): Date | string | number {
-    if (typeof value === 'string' && /\d\d.\d\d.\d\d\d\d/.test(value)) {
+    if (typeof value === 'string' && /\d\d\.\d\d\.\d\d\d\d/.test(value)) {
       const parts = value.split('.');
 
       return new Date(Date.UTC(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0])));
@@ -142,8 +142,8 @@ export class SafeDate extends ValueObject<Date> {
     return this.validate(value, options).convertTo((valid) => new SafeDate(valid));
   }
 
-  public static now(addMs: number = 0, options?: CreationOptions): Result<SafeDate> {
-    return SafeDate.create(new Date().getTime() + addMs, options);
+  public static now(addMs?: number, options?: CreationOptions): Result<SafeDate> {
+    return SafeDate.create(new Date().getTime() + (addMs ?? 0), options);
   }
 
   /**

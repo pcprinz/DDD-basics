@@ -1,5 +1,5 @@
 import { testValue } from '../basic/TestResult';
-import { SafeBoolean } from './../../src/valueObjects/SafeBoolean';
+import { SafeBoolean } from '../../src';
 
 test('create and validate', () => {
   const boolFalse = testValue(SafeBoolean.create(false));
@@ -28,7 +28,7 @@ test('create and validate', () => {
   );
 });
 
-test('list creation', () => {
+test('lists', () => {
   const boolSBList = testValue(SafeBoolean.fromList([false, true]));
   const boolValueList = SafeBoolean.toList(boolSBList);
   expect(boolValueList[0]).toBe(false);

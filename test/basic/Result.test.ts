@@ -19,11 +19,11 @@ describe('create', () => {
     expect(result.isSuccess()).toBeFalsy();
     expect(result.error).toStrictEqual('error message');
     expect(() => (result as TestResult<unknown>).getValue()).toThrow(
-      'Cant retrieve the value from a failed result.'
+      `[Result]: Can't retrieve the value from a failed result.`
     );
 
-    expect(() => Result.fail('')).toThrow(
-      'InvalidOperation: A failing result needs to contain an error message'
+    expect(() => Result.fail<string>('')).toThrow(
+      '[Result]: A failing result needs to contain an error message'
     );
   });
 });
