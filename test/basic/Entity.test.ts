@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid';
-import { Entity, Integer, NonEmptyString, NonEmptyStringOptions } from '../../src';
+import { Entity, Integer, NonEmptyString, NonEmptyStringOptions, OptionalString } from '../../src';
 import { Result } from '../../src/basic/Result';
+import { Identifier } from '../../src/valueObjects/string/Identifier';
 import { testValue } from './TestResult';
 
 test('create', () => {
@@ -84,7 +85,7 @@ class TestEntity extends Entity<{ testVal: Integer }> {
 class SpecialEntity extends Entity<{ special: Integer }> {
   static create(id: string) {
     return Result.combine({
-      id: NonEmptyString.create(id),
+      id: Identifier.create(id),
       special: Integer.create(69),
     }).convertTo((vp) => new this(vp));
   }
@@ -99,11 +100,6 @@ class BookTitle extends NonEmptyString {
   // required for clean creation
   public static create(title: string) {
     return super.create(title, BookTitle.options);
-  }
-
-  // optional if separate validation is needed:
-  public static validate(value: string) {
-    return super.validate(value, BookTitle.options);
   }
 }
 
@@ -121,7 +117,7 @@ type BookProps = {
 class Book extends Entity<BookProps> {
   public static create(isbn: string, title: string, amount: number = 0): Result<Book> {
     return Result.combine({
-      id: NonEmptyString.create(isbn, { name: 'Book.isbn [ID]' }),
+      id: Identifier.create(isbn, { name: 'Book.isbn [ID]' }),
       title: BookTitle.create(title),
       soldBooksAmount: SoldBooksAmount.create(amount),
     }).convertTo((validProps) => new this(validProps));
@@ -132,14 +128,14 @@ class Book extends Entity<BookProps> {
   }
 
   get soldBooksAmount() {
-    return this.props.soldBooksAmount;
+    return this.props.soldBooksAmount.value;
   }
 
   increaseSoldBooksAmount() {
-    SoldBooksAmount.create(this.soldBooksAmount.value + 1)
-      .onSuccess((value) => (this.props.soldBooksAmount = value))
+    SoldBooksAmount.create(this.soldBooksAmount + 1)
+      .onSuccess((newAmout) => (this.props.soldBooksAmount = newAmout))
       .onFail((error) => console.log('something strange happened: ' + error));
   }
 }
 
-const book = Book.create('2098', 'nseo ij');
+const book = Book.create('978-3-12-732320-7', 'How to create Entities');

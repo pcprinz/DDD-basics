@@ -113,6 +113,7 @@ export * from './numeric/IntegerString';
 export * from './numeric/NumericId';
 export * from './SafeBoolean';
 export * from './SafeDate';
+export * from './string/Identifier';
 export * from './string/NonEmptyString';
 export * from './string/OptionalString';
 export * from './ValueObject';
