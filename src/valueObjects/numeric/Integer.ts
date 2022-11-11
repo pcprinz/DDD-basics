@@ -1,4 +1,5 @@
-import { ListCreationOptions } from '../ValueObject';
+import { Result } from '../../basic/Result';
+import { ListCreationOptions, ValueObject } from '../ValueObject';
 import { Float, FloatOptions } from './Float';
 
 /** ### An Integer (`number` without decimal digits)
@@ -8,10 +9,10 @@ import { Float, FloatOptions } from './Float';
  * const roundInt = Integer.create(42.6, { round: 'floor' }); // a.value === 42
  * const rangeInt = Integer.create(42, { min: 12, max: 43 });
  *
- * @throws
- * - `TypeError` if not a valid integer
- * - `RangeError` if the value has not allowed decimal digits
- * - `RangeError` if the value is not inside the interval
+ * @fails
+ * - if not a valid integer
+ * - if the value has not allowed decimal digits
+ * - if the value is not inside the interval
  */
 export class Integer extends Float {
   protected constructor(value: number) {
@@ -28,17 +29,15 @@ export class Integer extends Float {
    * @param value to be validated as an integer with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws `TypeError` if not a valid integer
-   * @throws `RangeError` if the value has not allowed decimal digits
-   * @throws `RangeError` if the value is not inside the interval
+   * @fails if not a valid integer
+   * @fails if the value has not allowed decimal digits
+   * @fails if the value is not inside the interval
    */
-  public static validate(value: number, options?: IntegerOptions): number {
-    const converted = this.validateInteger(value, options);
-    if (options) {
-      this.validateInterval(converted, options);
-    }
-
-    return converted;
+  public static validate(value: number, options?: IntegerOptions): Result<number> {
+    return this.validateNumber(value, options).chain(
+      (valid) => this.validateIntegerAndRound(valid, options),
+      (valid) => this.validateInterval(valid, options)
+    );
   }
 
   /**
@@ -46,41 +45,38 @@ export class Integer extends Float {
    * @param value to be validated as a valid integer
    * @param options constraints the value has to fulfill
    * @returns the (possibly rounded) integer
-   * @throws `TypeError` if not a valid number
-   * @throws `RangeError` if the value has not allowed decimal digits
-   * @throws `TypeError` if round option incorrect
+   * @fails if the value has not allowed decimal digits
+   * @fails if the round option incorrect
    */
-  protected static validateInteger(value: number, options?: IntegerOptions): number {
-    this.validateNumber(value, options);
-    const converted = value;
+  protected static validateIntegerAndRound(
+    value: number,
+    options?: IntegerOptions
+  ): Result<number> {
     const round = options?.round ?? 'deny';
-    if (round !== undefined) {
-      switch (round) {
-        case 'ceil':
-          return Math.ceil(converted);
-        case 'floor':
-          return Math.floor(converted);
-        case 'round':
-          return Math.round(converted);
-        case 'deny':
-          if (converted % 1 !== 0) {
-            throw new RangeError(
-              `${this.prefix(
-                options
-              )}the given value (${converted}) must be an integer but has decimal places!`
-            );
-          }
-          break;
-        default:
-          throw new TypeError(
+    switch (round) {
+      case 'ceil':
+        return Result.ok(Math.ceil(value));
+      case 'floor':
+        return Result.ok(Math.floor(value));
+      case 'round':
+        return Result.ok(Math.round(value));
+      case 'deny':
+        if (value % 1 !== 0) {
+          return Result.fail(
             `${this.prefix(
               options
-            )}the given options.round (${round}: ${typeof round}) does not match 'floor' | 'ceil' | 'round' | 'deny'`
+            )}the given value (${value}) must be an integer but has decimal places!`
           );
-      }
+        } else {
+          return Result.ok(value); // value is already an integer
+        }
+      default:
+        return Result.fail(
+          `${this.prefix(
+            options
+          )}the given options.round (${round}: ${typeof round}) does not match 'floor' | 'ceil' | 'round' | 'deny'`
+        );
     }
-
-    return converted;
   }
 
   // CREATION ###################################################################################
@@ -90,8 +86,8 @@ export class Integer extends Float {
    * @param options constraints the value has to fulfill
    * @returns the created ValueObject
    */
-  public static create(value: number, options?: IntegerOptions): Integer {
-    return new Integer(this.validate(value, options));
+  public static create(value: number, options?: IntegerOptions): Result<Integer> {
+    return this.validate(value, options).convertTo((valid) => new Integer(valid));
   }
 
   /**
@@ -102,8 +98,8 @@ export class Integer extends Float {
   public static fromList(
     values: number[] | undefined,
     options?: IntegerOptions & ListCreationOptions
-  ): Integer[] {
-    return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
+  ): Result<Integer[]> {
+    return ValueObject.createList(values, (value) => this.create(value, options), options);
   }
 
   /**

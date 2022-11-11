@@ -22,7 +22,7 @@
  *
  * // @ domain B
  * handlerA.subscribe(S_NAME, CALLBACK)
- * 
+ *
  * // @ domain A
  * handlerA.dispatch(PAYLOAD)
  * ```

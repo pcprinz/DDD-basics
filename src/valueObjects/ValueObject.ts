@@ -1,4 +1,4 @@
-import { Serializable } from '../basic';
+import { Result } from '../basic/Result';
 
 /** ### A basic ValueObject that wraps a primitive value immutably and does validation on creation */
 export abstract class ValueObject<T> {
@@ -33,24 +33,16 @@ export abstract class ValueObject<T> {
     b: ValueObject<ValueType>[] | ValueType[]
   ): boolean {
     // lengths
-    if (a.length === 0 && b.length === 0) {
-      return true;
-    }
-    if (a.length !== b.length) {
-      return false;
-    }
+    if (a.length === 0 && b.length === 0) return true;
+    if (a.length !== b.length) return false;
 
     // elements
     for (let i = 0; i < a.length; i++) {
       const ai = a[i];
       const bi = b[i];
       // types
-      if (bi instanceof ValueObject && ai.constructor.name !== bi.constructor.name) {
-        return false;
-      }
-      if (!ai.equals(bi)) {
-        return false;
-      }
+      if (bi instanceof ValueObject && ai.constructor.name !== bi.constructor.name) return false;
+      if (!ai.equals(bi)) return false;
     }
 
     return true;
@@ -66,16 +58,16 @@ export abstract class ValueObject<T> {
   // VALIDATION #################################################################################
 
   /**
-   * constructs a prefix for possible error messages based on the ValueObjects name and an additional string:
-   * - example for NonEmptyString with `name='Person'`:
-   * ```typescript
-   * "Person > NonEmptyString"
-   * ```
+   * constructs a prefix for possible error messages based on the ValueObjects name and an additional string.
+   *
    * @param options the `CreationOptions` where the optional `name: string` is taken from
    * @param addition An additional name which will be added as `"name.addition"`
    * @returns the name of the ValueObject
+   * @example
+   * prefix({ name: 'Person' });                 // "Person > NonEmptyString"
+   * prefix({ name: 'Person' }, '(1-50 chars)'); // "Person > NonEmptyString(1-50 chars)"
    */
-  protected static prefix(options: CreationOptions | undefined, addition: string = ''): string {
+  protected static prefix(options: CreationOptions | undefined, addition?: string): string {
     const add = addition ? `.${addition}` : '';
     const name = options?.name ?? '';
     const fixedName = name.endsWith(': ') ? name.slice(0, -2) : name;
@@ -84,68 +76,102 @@ export abstract class ValueObject<T> {
     return `${fixedName + symbol + this.name + add}: `;
   }
 
-  /** @throws `RangeError` if the value is not inside the interval */
-  protected static validateInterval(
-    value: number | string,
-    options: IntervalCreationOptions
-  ): void {
+  /** @fails if the value is not inside the interval */
+  protected static validateInterval<Value = string | number>(
+    value: Value,
+    options?: IntervalCreationOptions
+  ): Result<Value> {
     const v = typeof value === 'string' ? value.length : value;
-    const str = typeof value === 'string' ? `string's length` : `number`;
+    const comparison = typeof value === 'string' ? `string's length` : `number`;
     if (options && ((options.min && v < options.min) || (options.max && v > options.max))) {
       const min = options.min ?? '-∞';
       const max = options.max ?? '∞';
-      throw new RangeError(
-        `${this.prefix(options)}the given ${str} (${v}) must be in the interval [${min}, ${max}]!`
-      );
-    }
-  }
-  /**
-   * @throws `TypeError` if list is undefined but must not be
-   * @throws `RangeError` if the list length not matching
-   */
-  protected static validateList<Primitive>(
-    list: Primitive[] | undefined,
-    options?: CreationOptions & ListCreationOptions
-  ): list is Primitive[] {
-    const pfx = this.prefix(options, 'fromList');
-    if (list == null) {
-      if (options?.forbidUndefined) {
-        throw new TypeError(`${pfx}list is undefined but forbidden as a valid input!`);
-      } else {
-        return false;
-      }
-    }
-    const lsz = options?.listSize;
-    if (!lsz) {
-      return true;
-    }
-    if (lsz.fix && lsz.max && lsz.max !== lsz.fix) {
-      throw new RangeError(
-        `${pfx}the list options have a fixed (${lsz.fix}) and a deviating max (${lsz.max}) listSize!`
-      );
-    }
-    if (lsz.fix && lsz.min && lsz.min !== lsz.fix) {
-      throw new RangeError(
-        `${pfx}the list options have a fixed (${lsz.fix}) and a deviating min (${lsz.min}) listSize!`
-      );
-    }
-    if (lsz.fix && list.length !== lsz.fix) {
-      throw new RangeError(
-        `${pfx}the given list must have ${lsz.fix} values, but has ${list.length}!`
-      );
-    }
-    if (lsz.min && list.length < lsz.min) {
-      throw new RangeError(
-        `${pfx}the given list must have at least ${lsz.min} values, but has ${list.length}!`
-      );
-    }
-    if (lsz.max && list.length > lsz.max) {
-      throw new RangeError(
-        `${pfx}the given list must not have more than ${lsz.max} values, but has ${list.length}!`
+
+      return Result.fail(
+        `${this.prefix(
+          options
+        )}the given ${comparison} (${v}) must be in the interval [${min}, ${max}]!`
       );
     }
 
-    return true;
+    return Result.ok(value);
+  }
+  /**
+   * @fails if list is undefined but must not be
+   * @fails if the list length not matching
+   */
+  protected static validateListSize<Primitive>(
+    list: Primitive[] | undefined,
+    options?: CreationOptions & ListCreationOptions
+  ): Result<Primitive[]> {
+    const pfx = this.prefix(options, 'fromList');
+    if (list == null) {
+      if (options?.forbidUndefined) {
+        return Result.fail(`${pfx}list is undefined but forbidden as a valid input!`);
+      } else {
+        return Result.ok([]);
+      }
+    }
+    const size = options?.listSize;
+    if (!size) return Result.ok(list);
+
+    if (size.fix && size.max && size.max !== size.fix) {
+      return Result.fail(
+        `${pfx}the list options have a fixed (${size.fix}) and a deviating max (${size.max}) listSize!`
+      );
+    }
+    if (size.fix && size.min && size.min !== size.fix) {
+      return Result.fail(
+        `${pfx}the list options have a fixed (${size.fix}) and a deviating min (${size.min}) listSize!`
+      );
+    }
+    if (size.fix && list.length !== size.fix) {
+      return Result.fail(
+        `${pfx}the given list must have ${size.fix} values, but has ${list.length}!`
+      );
+    }
+    if (size.min && list.length < size.min) {
+      return Result.fail(
+        `${pfx}the given list must have at least ${size.min} values, but has ${list.length}!`
+      );
+    }
+    if (size.max && list.length > size.max) {
+      return Result.fail(
+        `${pfx}the given list must not have more than ${size.max} values, but has ${list.length}!`
+      );
+    }
+
+    return Result.ok(list);
+  }
+
+  /**
+   * Verifies a list of values with the given list constraints (`options`) and creates a list of ValueObjects from it.
+   * The Results from the separate creation of ValueObjects intercepts the creation process if not successful.
+   *
+   * @param values to create a list of ValueObjects from
+   * @param createCallback to create a ValueObject from the provided value
+   * @param options to verify the list constraints
+   * @returns a list of ValueObject
+   * @fails if the list doesn't fulfill the list constraints from the given `options`
+   * @fails if one of the Results of the `createCallback` fails
+   */
+  protected static createList<Value, Created>(
+    values: Value[] | undefined,
+    createCallback: (value: Value) => Result<Created>,
+    options?: CreationOptions & ListCreationOptions
+  ): Result<Created[]> {
+    const validList = this.validateListSize(values, options);
+    if (!validList.isSuccess()) return Result.fail(validList.error);
+
+    const verified = [];
+    for (const value of validList.getValue()) {
+      const created = createCallback(value);
+      if (!created.isSuccess()) return Result.fail(created.error);
+
+      verified.push(created.getValue());
+    }
+
+    return Result.ok(verified);
   }
 }
 

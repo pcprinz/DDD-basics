@@ -1,22 +1,24 @@
+import { Result } from '../basic/Result';
 import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject';
 
 /** ### A Date that is definitely a Date
  *
  * ... that can be created from either a Date or a string that represents a Date,
- * or a number that represents the Time in ms. Every creation that the original JS `Date` offers is allowed.
+ * or a number that represents the time in ms.
+ * Every creation that the original JS `Date` offers is allowed.
  *
  * @example
  * const sd = SafeDate.create(new Date(), { name: 'NewSafeDate' });
- * const numericSd = SafeDate.create(1666945777309); // === 2022-10-28T08:29:37.309Z
+ * const numericSd = SafeDate.create(1666945777309); // ~ 2022-10-28T08:29:37.309Z
  * const stringSd = SafeDate.create('2022-10-28T08:29:37.309Z');
  * const rangeSd = SafeDate.create('2022-10-28T08:31:00.914Z', {
  *   min: '2022-10-14T00:00:00.000Z',
  *   max: '2022-11-01T00:00:00.000Z',
  * });
  *
- * @throws
- * - `TypeError` if not parsable to a valid Date
- * - `RangeError` if the value's length is not inside the interval
+ * @fails
+ * - if not parsable to a valid Date
+ * - if the Date is not inside the interval (between the given intervals' Dates)
  */
 export class SafeDate extends ValueObject<Date> {
   protected constructor(value: Date) {
@@ -24,18 +26,12 @@ export class SafeDate extends ValueObject<Date> {
   }
 
   public equals(obj: SafeDate | (Date | string | number)): boolean {
-    if (obj instanceof SafeDate) {
-      return obj.value.toJSON() === this._value.toJSON();
-    }
-    let comparable;
-    try {
-      comparable = SafeDate.create(obj, { name: 'SafeDate.equals' });
-    } catch (error) {
-      // definitely not equal
-      return false;
-    }
+    if (obj instanceof SafeDate) return obj.value.toJSON() === this._value.toJSON();
 
-    return comparable.value.toJSON() === this._value.toJSON();
+    const comparable = SafeDate.create(obj, { name: 'SafeDate.equals' });
+    if (!comparable.isSuccess()) return false;
+
+    return comparable.getValue().value.toJSON() === this._value.toJSON();
   }
 
   // VALIDATION #################################################################################
@@ -44,67 +40,81 @@ export class SafeDate extends ValueObject<Date> {
    * @param value to be validated as a valid Date
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws `TypeError` if not parsable to a valid Date
-   * @throws `RangeError` if the value's length is not inside the interval
+   * @fails if not parsable to a valid Date
+   * @fails if the Date is not inside the interval (between the given intervals' Dates)
+   * @fails if the given interval Dates are no valid (parsable) Dates
    */
-  public static validate(value: Date | string | number, options?: SafeDateOptions): Date {
+  public static validate(value: Date | string | number, options?: SafeDateOptions): Result<Date> {
     // safe date
-    const safeDate: Date = SafeDate.validateDate(value, options);
+    const validDate = SafeDate.validateDate(value, options);
+    if (!validDate.isSuccess()) return validDate;
 
     if (options) {
-      SafeDate.validateDateInterval(safeDate, options);
+      const validInterval = SafeDate.validateDateInterval(validDate.getValue(), options);
+      if (!validInterval.isSuccess()) return validInterval;
     }
 
-    return safeDate;
+    return Result.ok(validDate.getValue());
   }
 
   /**
-   *
    * @param date to be validated in the given date range
    * @param options constraints the value has to fulfill
+   * @fails if the Date is not inside the interval (between the given intervals' Dates)
+   * @fails if the given interval Dates are no valid (parsable) Dates
    */
-  private static validateDateInterval(date: Date, options: SafeDateOptions) {
-    const safeMin =
+  private static validateDateInterval(date: Date, options: SafeDateOptions): Result<Date> {
+    const validMin =
       options.min !== undefined
         ? this.validate(options.min, { name: `${options.name}.min` })
         : undefined;
-    const safeMax =
+    if (validMin && !validMin.isSuccess()) return validMin;
+
+    const validMax =
       options.max !== undefined
         ? this.validate(options.max, { name: `${options.name}.max` })
         : undefined;
+    if (validMax && !validMax.isSuccess()) return validMax;
+
     if (
-      (safeMin && date.getTime() < safeMin.getTime()) ||
-      (safeMax && date.getTime() > safeMax.getTime())
+      (validMin && date.getTime() < validMin.getValue().getTime()) ||
+      (validMax && date.getTime() > validMax.getValue().getTime())
     ) {
-      throw new RangeError(
-        `${this.prefix(options)}the given Date (${date}) must be in the interval [${
-          safeMin ?? '*'
-        }, ${safeMax ?? '*'}]!`
+      return Result.fail(
+        `${this.prefix(options)}the given Date (${date.toISOString()}) must be in the interval [${
+          validMin?.getValue().toISOString() ?? '*'
+        }, ${validMax?.getValue().toISOString() ?? '*'}]!`
       );
     }
+
+    return Result.ok(date);
   }
 
   /**
    * @param value to be validated as a parsable `Date`
    * @param options constraints the value has to fulfil
    * @returns the validated `Date`
-   * @throws `TypeError` if the value is not parsable
-   * @throws `TypeError` if the value is not a `Date | string | number`
+   * @fails if the value is not parsable
+   * @fails if the value is not a `Date | string | number`
    */
-  private static validateDate(value: Date | string | number, options?: SafeDateOptions): Date {
+  private static validateDate(
+    value: Date | string | number,
+    options?: SafeDateOptions
+  ): Result<Date> {
     value = this.parseDottedFormat(value);
     if (typeof value === 'string' || typeof value === 'number') {
       if (typeof value === 'string' ? isNaN(Date.parse(value)) : isNaN(value)) {
-        throw new TypeError(
+        return Result.fail(
           `${this.prefix(options)}the given (${value}: ${typeof value}) is not parsable!`
         );
       } else {
-        return new Date(value);
+        return Result.ok(new Date(value));
       }
     } else if (value instanceof Date) {
-      return value;
+      return Result.ok(value);
     }
-    throw new TypeError(
+
+    return Result.fail(
       `${this.prefix(
         options
       )}the given (${value}: ${typeof value}) is whether a Date nor a string | number!`
@@ -112,7 +122,7 @@ export class SafeDate extends ValueObject<Date> {
   }
 
   static parseDottedFormat(value: Date | string | number): Date | string | number {
-    if (typeof value === 'string' && /\d\d.\d\d.\d\d\d\d/.test(value)) {
+    if (typeof value === 'string' && /\d\d\.\d\d\.\d\d\d\d/.test(value)) {
       const parts = value.split('.');
 
       return new Date(Date.UTC(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0])));
@@ -128,12 +138,12 @@ export class SafeDate extends ValueObject<Date> {
    * @param options for the creation
    * @returns the created ValueObject
    */
-  public static create(value: Date | string | number, options?: SafeDateOptions): SafeDate {
-    return new SafeDate(this.validate(value, options));
+  public static create(value: Date | string | number, options?: SafeDateOptions): Result<SafeDate> {
+    return this.validate(value, options).convertTo((valid) => new SafeDate(valid));
   }
 
-  public static now(addMs: number = 0, options?: CreationOptions): SafeDate {
-    return SafeDate.create(new Date().getTime() + addMs, options);
+  public static now(addMs?: number, options?: CreationOptions): Result<SafeDate> {
+    return SafeDate.create(new Date().getTime() + (addMs ?? 0), options);
   }
 
   /**
@@ -144,8 +154,8 @@ export class SafeDate extends ValueObject<Date> {
   public static fromList(
     values: (Date | string | number)[] | undefined,
     options?: SafeDateOptions & ListCreationOptions
-  ): SafeDate[] {
-    return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
+  ): Result<SafeDate[]> {
+    return ValueObject.createList(values, (value) => this.create(value, options), options);
   }
 
   /**
@@ -156,10 +166,9 @@ export class SafeDate extends ValueObject<Date> {
     return values.map((pi) => pi.value);
   }
 
-  /* @ts-ignore */
   toJSON() {
     // TODO it works but check why this can't be the super.toJSON()
-    return this._value.toJSON();
+    return this._value.toJSON() as any;
   }
 }
 

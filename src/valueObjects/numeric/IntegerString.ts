@@ -1,4 +1,5 @@
-import { ListCreationOptions } from '../ValueObject';
+import { Result } from '../../basic/Result';
+import { ListCreationOptions, ValueObject } from '../ValueObject';
 import { Integer, IntegerOptions } from './Integer';
 
 /** ### An Integer (`number` without decimal digits) that can also be created from a string representation of an integer
@@ -12,10 +13,10 @@ import { Integer, IntegerOptions } from './Integer';
  * const roundIs2 = IntegerString.create('42.6', { round: 'floor' });
  * const rangeIs2 = IntegerString.create('42', { min: 12, max: 43 });
  *
- * @throws
- * - `TypeError` if not a parsable integer
- * - `RangeError` if the value has not allowed decimal digits
- * - `RangeError` if the value is not inside the interval
+ * @fails
+ * - if not a parsable integer
+ * - if the value has not allowed decimal digits
+ * - if the value is not inside the interval
  */
 export class IntegerString extends Integer {
   protected constructor(value: number) {
@@ -35,39 +36,40 @@ export class IntegerString extends Integer {
    * @param value to be validated as an integer with the corresponding constraints (options)
    * @param options constraints the value has to fulfill
    * @returns the value if the validation was successful
-   * @throws `TypeError` if not a parsable integer
-   * @throws `RangeError` if the value has not allowed decimal digits
-   * @throws `RangeError` if the value is not inside the interval
+   * @fails if not a parsable integer
+   * @fails if the value has not allowed decimal digits
+   * @fails if the value is not inside the interval
    */
-  public static validate(value: number | string, options?: IntegerStringOptions): number {
-    const converted = this.validateIntegerString(value, options);
-
-    return super.validate(converted, options);
+  public static validate(value: number | string, options?: IntegerStringOptions): Result<number> {
+    return this.validateIntegerString(value, options).chain((valid) =>
+      super.validate(valid, options)
+    );
   }
 
   /**
    * @param value to be validated as a valid integer / string representation of an integer
    * @param options constraints the value has to fulfill
    * @returns the (possibly parsed) integer (`number`)
-   * @throws `TypeError` if the value is not a parsable number
+   * @fails if the value is not a parsable number
    */
   protected static validateIntegerString(
     value: number | string,
     options?: IntegerStringOptions
-  ): number {
+  ): Result<number> {
     if (typeof value !== 'number') {
-      if (isNaN(this.parse(value))) {
-        throw new TypeError(
+      const parsed = this.parse(value);
+      if (isNaN(parsed)) {
+        return Result.fail(
           `${this.prefix(
             options
           )}the given value (${value}: ${typeof value}) has to be a number or a string representing a number!`
         );
       }
 
-      return this.parse(value);
+      return Result.ok(parsed);
     }
 
-    return value;
+    return Result.ok(value);
   }
 
   /**
@@ -86,8 +88,11 @@ export class IntegerString extends Integer {
    * @param options constraints the value has to fulfill
    * @returns the created ValueObject
    */
-  public static create(value: number | string, options?: IntegerStringOptions): IntegerString {
-    return new IntegerString(this.validate(value, options));
+  public static create(
+    value: number | string,
+    options?: IntegerStringOptions
+  ): Result<IntegerString> {
+    return this.validate(value, options).convertTo((valid) => new IntegerString(valid));
   }
 
   /**
@@ -98,8 +103,8 @@ export class IntegerString extends Integer {
   public static fromList(
     values: (number | string)[] | undefined,
     options?: IntegerStringOptions & ListCreationOptions
-  ): IntegerString[] {
-    return this.validateList(values, options) ? values.map((val) => this.create(val, options)) : [];
+  ): Result<IntegerString[]> {
+    return ValueObject.createList(values, (value) => this.create(value, options), options);
   }
 
   /**
