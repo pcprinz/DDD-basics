@@ -8,6 +8,8 @@ test('toJSON', () => {
   expect(jsoned.age).toStrictEqual(98);
 });
 
+// ----------------------- TEST DATA -----------------------
+
 class TestSerializable extends Serializable {
   id = '234907';
   _name = 'should';

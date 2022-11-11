@@ -58,16 +58,16 @@ export abstract class ValueObject<T> {
   // VALIDATION #################################################################################
 
   /**
-   * constructs a prefix for possible error messages based on the ValueObjects name and an additional string:
-   * - example for NonEmptyString with `name='Person'`:
-   * ```typescript
-   * "Person > NonEmptyString"
-   * ```
+   * constructs a prefix for possible error messages based on the ValueObjects name and an additional string.
+   *
    * @param options the `CreationOptions` where the optional `name: string` is taken from
    * @param addition An additional name which will be added as `"name.addition"`
    * @returns the name of the ValueObject
+   * @example
+   * prefix({ name: 'Person' });                 // "Person > NonEmptyString"
+   * prefix({ name: 'Person' }, '(1-50 chars)'); // "Person > NonEmptyString(1-50 chars)"
    */
-  protected static prefix(options: CreationOptions | undefined, addition: string = ''): string {
+  protected static prefix(options: CreationOptions | undefined, addition?: string): string {
     const add = addition ? `.${addition}` : '';
     const name = options?.name ?? '';
     const fixedName = name.endsWith(': ') ? name.slice(0, -2) : name;

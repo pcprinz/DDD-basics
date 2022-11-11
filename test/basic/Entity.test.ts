@@ -71,6 +71,8 @@ test('toJSON', () => {
   expect(jsoned.special).toStrictEqual(69);
 });
 
+// ----------------------- TEST DATA -----------------------
+
 class TestEntity extends Entity<{ testVal: Integer }> {
   static create(id?: string) {
     return Result.combine({
@@ -88,7 +90,7 @@ class SpecialEntity extends Entity<{ special: Integer }> {
   }
 }
 
-// playground
+// ----------------------- PLAYGROUND -----------------------
 
 class BookTitle extends NonEmptyString {
   // recommended to access the options
