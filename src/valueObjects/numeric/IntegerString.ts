@@ -1,5 +1,5 @@
-import { Result } from '../../basic/Result';
-import { ListCreationOptions, ValueObject } from '../ValueObject';
+import { Result } from '../../basic';
+import { ListCreationOptions } from '../ValueObject';
 import { Integer, IntegerOptions } from './Integer';
 
 /** ### An Integer (`number` without decimal digits) that can also be created from a string representation of an integer

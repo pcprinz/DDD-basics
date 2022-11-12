@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { Result } from '../../basic/Result';
+import { Result } from '../../basic';
 import { ListCreationOptions, ValueObject } from '../ValueObject';
 import { NonEmptyString } from './NonEmptyString';
 import { OptionalStringOptions } from './OptionalString';

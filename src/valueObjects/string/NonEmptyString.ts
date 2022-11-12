@@ -1,4 +1,4 @@
-import { Result } from '../../basic/Result';
+import { Result } from '../../basic';
 import { ListCreationOptions, ValueObject } from '../ValueObject';
 import { OptionalString, OptionalStringOptions } from './OptionalString';
 

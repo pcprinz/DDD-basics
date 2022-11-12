@@ -1,5 +1,4 @@
 import { Identifier, ValueObject } from '../valueObjects';
-import { Serializable } from './Serializable';
 
 /** ### An abstract Entity with an `id`, which can be serialized to its private attributes
  * - Entities are usually things that are characterized by something concrete and not by a property.

@@ -1,4 +1,4 @@
-import { Result } from '../basic/Result';
+import { Result } from '../basic';
 import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject';
 
 /** ### A Boolean that is definitely a Boolean that (with options) can be undefined or a string

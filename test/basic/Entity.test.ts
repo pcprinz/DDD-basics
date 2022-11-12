@@ -1,7 +1,12 @@
 import { v4 as uuid } from 'uuid';
-import { Entity, Integer, NonEmptyString, NonEmptyStringOptions } from '../../src';
-import { Result } from '../../src/basic/Result';
-import { Identifier } from '../../src/valueObjects/string/Identifier';
+import {
+  Entity,
+  Integer,
+  Result,
+  NonEmptyString,
+  Identifier,
+  NonEmptyStringOptions,
+} from '../../src';
 import { testValue } from './TestResult';
 
 test('create', () => {

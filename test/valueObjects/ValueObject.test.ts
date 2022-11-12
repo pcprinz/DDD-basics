@@ -1,10 +1,10 @@
-import { Result } from '../../src/basic/Result';
 import {
   CreationOptions,
   IntervalCreationOptions,
   ListCreationOptions,
+  Result,
   ValueObject,
-} from '../../src/valueObjects';
+} from '../../src';
 import { TestResult } from '../basic/TestResult';
 
 test('construction', () => {

@@ -1,5 +1,5 @@
 /** @module ValueObjects.PlainDate */
-import { Result } from '../../basic/Result';
+import { Result } from '../../from '../basic';
 import { Integer } from '../numeric/Integer';
 import { CreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 

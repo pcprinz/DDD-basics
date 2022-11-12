@@ -1,4 +1,4 @@
-import { Result } from '../../basic/Result';
+import { Result } from '../../basic';
 import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
 /** ### A String that can be also created from either `""` or `undefined`

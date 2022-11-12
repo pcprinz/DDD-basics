@@ -1,5 +1,5 @@
 import { SafeDate } from '../../src';
-import { testValue } from '../basic/TestResult';
+import {testValue} from '../basic/TestResult';
 
 const expected = '2022-11-11T00:00:00.000Z';
 

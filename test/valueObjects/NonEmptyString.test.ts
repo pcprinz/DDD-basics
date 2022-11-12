@@ -1,4 +1,4 @@
-import { NonEmptyString } from '../../src/valueObjects';
+import { NonEmptyString } from '../../src';
 
 test('create and validate', () => {
   NonEmptyString.create('foo', { range: ['foo', 'bar'] });

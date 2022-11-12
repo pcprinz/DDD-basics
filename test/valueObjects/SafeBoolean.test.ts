@@ -1,5 +1,5 @@
-import { testValue } from '../basic/TestResult';
 import { SafeBoolean } from '../../src';
+import { testValue } from '../basic/TestResult';
 
 test('create and validate', () => {
   const boolFalse = testValue(SafeBoolean.create(false));

@@ -1,4 +1,4 @@
-import { Result } from '../basic/Result';
+import { Result } from '../basic';
 import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject';
 
 /** ### A Date that is definitely a Date

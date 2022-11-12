@@ -1,4 +1,4 @@
-import { Result } from '../../src/basic/Result';
+import { Result } from '../../src';
 
 export class TestResult<T> extends Result<T> {
   static ok<U>(value?: U): TestResult<U> {

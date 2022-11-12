@@ -1,4 +1,4 @@
-import { Result } from '../basic/Result';
+import { Result } from '../basic';
 
 /** ### A basic ValueObject that wraps a primitive value immutably and does validation on creation */
 export abstract class ValueObject<T> {

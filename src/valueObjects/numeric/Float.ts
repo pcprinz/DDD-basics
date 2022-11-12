@@ -1,4 +1,4 @@
-import { Result } from '../../basic/Result';
+import { Result } from '../../basic';
 import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 
 /** ### A floating point number

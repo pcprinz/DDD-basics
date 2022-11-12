@@ -1,5 +1,6 @@
-import { Result } from '../../src/basic/Result';
-import { TestResult } from './TestResult';
+import {Result} from "../../src";
+import {TestResult} from "./TestResult";
+
 
 // THE TESTS
 describe('create', () => {
