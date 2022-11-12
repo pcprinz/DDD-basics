@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { Entity, Integer, NonEmptyString, NonEmptyStringOptions, OptionalString } from '../../src';
+import { Entity, Integer, NonEmptyString, NonEmptyStringOptions } from '../../src';
 import { Result } from '../../src/basic/Result';
 import { Identifier } from '../../src/valueObjects/string/Identifier';
 import { testValue } from './TestResult';
@@ -46,14 +46,12 @@ test('equals', () => {
   const entityWithoutId = testValue(TestEntity.create());
 
   const referencedEntity = entityWithoutId;
-  const jsonEntity = entityWithGivenId.toJSON();
   const copiedEntity = JSON.parse(JSON.stringify(entityWithGivenId));
   const recreatedEntity = testValue(TestEntity.create(entityWithoutId.id));
 
   // equals
   expect(referencedEntity.equals(entityWithoutId)).toBeTruthy();
   expect(referencedEntity.equals(entityWithGivenId)).toBeFalsy();
-  expect(jsonEntity.equals).toBeUndefined();
   expect(copiedEntity.equals).toBeUndefined();
   expect(recreatedEntity.equals(entityWithGivenId)).toBeFalsy();
   expect(recreatedEntity.equals(entityWithoutId)).toBeTruthy();
@@ -70,6 +68,9 @@ test('toJSON', () => {
   expect(jsoned.id).toStrictEqual('1234');
   expect(jsoned.special).toBeDefined();
   expect(jsoned.special).toStrictEqual(69);
+  expect(JSON.stringify(testValue(TestEntity.create('kjdo2')))).toStrictEqual(
+    `{"id":"kjdo2","testVal":42}`
+  );
 });
 
 // ----------------------- TEST DATA -----------------------

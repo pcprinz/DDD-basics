@@ -62,17 +62,16 @@ import { Serializable } from './Serializable';
  * }
  * ```
  */
-export abstract class Entity<T extends EntityPropsType> extends Serializable {
+export abstract class Entity<T extends EntityPropsType> {
   protected readonly _id: Identifier;
   protected props: T;
 
   protected constructor(props: T & { id: Identifier }) {
-    super();
     this._id = props.id;
     this.props = props;
   }
 
-  /** The identifier of this Entity is an internal `Identifier` */
+  /** The id of this Entity is an internal `Identifier` */
   public get id() {
     return this._id.value;
   }
@@ -99,9 +98,9 @@ export abstract class Entity<T extends EntityPropsType> extends Serializable {
     return value instanceof Entity<T>;
   }
 
-  toJSON(): Record<any, any> {
+  toJSON(): T & { id: Identifier } {
     return {
-      id: this.id,
+      id: this._id,
       ...this.props,
     };
   }

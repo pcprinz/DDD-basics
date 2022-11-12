@@ -8,13 +8,18 @@ import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject
  * Every creation that the original JS `Date` offers is allowed.
  *
  * @example
- * const sd = SafeDate.create(new Date(), { name: 'NewSafeDate' });
+ * const sd        = SafeDate.create(new Date(), { name: 'NewSafeDate' });
  * const numericSd = SafeDate.create(1666945777309); // ~ 2022-10-28T08:29:37.309Z
- * const stringSd = SafeDate.create('2022-10-28T08:29:37.309Z');
- * const rangeSd = SafeDate.create('2022-10-28T08:31:00.914Z', {
+ * const stringSd  = SafeDate.create('2022-10-28T08:29:37.309Z');
+ * const rangeSd   = SafeDate.create('2022-10-28T08:31:00.914Z', {
  *   min: '2022-10-14T00:00:00.000Z',
  *   max: '2022-11-01T00:00:00.000Z',
  * });
+ *
+ * // extract the Result:
+ * if (sd.isSuccess()) {
+ *   console.log(sd.getValue()) // SafeDate { _value: 2022-11-12T19:07:11.939Z }
+ * }
  *
  * @fails
  * - if not parsable to a valid Date
@@ -134,9 +139,9 @@ export class SafeDate extends ValueObject<Date> {
   // CREATION #################################################################################
 
   /**
-   * @param value to create a PositiveIntegerString from
-   * @param options for the creation
-   * @returns the created ValueObject
+   * @param value to create a SafeDate of
+   * @param options constraints the value has to fulfill
+   * @returns a `Result` with the created SafeDate
    */
   public static create(value: Date | string | number, options?: SafeDateOptions): Result<SafeDate> {
     return this.validate(value, options).convertTo((valid) => new SafeDate(valid));
@@ -147,9 +152,9 @@ export class SafeDate extends ValueObject<Date> {
   }
 
   /**
-   * @param values an array of strings to map to an array of ValueObjects
-   * @param options for the **individual** creation
-   * @returns the array of ValueObjects
+   * @param values an array of strings to map to an array of SafeDates
+   * @param options constraints the values / list has to fulfill
+   * @returns a `Result` with an array of created SafeDates
    */
   public static fromList(
     values: (Date | string | number)[] | undefined,
@@ -159,7 +164,7 @@ export class SafeDate extends ValueObject<Date> {
   }
 
   /**
-   * @param values an array of ValueObjects to map to an array of their values
+   * @param values an array of SafeDates to map to an array of their values
    * @returns the array of values
    */
   public static toList(values: SafeDate[]): Date[] {

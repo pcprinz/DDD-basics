@@ -6,8 +6,13 @@ import { Integer } from './Integer';
  * which will not accept and parse floating point numbers.
  *
  * @example
- * const ni = NumericId.create(11, {name: 'MyID'});
- * const maxNi = NumericId.create(420, {max: 421});
+ * const numId    = NumericId.create(11, {name: 'MyID'});
+ * const maxNumId = NumericId.create(420, {max: 421});
+ *
+ * // extract the Result:
+ * if (numId.isSuccess()) {
+ *   console.log(numId.getValue()) // NumericId { _value: 11 }
+ * }
  *
  * @fails
  * - if not a valid integer
@@ -40,18 +45,18 @@ export class NumericId extends Integer {
   // CREATION ###################################################################################
 
   /**
-   * @param value to create the ValueObject of
+   * @param value to create the NumericId of
    * @param options constraints the value has to fulfill
-   * @returns the created ValueObject
+   * @returns a `Result` with the created NumericId
    */
   public static create(value: number, options?: NumericIdOptions): Result<NumericId> {
     return this.validate(value, options).convertTo((valid) => new NumericId(valid));
   }
 
   /**
-   * @param values an array of primitives to map to an array of ValueObjects
+   * @param values an array of primitives to map to an array of NumericIds
    * @param options constraints the values / list has to fulfill
-   * @returns the array of ValueObjects
+   * @returns a `Result` with an array of created NumericIds
    */
   public static fromList(
     values: number[] | undefined,
@@ -61,7 +66,7 @@ export class NumericId extends Integer {
   }
 
   /**
-   * @param values an array of ValueObjects to map to an array of their values
+   * @param values an array of NumericIds to map to an array of their values
    * @returns the array of values
    */
   public static toList(values: NumericId[]): number[] {

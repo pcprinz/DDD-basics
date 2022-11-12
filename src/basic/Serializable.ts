@@ -25,7 +25,10 @@ export abstract class Serializable {
    *
    * @returns an object containing all private attributes
    */
-  toJSON(): Record<any, any> {
+  toJSON<Key extends keyof this, Value extends this[Key]>(): Record<
+    Key extends `_${infer X}` ? X : never,
+    Value
+  > {
     const result: Record<any, any> = {};
     for (const property of Object.keys(this)) {
       // copy only property slots with underscore prefix

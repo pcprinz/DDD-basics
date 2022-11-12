@@ -5,12 +5,17 @@ import { Float, FloatOptions } from './Float';
 /** ### A floating point number that can also be created from a string representation of a floating point number
  *
  * @example
- * const mi = FloatString.create(42.69, { name: 'MyFloat' }); // a.value === 42.69
- * const mi2 = FloatString.create(42, { name: 'MyFloat2' });
- * const mi3 = FloatString.create(21.4, { name: 'MyFloat3', min: 12.1, max: 41.9 });
- * const stringMi = FloatString.create('42.69', { name: 'MyFloat' });
- * const stringMi2 = FloatString.create('42', { name: 'MyFloat2' });
- * const stringMi3 = FloatString.create('21.4', { name: 'MyFloat3', min: 12.1, max: 41.9 });
+ * const floatString1      = FloatString.create(42.69, { name: 'MyFloat' });
+ * const intFloatString1   = FloatString.create(42);
+ * const rangeFloatString1 = FloatString.create(21.4, { min: 12.1, max: 41.9 });
+ * const floatString2      = FloatString.create('42.69');
+ * const intFloatString2   = FloatString.create('42');
+ * const rangeFloatString2 = FloatString.create('21.4', { min: 12.1, max: 41.9 });
+ *
+ * // extract the Result:
+ * if (floatString2.isSuccess()) {
+ *   console.log(floatString2.getValue()) // FloatString { _value: 42.69 }
+ * }
  *
  * @fails
  * - if the value is not a parsable number
@@ -81,18 +86,18 @@ export class FloatString extends Float {
   // CREATION ###################################################################################
 
   /**
-   * @param value to create the ValueObject of
+   * @param value to create the FloatString of
    * @param options constraints the value has to fulfill
-   * @returns the created ValueObject
+   * @returns a `Result` with the created FloatString
    */
   public static create(value: number | string, options?: FloatStringOptions): Result<FloatString> {
     return this.validate(value, options).convertTo((valid) => new FloatString(valid));
   }
 
   /**
-   * @param values an array of primitives to map to an array of ValueObjects
+   * @param values an array of primitives to map to an array of FloatStrings
    * @param options constraints the values / list has to fulfill
-   * @returns the array of ValueObjects
+   * @returns a `Result` with an array of created FloatStrings
    */
   public static fromList(
     values: (number | string)[] | undefined,
@@ -102,7 +107,7 @@ export class FloatString extends Float {
   }
 
   /**
-   * @param values an array of ValueObjects to map to an array of their values
+   * @param values an array of FloatStrings to map to an array of their values
    * @returns the array of values
    */
   public static toList(values: FloatString[]): number[] {

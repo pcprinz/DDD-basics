@@ -3,18 +3,24 @@ import { ListCreationOptions, ValueObject } from '../ValueObject';
 import { OptionalString, OptionalStringOptions } from './OptionalString';
 
 /** ### A String that is definitely a String that is not empty
+ *
  * @example
- * const nes = NonEmptyString.create('foo', { name: 'MyNES' });
+ * const nes      = NonEmptyString.create('foo', { name: 'MyNES' });
  * const rangeNes = NonEmptyString.create('bar', { range: ['foo', 'bar', 'baz'] });
  * enum myEnum {
  *   'foo',
  *   'bar',
  *   'baz',
  * }
- * const enumNes = NonEmptyString.create('baz', { range: myEnum });
+ * const enumNes  = NonEmptyString.create('baz', { range: myEnum });
  * const enumNes2 = NonEmptyString.create(myEnum.baz, { range: myEnum });
- * const sizeNes = NonEmptyString.create('long_enough', { min: 3, max: 69 });
+ * const sizeNes  = NonEmptyString.create('long_enough', { min: 3, max: 69 });
  * const regexNes = NonEmptyString.create('foo', { regex: /oo/ });
+ *
+ * // extract the Result:
+ * if (nes.isSuccess()) {
+ *   console.log(nes.getValue()) // NonEmptyString { _value: 'foo' }
+ * }
  *
  * @fails
  * - if not a string or empty
@@ -103,18 +109,18 @@ export class NonEmptyString extends OptionalString {
   // CREATION ###################################################################################
 
   /**
-   * @param value to create the ValueObject of
+   * @param value to create the NonEmptyString of
    * @param options constraints the value has to fulfill
-   * @returns the created ValueObject
+   * @returns a `Result` with the created NonEmptyString
    */
   public static create(value: string, options?: NonEmptyStringOptions): Result<NonEmptyString> {
     return this.validate(value, options).convertTo((valid) => new NonEmptyString(valid));
   }
 
   /**
-   * @param values an array of primitives to map to an array of ValueObjects
+   * @param values an array of primitives to map to an array of NonEmptyStrings
    * @param options constraints the values / list has to fulfill
-   * @returns the array of ValueObjects
+   * @returns a `Result` with an array of created NonEmptyStrings
    */
   public static fromList(
     values: string[] | undefined,
@@ -124,7 +130,7 @@ export class NonEmptyString extends OptionalString {
   }
 
   /**
-   * @param values an array of ValueObjects to map to an array of their values
+   * @param values an array of NonEmptyStrings to map to an array of their values
    * @returns the array of values
    */
   public static toList(values: NonEmptyString[]): string[] {

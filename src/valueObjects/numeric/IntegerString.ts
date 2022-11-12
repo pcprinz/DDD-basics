@@ -6,12 +6,17 @@ import { Integer, IntegerOptions } from './Integer';
  * - this is an extension of `Integer`, so you can also create from `number`s
  *
  * @example
- * const is = IntegerString.create(42, { name: 'MyInteger' }); // a.value === 42
- * const roundIs = IntegerString.create(42.6, { round: 'floor' }); // a.value === 42
- * const rangeIs = IntegerString.create(42, { min: 12, max: 43 });
- * const is2 = IntegerString.create('42', { name: 'MyInteger' });
- * const roundIs2 = IntegerString.create('42.6', { round: 'floor' });
- * const rangeIs2 = IntegerString.create('42', { min: 12, max: 43 });
+ * const intString1      = IntegerString.create(42, { name: 'MyInteger' });
+ * const roundIntString1 = IntegerString.create(42.6, { round: 'floor' });
+ * const rangeIntString1 = IntegerString.create(42, { min: 12, max: 43 });
+ * const intString2      = IntegerString.create('42', { name: 'MyInteger' });
+ * const roundIntString2 = IntegerString.create('42.6', { round: 'floor' });
+ * const rangeIntString2 = IntegerString.create('42', { min: 12, max: 43 });
+ *
+ * // extract the Result:
+ * if (intString2.isSuccess()) {
+ *   console.log(intString2.getValue()) // IntegerString { _value: 42 }
+ * }
  *
  * @fails
  * - if not a parsable integer
@@ -84,9 +89,9 @@ export class IntegerString extends Integer {
   // CREATION ###################################################################################
 
   /**
-   * @param value to create the ValueObject of
+   * @param value to create the IntegerString of
    * @param options constraints the value has to fulfill
-   * @returns the created ValueObject
+   * @returns a `Result` with the created IntegerString
    */
   public static create(
     value: number | string,
@@ -96,19 +101,19 @@ export class IntegerString extends Integer {
   }
 
   /**
-   * @param values an array of primitives to map to an array of ValueObjects
+   * @param values an array of primitives to map to an array of IntegerStrings
    * @param options constraints the values / list has to fulfill
-   * @returns the array of ValueObjects
+   * @returns a `Result` with an array of created IntegerStrings
    */
   public static fromList(
     values: (number | string)[] | undefined,
     options?: IntegerStringOptions & ListCreationOptions
   ): Result<IntegerString[]> {
-    return ValueObject.createList(values, (value) => this.create(value, options), options);
+    return IntegerString.createList(values, (value) => this.create(value, options), options);
   }
 
   /**
-   * @param values an array of ValueObjects to map to an array of their values
+   * @param values an array of IntegerStrings to map to an array of their values
    * @returns the array of values
    */
   public static toList(values: IntegerString[]): number[] {

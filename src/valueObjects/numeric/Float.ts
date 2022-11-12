@@ -4,9 +4,14 @@ import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../Va
 /** ### A floating point number
  *
  * @example
- * const mi = Float.create(42.69, { name: 'MyFloat' }); // a.value === 42.69
- * const mi2 = Float.create(42, { name: 'MyFloat2' });
- * const mi3 = Float.create(21.4, { name: 'MyFloat3', min: 12.1, max: 41.9 });
+ * const float1     = Float.create(42.69, { name: 'MyFloat' });
+ * const intFloat   = Float.create(42);
+ * const rangeFloat = Float.create(21.4, { min: 12.1, max: 41.9 });
+ *
+ * // extract the Result:
+ * if (float1.isSuccess()) {
+ *   console.log(float1.getValue()) // Float { _value: 42.69 }
+ * }
  *
  * @fails
  * - if not a valid number
@@ -59,18 +64,18 @@ export class Float extends ValueObject<number> {
   // CREATION ###################################################################################
 
   /**
-   * @param value to create the ValueObject of
+   * @param value to create the Float of
    * @param options constraints the value has to fulfill
-   * @returns the created ValueObject
+   * @returns a `Result` with the created Float
    */
   public static create(value: number, options?: FloatOptions): Result<Float> {
     return this.validate(value, options).convertTo((valid) => new Float(valid));
   }
 
   /**
-   * @param values an array of primitives to map to an array of ValueObjects
+   * @param values an array of primitives to map to an array of Floats
    * @param options constraints the values / list has to fulfill
-   * @returns the array of ValueObjects
+   * @returns a `Result` with an array of created Floats
    */
   public static fromList(
     values: number[] | undefined,
@@ -80,7 +85,7 @@ export class Float extends ValueObject<number> {
   }
 
   /**
-   * @param values an array of ValueObjects to map to an array of their values
+   * @param values an array of Floats to map to an array of their values
    * @returns the array of values
    */
   public static toList(values: Float[]): number[] {

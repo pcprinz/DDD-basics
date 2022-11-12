@@ -5,9 +5,14 @@ import { NonEmptyString } from './NonEmptyString';
 import { OptionalStringOptions } from './OptionalString';
 /** ### An Identifier used for Entitied
  * @example
- * const id = Identifier.create('foo', { name: 'MyID' });
- * const sizeId = Identifier.create('long_enough', { min: 3, max: 69 });
+ * const id      = Identifier.create('foo', { name: 'MyID' });
+ * const sizeId  = Identifier.create('long_enough', { min: 3, max: 69 });
  * const regexId = Identifier.create('foo', { regex: /oo/ });
+ *
+ * // extract the Result:
+ * if (id.isSuccess()) {
+ *   console.log(id.getValue()) // Identifier { _value: 'foo' }
+ * }
  *
  * @fails
  * - if the value is not a string or empty
@@ -19,18 +24,19 @@ export class Identifier extends NonEmptyString {
    * Creates an Identifier (`NonEmptyString`) from the given `id`.
    *
    * **If no id is given, a new uuid (v4) will be used!**
-   * @param value to create the ValueObject of
+   *
+   * @param value to create the Identifier of
    * @param options constraints for the structure of the string
-   * @returns the created Identifier
+   * @returns a `Result` with the created Identifier
    */
   public static create(id?: string, options?: IdentifierOptions): Result<Identifier> {
     return this.validate(id ?? uuid(), options).convertTo((valid) => new Identifier(valid));
   }
 
   /**
-   * @param values an array of primitives to map to an array of ValueObjects
+   * @param values an array of primitives to map to an array of Identifiers
    * @param options constraints the values / list has to fulfill
-   * @returns the array of ValueObjects
+   * @returns a `Result` with an array of created Identifiers
    */
   public static fromList(
     values: string[] | undefined,
@@ -40,7 +46,7 @@ export class Identifier extends NonEmptyString {
   }
 
   /**
-   * @param values an array of ValueObjects to map to an array of their values
+   * @param values an array of Identifiers to map to an array of their values
    * @returns the array of values
    */
   public static toList(values: Identifier[]): string[] {

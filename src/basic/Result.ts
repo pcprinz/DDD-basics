@@ -1,9 +1,12 @@
 /** ### The Result of a validation, either successful or failed.
- * - `isSuccess` => has a value (`getValue()`)
- * - `isFailure` => has an `error`(string) and `throws Error` when `getValue()`is called
+ * - `isSuccess`  => has a value (`getValue()`)
+ * - `!isSuccess` => has an `error`(string) and `throws Error` when `getValue()` is called
+ * - To use the `getValue()` method, which returns the vaule of `Result.ok(value)`,
+ *   you need to check if the result was successful by calling `isSuccess()`.
  */
 export class Result<T> {
   protected readonly _isSuccess: boolean;
+  /** The error message that was given in `Result.fail(error)` */
   public readonly error: string;
   protected _value: T;
 
@@ -20,10 +23,30 @@ export class Result<T> {
     Object.freeze(this);
   }
 
+  /**
+   * Indicates if this Result was successful and converts it to reveal the `getValue()` method.
+   *
+   * ## Important:
+   * - To use the `getValue()` method, which returns the actual value, you need to check if the result was successful.
+   * - This is necessary to avoid trying to get the value from a result that failed.
+   * - (`Result.fail('message').getValue()` throws an `Error` because there is no value!)
+   * - For this reason, this method has a return value of something like `is Result+getValue()` - i.e. after checking, `getValue()` is "activated".
+   *
+   * @returns true if the Result is successful + activation of the `getValue()` method on the Result
+   *
+   * @example
+   * const result = Result.ok('test');
+   * result.getValue();   // ❌ TS: Property 'getValue' is protected and only accessible ...
+   * if (result.isSuccess()) {
+   *   result.getValue(); // ✅ fine
+   * } else {
+   *   result.getValue(); // ❌ same
+   * }
+   */
   public isSuccess(): this is Result<T> & { getValue: () => T } {
     return this._isSuccess;
   }
-  // make protected to insure getValue can only be called on validated result
+
   /**
    * @returns the `value` provided in `Result.ok(value)`
    * @throws **an `Error` if called on a failed Result!**

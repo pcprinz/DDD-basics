@@ -5,9 +5,14 @@ import { Float, FloatOptions } from './Float';
 /** ### An Integer (`number` without decimal digits)
  *
  * @example
- * const int = Integer.create(42, { name: 'MyInteger' }); // a.value === 42
- * const roundInt = Integer.create(42.6, { round: 'floor' }); // a.value === 42
+ * const int      = Integer.create(42, { name: 'MyInteger' });
+ * const roundInt = Integer.create(42.6, { round: 'floor' });
  * const rangeInt = Integer.create(42, { min: 12, max: 43 });
+ *
+ * // extract the Result:
+ * if (int.isSuccess()) {
+ *   console.log(int.getValue()) // Integer { _value: 42 }
+ * }
  *
  * @fails
  * - if not a valid integer
@@ -82,18 +87,18 @@ export class Integer extends Float {
   // CREATION ###################################################################################
 
   /**
-   * @param value to create the ValueObject of
+   * @param value to create the Integer of
    * @param options constraints the value has to fulfill
-   * @returns the created ValueObject
+   * @returns a `Result` with the created Integer
    */
   public static create(value: number, options?: IntegerOptions): Result<Integer> {
     return this.validate(value, options).convertTo((valid) => new Integer(valid));
   }
 
   /**
-   * @param values an array of primitives to map to an array of ValueObjects
+   * @param values an array of primitives to map to an array of Integers
    * @param options constraints the values / list has to fulfill
-   * @returns the array of ValueObjects
+   * @returns a `Result` with an array of created Integers
    */
   public static fromList(
     values: number[] | undefined,
@@ -103,7 +108,7 @@ export class Integer extends Float {
   }
 
   /**
-   * @param values an array of ValueObjects to map to an array of their values
+   * @param values an array of Integers to map to an array of their values
    * @returns the array of values
    */
   public static toList(values: Integer[]): number[] {

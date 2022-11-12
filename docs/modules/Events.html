@@ -30,7 +30,7 @@ it sends an event with an (optional) payload via <code>handlerA.dispatch(payload
 Now the callback with which <strong>B</strong> subscribed to <code>handlerA</code> is triggered and <strong>B</strong> can react to the
 completion of the task and additionally receives the result of the task from <strong>A</strong> with the payload.
 The code then looks like this:</p>
-<pre><code class="language-ts"><span class="hl-3">// @ domain A</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">handlerA</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventHandler</span><span class="hl-1">&lt;</span><span class="hl-2">TYPE</span><span class="hl-1">&gt;(</span><span class="hl-9">H_NAME</span><span class="hl-1">);</span><br/><br/><span class="hl-3">// @ domain B</span><br/><span class="hl-4">handlerA</span><span class="hl-1">.</span><span class="hl-5">subscribe</span><span class="hl-1">(</span><span class="hl-9">S_NAME</span><span class="hl-1">, </span><span class="hl-9">CALLBACK</span><span class="hl-1">)</span><br/><br/><span class="hl-3">// @ domain A</span><br/><span class="hl-4">handlerA</span><span class="hl-1">.</span><span class="hl-5">dispatch</span><span class="hl-1">(</span><span class="hl-9">PAYLOAD</span><span class="hl-1">)</span>
+<pre><code class="language-ts"><span class="hl-9">// @ domain A</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-8">handlerA</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-4">EventHandler</span><span class="hl-1">&lt;</span><span class="hl-2">TYPE</span><span class="hl-1">&gt;(</span><span class="hl-8">H_NAME</span><span class="hl-1">);</span><br/><br/><span class="hl-9">// @ domain B</span><br/><span class="hl-3">handlerA</span><span class="hl-1">.</span><span class="hl-4">subscribe</span><span class="hl-1">(</span><span class="hl-8">S_NAME</span><span class="hl-1">, </span><span class="hl-8">CALLBACK</span><span class="hl-1">)</span><br/><br/><span class="hl-9">// @ domain A</span><br/><span class="hl-3">handlerA</span><span class="hl-1">.</span><span class="hl-4">dispatch</span><span class="hl-1">(</span><span class="hl-8">PAYLOAD</span><span class="hl-1">)</span>
 </code></pre>
 <ul>
 <li><code>TYPE</code> = type of the payload</li>
@@ -50,7 +50,7 @@ Therefore <code>EventHandler</code> for domain <strong>A</strong> (<code>handler
 as above. Instead of registering on both handlers with <code>subscribe()</code>, an <code>EventCombiner</code> is
 created for <strong>C</strong>, which reacts when both <code>handlerA</code> and <code>handlerB</code> have dispatched an event.
 The code then looks like this:</p>
-<pre><code class="language-ts"><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-5">EventCombiner</span><span class="hl-1">().</span><span class="hl-5">all</span><span class="hl-1">(</span><span class="hl-4">handlerA</span><span class="hl-1">, </span><span class="hl-4">handlerB</span><span class="hl-1">).</span><span class="hl-5">then</span><span class="hl-1">(</span><span class="hl-9">CALLBACK</span><span class="hl-1">);</span>
+<pre><code class="language-ts"><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-4">EventCombiner</span><span class="hl-1">().</span><span class="hl-4">all</span><span class="hl-1">(</span><span class="hl-3">handlerA</span><span class="hl-1">, </span><span class="hl-3">handlerB</span><span class="hl-1">).</span><span class="hl-4">then</span><span class="hl-1">(</span><span class="hl-8">CALLBACK</span><span class="hl-1">);</span>
 </code></pre>
 <ul>
 <li>here the <code>CALLBACK</code> provides a typed, sorted tuple of the last dispatched events from <code>handlerA</code> and <code>handlerB</code></li>
@@ -58,7 +58,7 @@ The code then looks like this:</p>
 </ul>
 </div></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/event/index.ts#L52">event/index.ts:52</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/event/index.ts#L52">event/index.ts:52</a></li></ul></aside>
 <section class="tsd-panel-group">
 <section class="tsd-panel tsd-typography"></section></section>
 <section class="tsd-panel-group tsd-index-group">

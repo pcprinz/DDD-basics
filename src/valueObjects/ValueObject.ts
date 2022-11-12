@@ -106,8 +106,8 @@ export abstract class ValueObject<T> {
   ): Result<Primitive[]> {
     const pfx = this.prefix(options, 'fromList');
     if (list == null) {
-      if (options?.forbidUndefined) {
-        return Result.fail(`${pfx}list is undefined but forbidden as a valid input!`);
+      if (options?.listRequired) {
+        return Result.fail(`${pfx}required list is undefined`);
       } else {
         return Result.ok([]);
       }
@@ -211,7 +211,7 @@ export interface IntervalCreationOptions extends CreationOptions {
  */
 export interface ListCreationOptions {
   /** is undefined forbidden as a valid input */
-  forbidUndefined?: boolean;
+  listRequired?: boolean;
   /** constraints on the list's size */
   listSize?: {
     /** minimum amount of values inside of the list */
@@ -222,3 +222,18 @@ export interface ListCreationOptions {
     fix?: number;
   };
 }
+
+/**
+ * This type serves as an interface for static methods that all ValueObjects have to implement.
+ * Sadly there is no native TS version for "static abstract", so nothing is typed and ValueObjects
+ * can not be forced to implement this interface.
+ */
+export type StaticMethods<
+  Class extends {
+    new (...args: any[]): any;
+    validate(value: any, options: any): Result<any>;
+    create(value: any, options: any): Result<any>;
+    fromList(values: any[], options: any): Result<any[]>;
+    toList(value: ValueObject<any>[]): any[];
+  }
+> = InstanceType<Class>;

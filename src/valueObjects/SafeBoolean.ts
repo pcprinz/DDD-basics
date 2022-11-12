@@ -4,9 +4,14 @@ import { CreationOptions, ListCreationOptions, ValueObject } from './ValueObject
 /** ### A Boolean that is definitely a Boolean that (with options) can be undefined or a string
  *
  * @example
- * const sb = SafeBoolean.create(true, { name: 'MyBoolean' });
+ * const sb       = SafeBoolean.create(true, { name: 'MyBoolean' });
  * const stringSb = SafeBoolean.create('true');
- * const undefSb = SafeBoolean.create(undefined, { allowUndefinedAs: true });
+ * const undefSb  = SafeBoolean.create(undefined, { allowUndefinedAs: true });
+ *
+ * // extract the Result:
+ * if (sb.isSuccess()) {
+ *   console.log(sb.getValue()) // SafeBoolean { _value: true }
+ * }
  *
  * @fails
  * - if undefined (and not allowed to)
@@ -73,9 +78,9 @@ export class SafeBoolean extends ValueObject<boolean> {
   // CREATION ###################################################################################
 
   /**
-   * @param value to create the ValueObject of
+   * @param value to create the SafeBoolean of
    * @param options constraints the value has to fulfill
-   * @returns the created ValueObject
+   * @returns a `Result` with the created SafeBoolean
    */
   public static create(
     value: boolean | string | undefined,
@@ -85,9 +90,9 @@ export class SafeBoolean extends ValueObject<boolean> {
   }
 
   /**
-   * @param values an array of primitives to map to an array of ValueObjects
+   * @param values an array of primitives to map to an array of SafeBooleans
    * @param options constraints the values / list has to fulfill
-   * @returns the array of ValueObjects
+   * @returns a `Result` with an array of created SafeBooleans
    */
   public static fromList(
     values: (boolean | string | undefined)[] | undefined,
@@ -97,7 +102,7 @@ export class SafeBoolean extends ValueObject<boolean> {
   }
 
   /**
-   * @param values an array of ValueObjects to map to an array of their values
+   * @param values an array of SafeBooleans to map to an array of their values
    * @returns the array of values
    */
   public static toList(values: SafeBoolean[]): boolean[] {

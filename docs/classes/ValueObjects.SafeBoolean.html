@@ -20,12 +20,12 @@
   <h3>A Boolean that is definitely a Boolean that (with options) can be undefined or a string</h3>
 </a>
 
-<h3>Example</h3><pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">sb</span><span class="hl-1"> = </span><span class="hl-4">SafeBoolean</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-0">true</span><span class="hl-1">, { </span><span class="hl-4">name:</span><span class="hl-1"> </span><span class="hl-6">&#39;MyBoolean&#39;</span><span class="hl-1"> });</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">stringSb</span><span class="hl-1"> = </span><span class="hl-4">SafeBoolean</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-6">&#39;true&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-9">undefSb</span><span class="hl-1"> = </span><span class="hl-4">SafeBoolean</span><span class="hl-1">.</span><span class="hl-5">create</span><span class="hl-1">(</span><span class="hl-0">undefined</span><span class="hl-1">, { </span><span class="hl-4">allowUndefinedAs:</span><span class="hl-1"> </span><span class="hl-0">true</span><span class="hl-1"> });</span>
+<h3>Example</h3><pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-8">sb</span><span class="hl-1">       = </span><span class="hl-3">SafeBoolean</span><span class="hl-1">.</span><span class="hl-4">create</span><span class="hl-1">(</span><span class="hl-0">true</span><span class="hl-1">, { </span><span class="hl-3">name:</span><span class="hl-1"> </span><span class="hl-7">&#39;MyBoolean&#39;</span><span class="hl-1"> });</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-8">stringSb</span><span class="hl-1"> = </span><span class="hl-3">SafeBoolean</span><span class="hl-1">.</span><span class="hl-4">create</span><span class="hl-1">(</span><span class="hl-7">&#39;true&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-8">undefSb</span><span class="hl-1">  = </span><span class="hl-3">SafeBoolean</span><span class="hl-1">.</span><span class="hl-4">create</span><span class="hl-1">(</span><span class="hl-0">undefined</span><span class="hl-1">, { </span><span class="hl-3">allowUndefinedAs:</span><span class="hl-1"> </span><span class="hl-0">true</span><span class="hl-1"> });</span><br/><br/><span class="hl-9">// extract the Result:</span><br/><span class="hl-6">if</span><span class="hl-1"> (</span><span class="hl-3">sb</span><span class="hl-1">.</span><span class="hl-4">isSuccess</span><span class="hl-1">()) {</span><br/><span class="hl-1">  </span><span class="hl-3">console</span><span class="hl-1">.</span><span class="hl-4">log</span><span class="hl-1">(</span><span class="hl-3">sb</span><span class="hl-1">.</span><span class="hl-4">getValue</span><span class="hl-1">()) </span><span class="hl-9">// SafeBoolean { _value: true }</span><br/><span class="hl-1">}</span>
 </code></pre>
 
-<h3>Throws</h3><ul>
-<li><code>TypeError</code> if undefined (and not allowed to)</li>
-<li><code>TypeError</code> if not a (parsable) boolean</li>
+<h3>Fails</h3><ul>
+<li>if undefined (and not allowed to)</li>
+<li>if not a (parsable) boolean</li>
 </ul>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
@@ -35,7 +35,7 @@
 <ul class="tsd-hierarchy">
 <li><span class="target">SafeBoolean</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/SafeBoolean.ts#L14">valueObjects/SafeBoolean.ts:14</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/SafeBoolean.ts#L20">valueObjects/SafeBoolean.ts:20</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -58,13 +58,14 @@
 <div class="tsd-index-list"><a href="ValueObjects.SafeBoolean.html#equals" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-2048-path"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)" id="icon-2048-text"></path></svg><span>equals</span></a>
 <a href="ValueObjects.SafeBoolean.html#toJSON" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>toJSON</span></a>
 <a href="ValueObjects.SafeBoolean.html#create" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>create</span></a>
+<a href="ValueObjects.SafeBoolean.html#createList" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>create<wbr/>List</span></a>
 <a href="ValueObjects.SafeBoolean.html#fromList" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>from<wbr/>List</span></a>
 <a href="ValueObjects.SafeBoolean.html#listEquals" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>list<wbr/>Equals</span></a>
 <a href="ValueObjects.SafeBoolean.html#prefix" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>prefix</span></a>
 <a href="ValueObjects.SafeBoolean.html#toList" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>to<wbr/>List</span></a>
 <a href="ValueObjects.SafeBoolean.html#validate" class="tsd-index-link tsd-kind-method tsd-parent-kind-class"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>validate</span></a>
 <a href="ValueObjects.SafeBoolean.html#validateInterval" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>validate<wbr/>Interval</span></a>
-<a href="ValueObjects.SafeBoolean.html#validateList" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>validate<wbr/>List</span></a>
+<a href="ValueObjects.SafeBoolean.html#validateListSize" class="tsd-index-link tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg><span>validate<wbr/>List<wbr/>Size</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Constructors</h2>
@@ -81,7 +82,7 @@
 <h4 class="tsd-returns-title">Returns <a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/SafeBoolean.ts#L15">valueObjects/SafeBoolean.ts:15</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/SafeBoolean.ts#L21">valueObjects/SafeBoolean.ts:21</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="_value" class="tsd-anchor"></a>
@@ -91,7 +92,7 @@
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#_value">_value</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/ValueObject.ts#L6">valueObjects/ValueObject.ts:6</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/ValueObject.ts#L6">valueObjects/ValueObject.ts:6</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="value" class="tsd-anchor"></a>
@@ -104,7 +105,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span></h4><aside class="tsd-sources">
 <p>Inherited from ValueObject.value</p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/ValueObject.ts#L15">valueObjects/ValueObject.ts:15</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/ValueObject.ts#L15">valueObjects/ValueObject.ts:15</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="equals" class="tsd-anchor"></a>
@@ -124,7 +125,7 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#equals">equals</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/SafeBoolean.ts#L19">valueObjects/SafeBoolean.ts:19</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/SafeBoolean.ts#L25">valueObjects/SafeBoolean.ts:25</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="toJSON" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>toJSON</span><a href="#toJSON" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -135,51 +136,102 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#toJSON">toJSON</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/ValueObject.ts#L62">valueObjects/ValueObject.ts:62</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/ValueObject.ts#L54">valueObjects/ValueObject.ts:54</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="create" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>create</span><a href="#create" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="create.create-1">create<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ValueObjects.SafeBooleanOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SafeBooleanOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a><a href="#create.create-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="create.create-1">create<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ValueObjects.SafeBooleanOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SafeBooleanOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a><span class="tsd-signature-symbol">&gt;</span><a href="#create.create-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography">
-<h3>Returns</h3><p>the created ValueObject</p>
+<h3>Returns</h3><p>a <code>Result</code> with the created SafeBoolean</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
 <h5>value: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></h5>
-<div class="tsd-comment tsd-typography"><p>to create the ValueObject of</p>
+<div class="tsd-comment tsd-typography"><p>to create the SafeBoolean of</p>
 </div></li>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/ValueObjects.SafeBooleanOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SafeBooleanOptions</a></h5>
 <div class="tsd-comment tsd-typography"><p>constraints the value has to fulfill</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/SafeBoolean.ts#L72">valueObjects/SafeBoolean.ts:72</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/SafeBoolean.ts#L85">valueObjects/SafeBoolean.ts:85</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="createList" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>create<wbr/>List</span><a href="#createList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
+<li class="tsd-signature tsd-anchor-link" id="createList.createList-1">create<wbr/>List<span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Created</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span><span class="tsd-signature-symbol">[]</span>, createCallback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Created</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ValueObjects.CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ValueObjects.ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Created</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#createList.createList-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Verifies a list of values with the given list constraints (<code>options</code>) and creates a list of ValueObjects from it.
+The Results from the separate creation of ValueObjects intercepts the creation process if not successful.</p>
+
+<h3>Returns</h3><p>a list of ValueObject</p>
+
+<h3>Fails</h3><p>if the list doesn&#39;t fulfill the list constraints from the given <code>options</code></p>
+
+<h3>Fails</h3><p>if one of the Results of the <code>createCallback</code> fails</p>
+</div>
+<section class="tsd-panel tsd-type-parameters">
+<h4>Type Parameters</h4>
+<ul class="tsd-type-parameters">
+<li>
+<h4>Value</h4></li>
+<li>
+<h4>Created</h4></li></ul></section>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>values: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span><span class="tsd-signature-symbol">[]</span></h5>
+<div class="tsd-comment tsd-typography"><p>to create a list of ValueObjects from</p>
+</div></li>
+<li>
+<h5>createCallback: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Created</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h5>
+<div class="tsd-comment tsd-typography"><p>to create a ValueObject from the provided value</p>
+</div>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures tsd-kind-type-literal">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Created</span><span class="tsd-signature-symbol">&gt;</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5>value: <span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Created</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></li></ul></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/ValueObjects.CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ValueObjects.ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a></h5>
+<div class="tsd-comment tsd-typography"><p>to verify the list constraints</p>
+</div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Created</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#createList">createList</a></p>
+<ul>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/ValueObject.ts#L158">valueObjects/ValueObject.ts:158</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="fromList" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>from<wbr/>List</span><a href="#fromList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="fromList.fromList-1">from<wbr/>List<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ValueObjects.SafeBooleanOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SafeBooleanOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ValueObjects.ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a><span class="tsd-signature-symbol">[]</span><a href="#fromList.fromList-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="fromList.fromList-1">from<wbr/>List<span class="tsd-signature-symbol">(</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ValueObjects.SafeBooleanOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SafeBooleanOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ValueObjects.ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#fromList.fromList-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography">
-<h3>Returns</h3><p>the array of ValueObjects</p>
+<h3>Returns</h3><p>a <code>Result</code> with an array of created SafeBooleans</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
 <h5>values: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
-<div class="tsd-comment tsd-typography"><p>an array of primitives to map to an array of ValueObjects</p>
+<div class="tsd-comment tsd-typography"><p>an array of primitives to map to an array of SafeBooleans</p>
 </div></li>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/ValueObjects.SafeBooleanOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SafeBooleanOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ValueObjects.ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a></h5>
 <div class="tsd-comment tsd-typography"><p>constraints the values / list has to fulfill</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/SafeBoolean.ts#L84">valueObjects/SafeBoolean.ts:84</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/SafeBoolean.ts#L97">valueObjects/SafeBoolean.ts:97</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="listEquals" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>list<wbr/>Equals</span><a href="#listEquals" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -208,20 +260,18 @@
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#listEquals">listEquals</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/ValueObject.ts#L31">valueObjects/ValueObject.ts:31</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/ValueObject.ts#L31">valueObjects/ValueObject.ts:31</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="prefix" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>prefix</span><a href="#prefix" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="prefix.prefix-1">prefix<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/ValueObjects.CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a>, addition<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><a href="#prefix.prefix-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>constructs a prefix for possible error messages based on the ValueObjects name and an additional string:</p>
-<ul>
-<li>example for NonEmptyString with <code>name=&#39;Person&#39;</code>:</li>
-</ul>
-<pre><code class="language-typescript"><span class="hl-6">&quot;Person &gt; NonEmptyString&quot;</span>
-</code></pre>
+<div class="tsd-comment tsd-typography"><p>constructs a prefix for possible error messages based on the ValueObjects name and an additional string.</p>
 
 <h3>Returns</h3><p>the name of the ValueObject</p>
+
+<h3>Example</h3><pre><code class="language-ts"><span class="hl-4">prefix</span><span class="hl-1">({ </span><span class="hl-3">name:</span><span class="hl-1"> </span><span class="hl-7">&#39;Person&#39;</span><span class="hl-1"> });                 </span><span class="hl-9">// &quot;Person &gt; NonEmptyString&quot;</span><br/><span class="hl-4">prefix</span><span class="hl-1">({ </span><span class="hl-3">name:</span><span class="hl-1"> </span><span class="hl-7">&#39;Person&#39;</span><span class="hl-1"> }, </span><span class="hl-7">&#39;(1-50 chars)&#39;</span><span class="hl-1">); </span><span class="hl-9">// &quot;Person &gt; NonEmptyString(1-50 chars)&quot;</span>
+</code></pre>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -231,13 +281,13 @@
 <div class="tsd-comment tsd-typography"><p>the <code>CreationOptions</code> where the optional <code>name: string</code> is taken from</p>
 </div></li>
 <li>
-<h5>addition: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &#39;&#39;</span></h5>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> addition: <span class="tsd-signature-type">string</span></h5>
 <div class="tsd-comment tsd-typography"><p>An additional name which will be added as <code>&quot;name.addition&quot;</code></p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#prefix">prefix</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/ValueObject.ts#L78">valueObjects/ValueObject.ts:78</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/ValueObject.ts#L70">valueObjects/ValueObject.ts:70</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="toList" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>to<wbr/>List</span><a href="#toList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -251,22 +301,22 @@
 <ul class="tsd-parameter-list">
 <li>
 <h5>values: <a href="ValueObjects.SafeBoolean.html" class="tsd-signature-type" data-tsd-kind="Class">SafeBoolean</a><span class="tsd-signature-symbol">[]</span></h5>
-<div class="tsd-comment tsd-typography"><p>an array of ValueObjects to map to an array of their values</p>
+<div class="tsd-comment tsd-typography"><p>an array of SafeBooleans to map to an array of their values</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/SafeBoolean.ts#L95">valueObjects/SafeBoolean.ts:95</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/SafeBoolean.ts#L108">valueObjects/SafeBoolean.ts:108</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="validate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <span>validate</span><a href="#validate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-<li class="tsd-signature tsd-anchor-link" id="validate.validate-1">validate<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ValueObjects.SafeBooleanOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SafeBooleanOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#validate.validate-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="validate.validate-1">validate<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ValueObjects.SafeBooleanOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SafeBooleanOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><a href="#validate.validate-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography">
 <h3>Returns</h3><p>the value if the validation was successful</p>
 
-<h3>Throws</h3><p><code>TypeError</code> if undefined (and not allowed to)</p>
+<h3>Fails</h3><p>if undefined (and not allowed to)</p>
 
-<h3>Throws</h3><p><code>TypeError</code> if not a (parsable) boolean</p>
+<h3>Fails</h3><p>if not a (parsable) boolean</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -279,37 +329,42 @@
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/ValueObjects.SafeBooleanOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">SafeBooleanOptions</a></h5>
 <div class="tsd-comment tsd-typography"><p>constraints the value has to fulfill</p>
 </div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/SafeBoolean.ts#L37">valueObjects/SafeBoolean.ts:37</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/SafeBoolean.ts#L43">valueObjects/SafeBoolean.ts:43</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="validateInterval" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>validate<wbr/>Interval</span><a href="#validateInterval" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="validateInterval.validateInterval-1">validate<wbr/>Interval<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/ValueObjects.IntervalCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IntervalCreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#validateInterval.validateInterval-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="validateInterval.validateInterval-1">validate<wbr/>Interval<span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ValueObjects.IntervalCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IntervalCreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span><span class="tsd-signature-symbol">&gt;</span><a href="#validateInterval.validateInterval-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography">
-<h3>Throws</h3><p><code>RangeError</code> if the value is not inside the interval</p>
+<h3>Fails</h3><p>if the value is not inside the interval</p>
 </div>
+<section class="tsd-panel tsd-type-parameters">
+<h4>Type Parameters</h4>
+<ul class="tsd-type-parameters">
+<li>
+<h4>Value = <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h4></li></ul></section>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5></li>
+<h5>value: <span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span></h5></li>
 <li>
-<h5>options: <a href="../interfaces/ValueObjects.IntervalCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IntervalCreationOptions</a></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/ValueObjects.IntervalCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IntervalCreationOptions</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Value</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#validateInterval">validateInterval</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/ValueObject.ts#L88">valueObjects/ValueObject.ts:88</a></li></ul></aside></li></ul></section>
-<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="validateList" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>validate<wbr/>List</span><a href="#validateList" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/ValueObject.ts#L80">valueObjects/ValueObject.ts:80</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="validateListSize" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagStatic">Static</code> <code class="tsd-tag ts-flagProtected">Protected</code> <span>validate<wbr/>List<wbr/>Size</span><a href="#validateListSize" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
-<li class="tsd-signature tsd-anchor-link" id="validateList.validateList-1">validate<wbr/>List<span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Primitive</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span>list<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Primitive</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ValueObjects.CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ValueObjects.ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">list</span><span class="tsd-signature-symbol"> is </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Primitive</span><span class="tsd-signature-symbol">[]</span><a href="#validateList.validateList-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="validateListSize.validateListSize-1">validate<wbr/>List<wbr/>Size<span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Primitive</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span>list<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Primitive</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/ValueObjects.CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ValueObjects.ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Primitive</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><a href="#validateListSize.validateListSize-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography">
-<h3>Throws</h3><p><code>TypeError</code> if list is undefined but must not be</p>
+<h3>Fails</h3><p>if list is undefined but must not be</p>
 
-<h3>Throws</h3><p><code>RangeError</code> if the list length not matching</p>
+<h3>Fails</h3><p>if the list length not matching</p>
 </div>
 <section class="tsd-panel tsd-type-parameters">
 <h4>Type Parameters</h4>
@@ -323,10 +378,10 @@
 <h5>list: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Primitive</span><span class="tsd-signature-symbol">[]</span></h5></li>
 <li>
 <h5><code class="tsd-tag ts-flagOptional">Optional</code> options: <a href="../interfaces/ValueObjects.CreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">CreationOptions</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/ValueObjects.ListCreationOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ListCreationOptions</a></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">list</span><span class="tsd-signature-symbol"> is </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Primitive</span><span class="tsd-signature-symbol">[]</span></h4><aside class="tsd-sources">
-<p>Inherited from <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#validateList">validateList</a></p>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Result</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">Primitive</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
+<p>Inherited from <a href="ValueObjects.ValueObject.html">ValueObject</a>.<a href="ValueObjects.ValueObject.html#validateListSize">validateListSize</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/6bbcf47/src/valueObjects/ValueObject.ts#L106">valueObjects/ValueObject.ts:106</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/1bea713/src/valueObjects/ValueObject.ts#L103">valueObjects/ValueObject.ts:103</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -361,13 +416,14 @@
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ValueObjects.SafeBoolean.html#equals" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>equals</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="ValueObjects.SafeBoolean.html#toJSON" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>toJSON</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ValueObjects.SafeBoolean.html#create" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>create</a></li>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a href="ValueObjects.SafeBoolean.html#createList" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>create<wbr/>List</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ValueObjects.SafeBoolean.html#fromList" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>from<wbr/>List</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="ValueObjects.SafeBoolean.html#listEquals" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>list<wbr/>Equals</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a href="ValueObjects.SafeBoolean.html#prefix" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>prefix</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ValueObjects.SafeBoolean.html#toList" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>to<wbr/>List</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class"><a href="ValueObjects.SafeBoolean.html#validate" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>validate</a></li>
 <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a href="ValueObjects.SafeBoolean.html#validateInterval" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>validate<wbr/>Interval</a></li>
-<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a href="ValueObjects.SafeBoolean.html#validateList" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>validate<wbr/>List</a></li></ul></li></ul></nav></div></div>
+<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a href="ValueObjects.SafeBoolean.html#validateListSize" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-2048-path"></use><use href="#icon-2048-text"></use></svg>validate<wbr/>List<wbr/>Size</a></li></ul></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>

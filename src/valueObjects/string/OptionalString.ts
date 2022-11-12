@@ -5,11 +5,16 @@ import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../Va
  * - `undefined` ends up being converted to `""`
  *
  * @example
- * const os = OptionalString.create('not empty', {name: 'MyOS'});
- * const os2 = OptionalString.create(''); // a.value === ''
- * const os3 = OptionalString.create(undefined); // a.value === ''
- * const sizeOS = OptionalString.create('foo', {min: 3, max: 4});
- * const regexOS = OptionalString.create('foo', {regex: /fo/});
+ * const optStr      = OptionalString.create('not empty', {name: 'MyOptStr'});
+ * const optStr2     = OptionalString.create(''); // a.value === ''
+ * const optStr3     = OptionalString.create(undefined); // a.value === ''
+ * const sizeOptStr  = OptionalString.create('foo', {min: 3, max: 4});
+ * const regexOptStr = OptionalString.create('foo', {regex: /fo/});
+ *
+ * // extract the Result:
+ * if (optStr3.isSuccess()) {
+ *   console.log(optStr3.getValue()) // OptionalString { _value: '' }
+ * }
  *
  * @fails
  * - if not a string (when defined)
@@ -96,9 +101,9 @@ export class OptionalString extends ValueObject<string> {
   // CREATION ###################################################################################
 
   /**
-   * @param value to create the ValueObject of
+   * @param value to create the OptionalString of
    * @param options constraints the value has to fulfill
-   * @returns the created ValueObject
+   * @returns a `Result` with the created OptionalString
    */
   public static create(
     value: string | undefined,
@@ -108,9 +113,9 @@ export class OptionalString extends ValueObject<string> {
   }
 
   /**
-   * @param values an array of primitives to map to an array of ValueObjects
+   * @param values an array of primitives to map to an array of OptionalStrings
    * @param options constraints the values / list has to fulfill
-   * @returns the array of ValueObjects
+   * @returns a `Result` with an array of created OptionalStrings
    */
   public static fromList(
     values: string[] | undefined,
@@ -120,7 +125,7 @@ export class OptionalString extends ValueObject<string> {
   }
 
   /**
-   * @param values an array of ValueObjects to map to an array of their values
+   * @param values an array of OptionalStrings to map to an array of their values
    * @returns the array of values
    */
   public static toList(values: OptionalString[]): string[] {

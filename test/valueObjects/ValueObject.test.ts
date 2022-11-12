@@ -56,8 +56,8 @@ test('validateInterval', () => {
 
 test('validateListSize', () => {
   expect(TestVO.validateListSize(undefined).getValue()).toStrictEqual([]);
-  expect(TestVO.validateListSize(undefined, { forbidUndefined: true }).error).toContain(
-    'list is undefined but forbidden as a valid input'
+  expect(TestVO.validateListSize(undefined, { listRequired: true }).error).toContain(
+    'required list is undefined'
   );
   expect(TestVO.validateListSize([1, 2]).getValue()).toStrictEqual([1, 2]);
   expect(TestVO.validateListSize([1], { listSize: { fix: 1, max: 2 } }).error).toContain(
@@ -82,13 +82,13 @@ test('validateListSize', () => {
 
 test('createList', () => {
   expect(
-    TestVO.createList(undefined, (v) => TestResult.ok(v), { forbidUndefined: true }).error
-  ).toContain('list is undefined but forbidden as a valid input');
+    TestVO.createList(undefined, (v) => TestResult.ok(v), { listRequired: true }).error
+  ).toContain('required list is undefined');
   expect(
-    TestVO.createList([1], (v) => TestResult.fail('error message'), { forbidUndefined: true }).error
+    TestVO.createList([1], (v) => TestResult.fail('error message'), { listRequired: true }).error
   ).toContain('error message');
   expect(
-    TestVO.createList([1, 2], (v) => TestResult.ok(v), { forbidUndefined: true }).getValue()
+    TestVO.createList([1, 2], (v) => TestResult.ok(v), { listRequired: true }).getValue()
   ).toStrictEqual([1, 2]);
 });
 
