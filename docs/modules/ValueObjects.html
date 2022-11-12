@@ -90,34 +90,9 @@ These options can be used to define constraints for the passed value(s).</p>
 <li><code>SafeBoolean</code> - the common wrapper for <code>boolean</code>, that can also be created from <code>undefined</code> or <code>string</code> (if required)</li>
 <li><code>SafeDate</code> - the common wrapper for JS&#39;s <code>Date</code></li>
 </ul>
-
-<a href="#composed--special-not-so-basic" id="composed--special-not-so-basic" style="color: inherit; text-decoration: none;">
-  <h3>composed / special (not so basic)</h3>
-</a>
-<ul>
-<li><code>SemVersion</code> - for semantic versions like <code>&quot;0.13.5&quot;</code></li>
-<li><code>PlainDate</code> - for simple dates (without the time)</li>
-<li><code>PlainTime</code> - for simple times (without the date)</li>
-<li><code>PlainDateTime</code> - a combination of both (This is like JS&#39;s <code>Date</code> but with more / other / better functionality)</li>
-<li><code>TimeStamp</code> - a special <code>PlainDateTime</code> with additional measuring functionality (like &quot;expiresIn&quot;)</li>
-</ul>
-
-<a href="#general-usage" id="general-usage" style="color: inherit; text-decoration: none;">
-  <h1>General usage</h1>
-</a>
-<p>Due to the better readability and reusability, it is recommended not to use the ValueObjects directly,
-but to expand them. For example, if a ValueObject &quot;Book title&quot; is to be created for an entity &quot;Book&quot;,
-which is a string with at least 1 and a maximum of 50 characters, then the ValueObject
-<code>NonEmptyString</code> is expanded as follows:</p>
-<pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-4">BookTitle</span><span class="hl-1"> = (</span><span class="hl-3">title</span><span class="hl-1">: </span><span class="hl-2">string</span><span class="hl-1">) </span><span class="hl-0">=&gt;</span><span class="hl-1"> </span><span class="hl-3">NonEmptyString</span><span class="hl-1">.</span><span class="hl-4">create</span><span class="hl-1">(</span><span class="hl-3">title</span><span class="hl-1">, { </span><span class="hl-3">name:</span><span class="hl-1"> </span><span class="hl-7">&#39;Book.title&#39;</span><span class="hl-1">, </span><span class="hl-3">max:</span><span class="hl-1"> </span><span class="hl-5">50</span><span class="hl-1">});</span>
-</code></pre>
-<p>There is now a &quot;constructor&quot; for a &quot;book title&quot; that always requires the same constraints.
-It is then used as follows:</p>
-<pre><code class="language-ts"><span class="hl-0">this</span><span class="hl-1">.</span><span class="hl-3">_title</span><span class="hl-1"> = </span><span class="hl-4">BookTitle</span><span class="hl-1">(</span><span class="hl-7">&#39;Domain Driven Design&#39;</span><span class="hl-1">);</span>
-</code></pre>
 </div></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/ebc6cab/src/valueObjects/index.ts#L109">valueObjects/index.ts:109</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f8d8be5/src/valueObjects/index.ts#L94">valueObjects/index.ts:94</a></li></ul></aside>
 <section class="tsd-panel-group">
 <section class="tsd-panel tsd-typography"></section></section>
 <section class="tsd-panel-group tsd-index-group">
