@@ -81,21 +81,22 @@ export class OptionalString extends ValueObject<string> {
     return Result.ok(value);
   }
 
-  /**
-   *
+  /** @TODO
+   * **THIS METHOD IS DISABLED**
    * @param value to be formatted with the given formatting options
    * @param options constraints the value has to fulfill
    * @returns the formatted string
    * @fails if the formatting throws an error
    */
   protected static format(value: string, options?: OptionalStringOptions): Result<string> {
-    try {
-      return Result.ok(options?.format ? format(value, options?.format) : value);
-    } catch (error) {
-      return Result.fail(
-        `${this.prefix(options)}the given string is not formattable with (${options?.format})`
-      );
-    }
+    return Result.ok(value);
+    // try {
+    //   return Result.ok(options?.format ? format(value, options?.format) : value);
+    // } catch (error) {
+    //   return Result.fail(
+    //     `${this.prefix(options)}the given string is not formattable with (${options?.format})`
+    //   );
+    // }
   }
 
   // CREATION ###################################################################################
@@ -146,13 +147,13 @@ export interface OptionalStringOptions extends IntervalCreationOptions {
    * - `'singleSpace'` converts all spaces with single spaces
    * - `'stripHTML'` deletes all HTML stuff, but converts line breaks and lists
    */
-  format?: FormatOptions;
+  // @TODO format?: FormatOptions;
 }
 
 // string formatting
-
 export type FormatOptions = FormatOption[];
 export type FormatOption = 'umlauts' | 'singleSpace' | 'stripHTML';
+/* @TODO
 export function format(text: string, options: FormatOptions): string {
   let r: { [key: string]: string } = options.includes('umlauts') ? umlauts : {};
   r = options.includes('stripHTML') ? { ...r, ...html } : r;
@@ -218,3 +219,4 @@ const entities = {
   '&nbsp;': ' ',
   '&quot;': '"',
 };
+*/
