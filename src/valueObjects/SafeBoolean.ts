@@ -47,7 +47,7 @@ export class SafeBoolean extends ValueObject<boolean> {
     let defined = value;
     if (defined === undefined) {
       if (options?.allowUndefinedAs === undefined) {
-        return Result.fail(`${this.prefix(options)}the given boolean has to be defined!`);
+        return Result.fail(`${super.prefix(options)}the given boolean has to be defined!`);
       } else if (options?.allowUndefinedAs !== undefined) {
         defined = options.allowUndefinedAs === true; // otherwise = false
       }
@@ -56,7 +56,7 @@ export class SafeBoolean extends ValueObject<boolean> {
         defined = typeof defined === 'boolean' ? defined : (JSON.parse(defined) as boolean);
       } catch (error) {
         return Result.fail(
-          `${this.prefix(
+          `${super.prefix(
             options
           )}the given value (${defined}: ${typeof defined}) can not be parsed to a boolean!`
         );
@@ -66,7 +66,7 @@ export class SafeBoolean extends ValueObject<boolean> {
     // type
     if (typeof defined !== 'boolean') {
       return Result.fail(
-        `${this.prefix(
+        `${super.prefix(
           options
         )}the given value (${defined}: ${typeof defined}) has to be a (parsable) boolean!`
       );

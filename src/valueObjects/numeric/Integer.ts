@@ -39,9 +39,9 @@ export class Integer extends Float {
    * @fails if the value is not inside the interval
    */
   public static validate(value: number, options?: IntegerOptions): Result<number> {
-    return this.validateNumber(value, options).chain(
+    return super.validateNumber(value, options).chain(
       (valid) => this.validateIntegerAndRound(valid, options),
-      (valid) => this.validateInterval(valid, options)
+      (valid) => super.validateInterval(valid, options)
     );
   }
 
@@ -68,7 +68,7 @@ export class Integer extends Float {
       case 'deny':
         if (value % 1 !== 0) {
           return Result.fail(
-            `${this.prefix(
+            `${super.prefix(
               options
             )}the given value (${value}) must be an integer but has decimal places!`
           );
@@ -77,7 +77,7 @@ export class Integer extends Float {
         }
       default:
         return Result.fail(
-          `${this.prefix(
+          `${super.prefix(
             options
           )}the given options.round (${round}: ${typeof round}) does not match 'floor' | 'ceil' | 'round' | 'deny'`
         );

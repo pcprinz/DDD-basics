@@ -30,7 +30,7 @@ export class Identifier extends NonEmptyString {
    * @returns a `Result` with the created Identifier
    */
   public static create(id?: string, options?: IdentifierOptions): Result<Identifier> {
-    return this.validate(id ?? uuid(), options).convertTo((valid) => new Identifier(valid));
+    return super.validate(id ?? uuid(), options).convertTo((valid) => new Identifier(valid));
   }
 
   /**

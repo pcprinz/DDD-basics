@@ -62,7 +62,7 @@ export class FloatString extends Float {
       const parsed = this.parse(value);
       if (isNaN(parsed)) {
         return Result.fail(
-          `${this.prefix(
+          `${super.prefix(
             options
           )}the given value (${value}: ${typeof value}) must be a number or a string representing a number!`
         );

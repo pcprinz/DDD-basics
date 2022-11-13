@@ -37,7 +37,7 @@ export class Float extends ValueObject<number> {
    */
   public static validate(value: number, options?: FloatOptions): Result<number> {
     return this.validateNumber(value, options).chain((valid) =>
-      this.validateInterval(valid, options)
+      super.validateInterval(valid, options)
     );
   }
 
@@ -49,12 +49,12 @@ export class Float extends ValueObject<number> {
   protected static validateNumber(value: number, options?: FloatOptions): Result<number> {
     if (typeof value !== 'number') {
       return Result.fail(
-        `${this.prefix(options)}the given value (${value}: ${typeof value}) must be a number!`
+        `${super.prefix(options)}the given value (${value}: ${typeof value}) must be a number!`
       );
     }
     if (isNaN(value)) {
       return Result.fail(
-        `${this.prefix(options)}the given value (${value}: ${typeof value}) is not a number (NaN)!`
+        `${super.prefix(options)}the given value (${value}: ${typeof value}) is not a number (NaN)!`
       );
     }
 

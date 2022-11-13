@@ -42,7 +42,7 @@ export class OptionalString extends ValueObject<string> {
   public static validate(value: string, options?: OptionalStringOptions): Result<string> {
     return this.validateString(value, options).chain(
       (val) => this.format(val, options),
-      (val) => this.validateInterval(val, options),
+      (val) => super.validateInterval(val, options),
       (val) => this.validateRegex(val, options)
     );
   }
@@ -55,7 +55,7 @@ export class OptionalString extends ValueObject<string> {
   protected static validateRegex(value: string, options?: OptionalStringOptions): Result<string> {
     if (options && options.regex && !options.regex.test(value)) {
       return Result.fail(
-        `${this.prefix(
+        `${super.prefix(
           options
         )}the given value (${value}: ${typeof value}) does not match the regular expression (${
           options.regex
@@ -74,7 +74,7 @@ export class OptionalString extends ValueObject<string> {
   protected static validateString(value: string, options?: OptionalStringOptions): Result<string> {
     if (typeof value !== 'string') {
       return Result.fail(
-        `${this.prefix(options)}the given value (${value}: ${typeof value}) has to be a string!`
+        `${super.prefix(options)}the given value (${value}: ${typeof value}) has to be a string!`
       );
     }
 

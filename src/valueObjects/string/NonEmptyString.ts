@@ -50,12 +50,12 @@ export class NonEmptyString extends OptionalString {
    */
   public static validate(value: string, options?: NonEmptyStringOptions): Result<string> {
     // format first so that the result passed validation
-    return this.validateString(value, options).chain(
-      (valid) => this.format(valid, options),
+    return super.validateString(value, options).chain(
+      (valid) => super.format(valid, options),
       (valid) => this.validateNonEmptyString(valid, options),
       (valid) => this.validateRange(valid, options),
-      (valid) => this.validateInterval(valid, options),
-      (valid) => this.validateRegex(valid, options)
+      (valid) => super.validateInterval(valid, options),
+      (valid) => super.validateRegex(valid, options)
     );
   }
 
@@ -70,7 +70,7 @@ export class NonEmptyString extends OptionalString {
   ): Result<string> {
     if (value === '') {
       return Result.fail(
-        `${this.prefix(
+        `${super.prefix(
           options
         )}the given value (${value}: ${typeof value}) has to be a string with length > 0!`
       );
@@ -94,7 +94,7 @@ export class NonEmptyString extends OptionalString {
       const notInObject = notInObjectKeys && notInObjectValues;
       if (notInArray || notInObject) {
         return Result.fail(
-          `${this.prefix(
+          `${super.prefix(
             options
           )}the given value (${value}: ${typeof value}) is not in the range ${JSON.stringify(
             options?.range
