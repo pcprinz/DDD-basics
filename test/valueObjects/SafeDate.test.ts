@@ -1,10 +1,11 @@
 import { SafeDate } from '../../src';
-import {testValue} from '../basic/TestResult';
+import { testValue } from '../basic/TestResult';
 
 const expected = '2022-11-11T00:00:00.000Z';
 
 test('create and validate', () => {
   const stringDate = testValue(SafeDate.create('2022-11-11'));
+  expect(stringDate instanceof SafeDate).toBeTruthy();
   expect(stringDate.value.toJSON()).toStrictEqual(expected);
 
   const stringDate2 = testValue(SafeDate.create('11.11.2022'));

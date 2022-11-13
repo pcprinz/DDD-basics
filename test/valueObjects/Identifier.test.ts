@@ -3,6 +3,7 @@ import { testValue } from '../basic/TestResult';
 
 test('create and validate', () => {
   const id = testValue(Identifier.create('abc1234'));
+  expect(id instanceof Identifier).toBeTruthy();
   expect(id.value).toStrictEqual('abc1234');
   const id2 = testValue(Identifier.create(undefined));
   expect(id2.value).toBeDefined();

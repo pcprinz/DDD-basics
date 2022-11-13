@@ -67,7 +67,7 @@ export class IntegerString extends Integer {
         return Result.fail(
           `${this.prefix(
             options
-          )}the given value (${value}: ${typeof value}) has to be a number or a string representing a number!`
+          )}the given value (${value}: ${typeof value}) must be a number or a string representing a number!`
         );
       }
 

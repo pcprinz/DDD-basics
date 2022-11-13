@@ -3,6 +3,7 @@ import { testValue } from '../basic/TestResult';
 
 test('create and validate', () => {
   const os = testValue(OptionalString.create('content'));
+  expect(os instanceof OptionalString).toBeTruthy();
   expect(os.value).toStrictEqual('content');
 
   const os2 = testValue(OptionalString.create(''));

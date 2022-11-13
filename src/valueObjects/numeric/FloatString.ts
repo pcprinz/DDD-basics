@@ -64,7 +64,7 @@ export class FloatString extends Float {
         return Result.fail(
           `${this.prefix(
             options
-          )}the given value (${value}: ${typeof value}) has to be a number or a string representing a number!`
+          )}the given value (${value}: ${typeof value}) must be a number or a string representing a number!`
         );
       }
 
@@ -80,6 +80,8 @@ export class FloatString extends Float {
    * @returns the parsed number **OR** `NaN` if not parsable
    */
   public static parse(value: string): number {
+    if (typeof value !== 'string') return NaN;
+
     return parseFloat(value.replace(',', '.'));
   }
 

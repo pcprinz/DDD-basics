@@ -3,6 +3,7 @@ import { testValue } from '../basic/TestResult';
 
 test('create and validate', () => {
   const nes = testValue(NonEmptyString.create('content'));
+  expect(nes instanceof NonEmptyString).toBeTruthy();
   expect(nes.value).toStrictEqual('content');
 
   expect(NonEmptyString.create('').error).toContain(

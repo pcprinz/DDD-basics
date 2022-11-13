@@ -3,6 +3,7 @@ import { testValue } from '../basic/TestResult';
 
 test('create and validate', () => {
   const boolFalse = testValue(SafeBoolean.create(false));
+  expect(boolFalse instanceof SafeBoolean).toBeTruthy();
   expect(boolFalse.value).toBe(false);
   const boolTrue = testValue(SafeBoolean.create(true));
   expect(boolTrue.value).toBe(true);

@@ -9,6 +9,7 @@ import { TestResult } from '../basic/TestResult';
 
 test('construction', () => {
   const vo = TestVO.create(42);
+  expect(vo instanceof ValueObject).toBeTruthy();
   expect(vo.value).toBe(42);
   expect(vo.toJSON()).toBe(42);
 });
