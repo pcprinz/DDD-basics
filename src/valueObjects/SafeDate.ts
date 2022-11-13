@@ -86,7 +86,7 @@ export class SafeDate extends ValueObject<Date> {
       (validMax && date.getTime() > validMax.getValue().getTime())
     ) {
       return Result.fail(
-        `${this.prefix(options)}the given Date (${date.toISOString()}) must be in the interval [${
+        `${super.prefix(options)}the given Date (${date.toISOString()}) must be in the interval [${
           validMin?.getValue().toISOString() ?? '*'
         }, ${validMax?.getValue().toISOString() ?? '*'}]!`
       );
@@ -110,7 +110,7 @@ export class SafeDate extends ValueObject<Date> {
     if (typeof value === 'string' || typeof value === 'number') {
       if (typeof value === 'string' ? isNaN(Date.parse(value)) : isNaN(value)) {
         return Result.fail(
-          `${this.prefix(options)}the given (${value}: ${typeof value}) is not parsable!`
+          `${super.prefix(options)}the given (${value}: ${typeof value}) is not parsable!`
         );
       } else {
         return Result.ok(new Date(value));
@@ -120,7 +120,7 @@ export class SafeDate extends ValueObject<Date> {
     }
 
     return Result.fail(
-      `${this.prefix(
+      `${super.prefix(
         options
       )}the given (${value}: ${typeof value}) is whether a Date nor a string | number!`
     );
