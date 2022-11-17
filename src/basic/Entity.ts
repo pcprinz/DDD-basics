@@ -105,4 +105,9 @@ export abstract class Entity<T extends EntityPropsType> {
   }
 }
 
-type EntityPropsType = Record<string, ValueObject<any>>;
+/**
+ * A `Record` for the properties of an Entity, where:
+ * - the key is a `string`
+ * - the value is a `ValueObject`
+ */
+export type EntityPropsType = Record<string, ValueObject<any>>;

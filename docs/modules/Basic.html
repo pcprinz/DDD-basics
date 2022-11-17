@@ -12,9 +12,38 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">DDD basics - v0.0.1</a></li>
 <li><a href="Basic.html">Basic</a></li></ul>
-<h1>Module Basic</h1></div><aside class="tsd-sources">
+<h1>Module Basic</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography">
+<h3>Description</h3><p>This module contains basic classes to structure an application.</p>
+
+<a href="#entity" id="entity" style="color: inherit; text-decoration: none;">
+  <h1>Entity</h1>
+</a>
+<p>An <a href="../classes/Basic.Entity.html">Entity</a> represents the base class for a model. Its attributes consist of <a href="ValueObjects.html">ValueObjects</a>.</p>
+
+<a href="#result" id="result" style="color: inherit; text-decoration: none;">
+  <h1>Result</h1>
+</a>
+<p>A <a href="../classes/Basic.Result.html">Result</a> is the result of a validation - not to be confused with an error.
+When creating ValueObjects, a Result is returned which states whether the validation of the
+transferred value was successful. This forces the result of the validation to be checked and
+any false validations to be intercepted. Additionally, usually when an entity is created
+(where ValueObjects are also created), a Result is returned to ensure that the entity is correct
+and the domain core is consistent.</p>
+<p>A Result must always be checked before its value can be accessed to prevent using the
+(non-existent) value of a failed Result. This is &quot;type-safed&quot; with Typescript:</p>
+<pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">result</span><span class="hl-1"> = </span><span class="hl-3">Result</span><span class="hl-1">.</span><span class="hl-4">ok</span><span class="hl-1">(</span><span class="hl-5">&#39;test&#39;</span><span class="hl-1">);</span><br/><span class="hl-3">result</span><span class="hl-1">.</span><span class="hl-4">getValue</span><span class="hl-1">();   </span><span class="hl-6">// ❌ TS: Property &#39;getValue&#39; is protected and only accessible ...</span><br/><span class="hl-7">if</span><span class="hl-1"> (</span><span class="hl-3">result</span><span class="hl-1">.</span><span class="hl-4">isSuccess</span><span class="hl-1">()) {</span><br/><span class="hl-1">  </span><span class="hl-3">result</span><span class="hl-1">.</span><span class="hl-4">getValue</span><span class="hl-1">(); </span><span class="hl-6">// ✅ fine</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#serializable" id="serializable" style="color: inherit; text-decoration: none;">
+  <h1>Serializable</h1>
+</a>
+<p>The abstract class <a href="../classes/Basic.Serializable.html">Serializable</a> overrides the JS internal <code>.toJSON()</code> method. All private attributes (which are denoted starting with an underscore) are returned as an object with all leading underscores removed. The <code>.toJSON()</code> method of any class is automatically called recursively when the class is serialized with <code>JSON.stringify(myClass)</code>.</p>
+<p>Although most components of this package have their own implementation for it, this class can be used to make other classes serializable.</p>
+</div></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/f8d8be5/src/basic/index.ts#L2">basic/index.ts:2</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/5452455/src/basic/index.ts#L31">basic/index.ts:31</a></li></ul></aside>
 <section class="tsd-panel-group">
 <section class="tsd-panel tsd-typography"></section></section>
 <section class="tsd-panel-group tsd-index-group">
@@ -28,7 +57,8 @@
 </div></section>
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Type Aliases</h3>
-<div class="tsd-index-list"><a href="../types/Basic.ResultsOf.html" class="tsd-index-link tsd-kind-type-alias tsd-parent-kind-module"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-4194304-path"></rect><path d="M11.31 16V8.224H8.91V7.24H14.79V8.224H12.39V16H11.31Z" fill="var(--color-text)" id="icon-4194304-text"></path></svg><span>Results<wbr/>Of</span></a>
+<div class="tsd-index-list"><a href="../types/Basic.EntityPropsType.html" class="tsd-index-link tsd-kind-type-alias tsd-parent-kind-module"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-4194304-path"></rect><path d="M11.31 16V8.224H8.91V7.24H14.79V8.224H12.39V16H11.31Z" fill="var(--color-text)" id="icon-4194304-text"></path></svg><span>Entity<wbr/>Props<wbr/>Type</span></a>
+<a href="../types/Basic.ValuesOf.html" class="tsd-index-link tsd-kind-type-alias tsd-parent-kind-module"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Values<wbr/>Of</span></a>
 </div></section></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
@@ -59,7 +89,8 @@
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/Basic.Entity.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Entity</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/Basic.Result.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Result</a></li>
 <li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/Basic.Serializable.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Serializable</a></li>
-<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="../types/Basic.ResultsOf.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg>Results<wbr/>Of</a></li></ul></nav></div></div>
+<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="../types/Basic.EntityPropsType.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg>Entity<wbr/>Props<wbr/>Type</a></li>
+<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="../types/Basic.ValuesOf.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg>Values<wbr/>Of</a></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
 <div class="overlay"></div><script src="../assets/main.js"></script></body></html>

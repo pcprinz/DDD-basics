@@ -60,7 +60,7 @@ export abstract class ValueObject<T> {
   /**
    * constructs a prefix for possible error messages based on the ValueObjects name and an additional string.
    *
-   * @param options the `CreationOptions` where the optional `name: string` is taken from
+   * @param options the {@link CreationOptions} where the optional `name: string` is taken from
    * @param addition An additional name which will be added as `"name.addition"`
    * @returns the name of the ValueObject
    * @example
@@ -189,7 +189,7 @@ export interface CreationOptions {
 }
 
 /**
- * The extended `CreationOptions` that every ValueObject should provide, if the Object allows to
+ * The extended {@link CreationOptions} that every ValueObject should provide, if the Object allows to
  * have a Range.
  * - eg.: `PositiveInteger` within a specific Interval like `[0, 100]`
  * - eg.: `NonEmptyString` that has to have a specific length

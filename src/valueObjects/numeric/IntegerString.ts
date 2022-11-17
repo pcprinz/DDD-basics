@@ -3,7 +3,7 @@ import { ListCreationOptions } from '../ValueObject';
 import { Integer, IntegerOptions } from './Integer';
 
 /** ### An Integer (`number` without decimal digits) that can also be created from a string representation of an integer
- * - this is an extension of `Integer`, so you can also create from `number`s
+ * - this is an extension of {@link Integer}, so you can also create from `number`s
  *
  * @example
  * const intString1      = IntegerString.create(42, { name: 'MyInteger' });

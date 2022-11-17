@@ -145,7 +145,7 @@ export class NonEmptyString extends OptionalString {
 export interface NonEmptyStringOptions extends OptionalStringOptions {
   /**
    * a `string[]` or `enum` of all possible values the given value can match.
-   * - for the enums the `keys` as well as the `values` will be looked up to match!
+   * - for enums the `keys` as well as the `values` will be looked up to match!
    * - technically its possible to use any kind of object that has strings as keys and/or values
    *
    * @example

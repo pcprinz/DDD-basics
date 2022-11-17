@@ -6,15 +6,15 @@ export interface Subscription<Payload> {
   suppressLogging?: boolean;
 }
 
-/** ### A Handler that allows Subscribers (any caller) to subscribe to a specific event
+/** ### A Handler that allows subscribers (any caller) to subscribe to a specific event
  *
- * All Subscribers will be notified if the event dispatcher dispatched the event.
+ * All subscribers will be notified if the EventHandler dispatched the event.
  *
  * @example
  * At first the EventHandler has to be created with a **unique** name that subscribes the purpose.
  * - the generic can be of any type / interface
  * - to create a handler which only handles "notification" (without payload) the generic has to be `<void>`
- * - the unique name gets relevant when combining EventHandlers with {@link EventCombiners}
+ * - the unique name gets relevant when combining EventHandlers with `EventCombiner`s
  *
  * ```ts
  * const StringEventHandler = new EventHandler<string>('StringEventHandler');
@@ -64,7 +64,7 @@ export class EventHandler<Payload> {
     return this._name;
   }
 
-  /** indicates if a `DomainEvent` has at least once been fired */
+  /** indicates if a {@link DomainEvent} has at least once been fired */
   public get occurred(): boolean {
     return this._occurred;
   }
@@ -92,8 +92,8 @@ export class EventHandler<Payload> {
   }
 
   /**
-   * Dispatches that the handled event has been fired. Therefore, all Subscribers callbacks are called
-   * with the given optional payload.
+   * Dispatches a {@link DomainEvent}. Therefore, all Subscribers callbacks are called
+   * with the given optional `payload`.
    *
    * @param payload (optional) payload to broadcast to all Subscribers
    */

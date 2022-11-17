@@ -2,7 +2,8 @@ import { Result } from '../../basic';
 import { IntervalCreationOptions, ListCreationOptions, ValueObject } from '../ValueObject';
 import { Integer } from './Integer';
 
-/** ### A special Integer with the predefined interval [0,∞]
+/**
+ * ### A special {@link Integer} with the predefined interval [0,∞]
  * which will not accept and parse floating point numbers.
  *
  * @example

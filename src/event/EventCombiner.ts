@@ -1,7 +1,7 @@
 import { DomainEvent } from './DomainEvent';
 import { EventHandler } from './EventHandler';
 
-/** ### Combines multiple events to let Subscribers listen to any combination of the events
+/** ### Combines multiple events to let subscribers listen to any combination of the events
  *
  * There are 6 different combinations that can be achieved by the following chaining of the EventCombiners methods.
  *
@@ -107,7 +107,21 @@ export class EventCombiner {
     this._name = name;
   }
 
-  /** When all given events occur ... */
+  /**
+   * unsubscribes from all listened {@link EventHandler}s and marks this combiner as destroyed.
+   * Further chains that end with `.then(...)` will not subscribe to the given handlers and thus
+   * no listening will happen, but the extendable `onLog()` method will be called with
+   * `type = 'alreadyDestroyed'`
+   */
+  public destroy() {
+    this.unsubscribeEventHandlers();
+    this._destroyed = true;
+  }
+
+  /**
+   * ### When all given events occur ...
+   * (every given {@link EventHandler} has dispatched at least one {@link DomainEvent})
+   */
   all = <EH extends EventHandler<any>[]>(...eventHandler: [...EH]): AllThenType<EH> => {
     this._eventHandlers = eventHandler;
     this._all = true;
@@ -116,7 +130,9 @@ export class EventCombiner {
     return { then: this.then };
   };
 
-  /** When one of the given events occurs ... */
+  /** ### When one of the given events occurs ...
+   * (just one of the given {@link EventHandler} has dispatched a {@link DomainEvent})
+   */
   some = <EH extends EventHandler<any>[]>(...eventHandler: [...EH]): SomeThenType<EH> => {
     this._eventHandlers = eventHandler;
 
@@ -124,14 +140,18 @@ export class EventCombiner {
     return { then: this.then };
   };
 
-  /** Just the first time ... */
+  /** ### Just the first time ...
+   * (and never again)
+   */
   once = () => {
     this._once = true;
 
     return { all: this.all, some: this.some };
   };
 
-  /** Every time ... */
+  /** ### Every time ...
+   * (`all.consume` means: always every {@link EventHandler} again)
+   */
   consume = () => {
     this._consume = true;
 
@@ -164,16 +184,6 @@ export class EventCombiner {
       );
     });
   };
-
-  /** unsubscribes from all listened `EventHandlers` and marks this combiner as destroyed.
-   * Further chains that end with `.then(...)` will not subscribe to the given handlers and thus
-   * no listening will happen, but the extendable `onLog()` method will be called with
-   * `type = 'alreadyDestroyed'`
-   */
-  public destroy() {
-    this.unsubscribeEventHandlers();
-    this._destroyed = true;
-  }
 
   /** This method is called when the `.then(...)` callback is called, the combiner is destroyed,
    * or the callback is called, when already destroyed. The original method will do nothing.
@@ -215,29 +225,26 @@ export class EventCombiner {
   }
 }
 
-export type AllThenType<EH> = {
-  /**
-   * ... Call the given callback.
+export type AllThenType<Handler> = {
+  /** ### ... Call the given callback.
    *
-   * A list of all possible `DomainEvent`s is passed to the callback,
-   * which corresponds to the order of the defined `EventHandler`.
+   * A list of all possible {@link DomainEvent}s is passed to the callback,
+   * which corresponds to the order of the defined {@link EventHandler}s.
    */
   then: (
     callback: (events: {
-      [K in keyof EH]: EH[K] extends EventHandler<infer X> ? DomainEvent<X> : never;
+      [K in keyof Handler]: Handler[K] extends EventHandler<infer X> ? DomainEvent<X> : never;
     }) => void
   ) => void;
 };
 
 export type SomeThenType<EH> = {
-  /**
-   * ... Call the given callback.
+  /** ### ... Call the given callback.
    *
-   * A list of all possible `DomainEvent`s is passed to the callback,
-   * which corresponds to the order of the defined `EventHandler`.
+   * A list of all possible {@link DomainEvent}s is passed to the callback,
+   * which corresponds to the order of the defined {@link EventHandler}s.
    *
-   * Since this method is chained with a `some(...)` method, the `DomainEvent`s may also be `'pending'`
-   * for those `EventHandler`s which have not fired yet.
+   * ### Since this method is chained with a `some(...)` method, the {@link DomainEvent}s may also be `'pending'` for those {@link EventHandler}s which have not fired yet.
    */
   then: (
     callback: (events: {

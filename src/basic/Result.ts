@@ -1,4 +1,5 @@
 /** ### The Result of a validation, either successful or failed.
+ *
  * - `isSuccess`  => has a value (`getValue()`)
  * - `!isSuccess` => has an `error`(string) and `throws Error` when `getValue()` is called
  * - To use the `getValue()` method, which returns the vaule of `Result.ok(value)`,
@@ -78,26 +79,21 @@ export class Result<T> {
   }
 
   /**
-   * Combines multiple `Result`s in a map, checks every result and:
-   * - **success:** returns a single `Result` with a `Record` of all results values
-   * - **failure:** returns a single `Result` wit the error of the first failed result
+   * Combines multiple Results in a map, checks every Result and:
+   * - **success:** returns a single `Result` with a `Record` of all Results' values
+   * - **failure:** returns a single `Result` with the error of the first failed Result
    * @param map a `Record` of multiple `Result`s
-   * @returns a combined Result of the map
    * @example
-   * // .create returns Results:
    * const book = Result.combine({
-   *   title: BookTitle.create('MyBook'),
-   *   author: Author.create('My Self'),
+   *   title: Result.ok('MyBook'),
+   *   author: Result.ok('My Self'),
    * })
    *
    * book.getValue() // === {title: 'MyBook', author: 'My Self'}
    */
-  public static combine<
-    ResultMap extends Record<string, Result<any>>,
-    Output = {
-      [K in keyof ResultMap]: ResultMap[K] extends Result<infer X> ? X : never;
-    }
-  >(map: ResultMap): Result<Output> {
+  public static combine<ResultMap extends Record<string, Result<any>>>(
+    map: ResultMap
+  ): Result<ValuesOf<ResultMap>> {
     const result: { [key: string]: any } = {};
     for (const [key, value] of Object.entries(map)) {
       if (!value._isSuccess) {
@@ -106,16 +102,15 @@ export class Result<T> {
       result[key] = value._value;
     }
 
-    return Result.ok(result as Output);
+    return Result.ok(result as ValuesOf<ResultMap>);
   }
 
   /**
-   * Chains multiple callbacks (which return `Results`) together (on this result),
+   * Chains multiple callbacks (which return Results) together (on this Result),
    * where every previous value is forwarded to the next callback.
-   * - if one of the callback `Result` fails, the chain will return it
-   * - on success, the last callbacks result will be returned
+   * - if one of the callback Results fails, the chain will return it
+   * - on success, the last callbacks Result will be returned
    * @param members to chain together
-   * @returns the `Result` of the chain
    * @example
    * // every validate*** returns a Result<number>:
    * const veryValid: Result<number> = this.validateNumber(420).chain(
@@ -139,9 +134,8 @@ export class Result<T> {
 
   /**
    * Converts the `value` of this Result to another Result, if this Result is **successful**.
-   * Returns this failed `Result` otherwise.
+   * Returns this failed Result otherwise.
    * @param callback for the conversion of the value
-   * @returns a `Result` with the converted value, if successful
    * @example
    * // Result<number> => Result<Integer>
    * this.validate(420).convertTo((valid) => new Integer(valid));
@@ -154,9 +148,7 @@ export class Result<T> {
    * Calls the given `callback` if the `Result` is successful.
    * - provides the `value` for the `callback`
    * - can be chained with the corresponding `onFail()` method
-   * @param callback to be called if this `Result` is successful
-   * @returns a chained method to handle the failure of this `Result`
-   *
+   * @param callback to be called if this `Result` is successful   *
    * @example
    * Integer.validate(42)
    *   .onSuccess((value) => console.log(`Yes ${value} is an integer`));
@@ -168,12 +160,10 @@ export class Result<T> {
     return this;
   }
   /**
-   * Calls the given `callback` if the `Result` fails.
+   * Calls the given `callback` if the Result fails.
    * - provides the `error` for the `callback`
    * - can be chained with the corresponding `onSuccess()` method
-   * @param callback to be called if this `Result` fails
-   * @returns a chained method to handle the success of this `Result`
-   *
+   * @param callback to be called if this Result fails   *
    * @example
    * Integer.validate(42)
    *   .onFail((error) => console.error(error))
@@ -186,6 +176,9 @@ export class Result<T> {
   }
 }
 
-export type ResultsOf<EP extends Record<any, any>> = {
-  [Key in keyof EP]: EP[Key] extends infer X ? Result<X> : never;
+type ResultsOf<ValueMap extends Record<any, any>> = {
+  [Key in keyof ValueMap]: ValueMap[Key] extends infer X ? Result<X> : never;
+};
+export type ValuesOf<ResultMap extends Record<string, Result<any>>> = {
+  [K in keyof ResultMap]: ResultMap[K] extends Result<infer X> ? X : never;
 };
