@@ -237,3 +237,7 @@ export type StaticMethods<
     toList(value: ValueObject<any>[]): any[];
   }
 > = InstanceType<Class>;
+
+export class CompondValueObject {
+  [key: string]: ValueObject<any>;
+}

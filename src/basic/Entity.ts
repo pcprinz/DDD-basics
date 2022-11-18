@@ -1,4 +1,4 @@
-import { Identifier, ValueObject } from '../valueObjects';
+import { CompondValueObject, Identifier, ValueObject } from '../valueObjects';
 
 /** ### An abstract Entity with an `id`, which can be serialized to its private attributes
  * - Entities are usually things that are characterized by something concrete and not by a property.
@@ -110,4 +110,4 @@ export abstract class Entity<T extends EntityPropsType> {
  * - the key is a `string`
  * - the value is a `ValueObject`
  */
-export type EntityPropsType = Record<string, ValueObject<any>>;
+export type EntityPropsType = Record<string, ValueObject<any> | CompondValueObject>;
