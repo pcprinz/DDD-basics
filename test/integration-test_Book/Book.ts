@@ -7,7 +7,6 @@ type BookProps = {
   soldBooksAmount: SoldBooksAmount;
 };
 
-// @ts-ignor
 export class Book extends Entity<BookProps> {
   public static create(
     isbn: string,

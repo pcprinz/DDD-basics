@@ -238,6 +238,6 @@ export type StaticMethods<
   }
 > = InstanceType<Class>;
 
-export class CompondValueObject {
+export class ComposedValueObject {
   [key: string]: ValueObject<any>;
 }

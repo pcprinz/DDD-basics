@@ -1,6 +1,6 @@
-import { CompondValueObject, Integer, NonEmptyString, Result } from '../../src';
+import { ComposedValueObject, Integer, NonEmptyString, Result } from '../../src';
 
-export class Author extends CompondValueObject {
+export class Author extends ComposedValueObject {
   constructor(readonly firstName: NonEmptyString, readonly lastName: NonEmptyString) {
     super();
   }
@@ -37,11 +37,21 @@ export class BookGenre extends NonEmptyString {
   }
 }
 
-// ____________________
+// // ____________________
 
-const auth = Author.create('a', 'b');
-if (auth.isSuccess()) {
-  // const bbb: {[key: string|number|symbol]: ValueObject<any>} = auth.getValue();
-}
+// const auth = Author.create('a', 'b');
+// if (auth.isSuccess()) {
+//   // const bbb: {[key: string|number|symbol]: ValueObject<any>} = auth.getValue();
+// }
 
-const b = BookTitle.fromList([]);
+// const b = BookTitle.fromList([]);
+
+// // _________________
+// type Enum<E> = Record<keyof E, number | string> & { [k: number]: string };
+// function dos<V extends keyof E,E = string[] | readonly string[] | { [s: string]: string | number } | { [s: number]: string }, >(value: V): V {
+//   return value;
+// }
+
+// const aaa = dos<Genre>(Genre.BIOGRAPHY);
+// const bb = 'hiaof';
+// const bbb = dos(aaa['FANTASY']);
