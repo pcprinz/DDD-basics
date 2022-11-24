@@ -26,14 +26,15 @@ import { EventHandler } from './EventHandler';
  * new EventCombiner('OnceAll').once().all(A, B).then(...);
  * new EventCombiner('OnceSome').once().some(A, B).then(...);
  * new EventCombiner('ConsumeAll').consume().all(A, B).then(...);
+ * new EventCombiner('ConsumeAllFirst').consume().all(A, B).first().then(...);
  * new EventCombiner('ConsumeSome').consume().some(A, B).then(...);
  *
  * A.dispatch('foo'); // (Consume)Some  +  OnceSome
  * A.dispatch('bar'); // (Consume)Some
- * B.dispatch(420);   // (Consume)Some  +  All  +  OnceAll  +  ConsumeAll
+ * B.dispatch(420);   // (Consume)Some  +  All  +  OnceAll  +  ConsumeAll + ConsumeAllFirst
  * B.dispatch(69);    // (Consume)Some  +  All
  * B.dispatch(41);    // (Consume)Some  +  All
- * A.dispatch('baz'); // (Consume)Some  +  All  +  ConsumeAll
+ * A.dispatch('baz'); // (Consume)Some  +  All  +  ConsumeAll[41, baz] + ConsumeAllFirst[69, baz]
  *
  * @description
  * #### Detailed overview
@@ -63,6 +64,12 @@ import { EventHandler } from './EventHandler';
  * ##### `.consume().all(HANDLERS).then(CALLBACK)`
  * - Calls the given CALLBACK once **all** of the given HANDLERS have fired.
  * - After that **all** of the given HANDLERS have to be fired once **again** for another CALLBACK call.
+ * - *Use this if you want to react to a synchronously repeated occurrence of a whole set of events*
+ *
+ * ##### `.consume().all(HANDLERS).then(CALLBACK)`
+ * - Calls the given CALLBACK once **all** of the given HANDLERS have fired.
+ * - After that **all** of the given HANDLERS have to be fired once **again** for another CALLBACK call.
+ * - Different to consume.all just the first occurred event for every handler is provided
  * - *Use this if you want to react to a synchronously repeated occurrence of a whole set of events*
  *
  * ##### `.consume().some(HANDLERS).then(CALLBACK)`
@@ -102,6 +109,7 @@ export class EventCombiner {
   private _all: boolean = false;
   private _once: boolean = false;
   private _consume: boolean = false;
+  private _first: boolean = false;
 
   constructor(name: string) {
     this._name = name;
@@ -121,27 +129,30 @@ export class EventCombiner {
   /**
    * ### When all given events occur ...
    * (every given {@link EventHandler} has dispatched at least one {@link DomainEvent})
+   * @chains {@link then} & ({@link first} if chained with {@link consume})
    */
   all = <EH extends EventHandler<any>[]>(...eventHandler: [...EH]): AllThenType<EH> => {
     this._eventHandlers = eventHandler;
     this._all = true;
 
-    // @ts-ignore
-    return { then: this.then };
+    // @ts-ignore STATIC TYPE CONVERSION
+    return { then: this.then, first: this.first };
   };
 
   /** ### When one of the given events occurs ...
    * (just one of the given {@link EventHandler} has dispatched a {@link DomainEvent})
+   * @chains {@link then}
    */
   some = <EH extends EventHandler<any>[]>(...eventHandler: [...EH]): SomeThenType<EH> => {
     this._eventHandlers = eventHandler;
 
-    // @ts-ignore
+    // @ts-ignore STATIC TYPE CONVERSION
     return { then: this.then };
   };
 
   /** ### Just the first time ...
    * (and never again)
+   * @chains {@link all} & {@link some}
    */
   once = () => {
     this._once = true;
@@ -151,11 +162,23 @@ export class EventCombiner {
 
   /** ### Every time ...
    * (`all.consume` means: always every {@link EventHandler} again)
+   * @chains {@link all} & {@link some}
    */
-  consume = () => {
+  consume = (): {
+    all: <EH extends EventHandler<any>[]>(...eventHandler_0: EH) => AllFirstThenType<EH>;
+    some: <EH extends EventHandler<any>[]>(...eventHandler_0: EH) => SomeThenType<EH>;
+  } => {
     this._consume = true;
 
+    // @ts-ignore STATIC TYPE CONVERSION
     return { all: this.all, some: this.some };
+  };
+
+  private first = <EH extends EventHandler<any>[]>(): AllThenType<EH> => {
+    this._first = true;
+
+    // @ts-ignore STATIC TYPE CONVERSION
+    return { then: this.then };
   };
 
   private then = (callback: (events: (DomainEvent<any> | 'pending')[]) => void) => {
@@ -167,7 +190,9 @@ export class EventCombiner {
       handler.subscribe(
         this._name,
         (event) => {
-          this._receivedEvents.set(handler.name, event);
+          if (!(this._first && this._receivedEvents.get(handler.name) !== 'pending')) {
+            this._receivedEvents.set(handler.name, event);
+          }
           if (this.thenIsFulfilled()) {
             this.onLog('then');
             const events = [...this._receivedEvents.values()];
@@ -224,6 +249,26 @@ export class EventCombiner {
     });
   }
 }
+
+export type AllFirstThenType<Handler> = {
+  /**
+   * ### Just take the first occurred events and ...
+   * (if an event already occurred, then it will not be overwritten by following events of the same
+   * type until the `then()` is called and the events are consumed)
+   * @chains {@link then}
+   */
+  first: () => AllThenType<Handler>;
+  /** ### ... Call the given callback.
+   *
+   * A list of all possible {@link DomainEvent}s is passed to the callback,
+   * which corresponds to the order of the defined {@link EventHandler}s.
+   */
+  then: (
+    callback: (events: {
+      [K in keyof Handler]: Handler[K] extends EventHandler<infer X> ? DomainEvent<X> : never;
+    }) => void
+  ) => void;
+};
 
 export type AllThenType<Handler> = {
   /** ### ... Call the given callback.

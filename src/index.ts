@@ -1,3 +1,3 @@
 export * from './basic';
-export * from './valueObjects';
 export * from './event';
+export * from './valueObjects';
