@@ -1,7 +1,7 @@
 import { DomainEvent, EventCombiner, EventHandler } from '../../src';
 
 let result = 'EventCombiners:\n';
-afterAll(() => result.length > 0 && console.log(result));
+// afterAll(() => result.length > 0 && console.log(result));
 
 function getPayload(es: (DomainEvent<any> | 'pending')[]) {
   return JSON.stringify(es.map((e) => (e === 'pending' ? 'pending' : e.payload)));
@@ -12,16 +12,22 @@ test('all methods', () => {
   const E2 = new EventHandler<number>('E2');
 
   new EventCombiner('all').all(E1, E2).then((es) => (result += `all: ${getPayload(es)}\n`));
+
   new EventCombiner('onceAll')
     .once()
     .all(E1, E2)
     .then((es) => (result += `onceAll: ${getPayload(es)}\n`));
+  new EventCombiner('onceAllFirst')
+    .once()
+    .all(E1, E2)
+    .first()
+    .then((es) => (result += `onceAllFirst: ${getPayload(es)}\n`));
+
   new EventCombiner('consumeAll')
     .consume()
     .all(E1, E2)
     .then((es) => (result += `consumeAll: ${getPayload(es)}\n`));
-
-  new EventCombiner('allFirst')
+  new EventCombiner('consumeAllFirst')
     .consume()
     .all(E1, E2)
     .first()
@@ -98,6 +104,7 @@ consumeSome: ["b","pending"]
 |> 1
 all: ["b",1]
 onceAll: ["b",1]
+onceAllFirst: ["a",1]
 consumeAll: ["b",1]
 consumeAllFirst: ["a",1]
 some: ["b",1]

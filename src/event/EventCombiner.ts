@@ -5,15 +5,17 @@ import { EventHandler } from './EventHandler';
  *
  * There are 6 different combinations that can be achieved by the following chaining of the EventCombiners methods.
  *
- * | method              | first call on  | subsequent calls on    | provided payloads of                |
- * |:--------------------|:---------------|:-----------------------|:------------------------------------|
- * | `.all()`            | all events     | every event            | every events last received          |
- * | `.some()`           | any event      | every event            | every events last (received or not) |
- * | `.once().all()`     | all events     | never again            | every events last received          |
- * | `.once().some()`    | any event      | never again            | only the first received             |
- * | `.consume().all()`  | all events     | again all events       | every events freshly received       |
- * | `.consume().some()` | any event      | every event            | only the last received              |
- * |_____________________|________________|________________________|_____________________________________|
+ * | method                      | first call on  | subsequent calls on    | provided payloads of                 |
+ * |:----------------------------|:---------------|:-----------------------|:-------------------------------------|
+ * | `.all()`                    | all events     | every event            | every events last received           |
+ * | `.once().all()`             | all events     | never again            | every events last received           |
+ * | `.once().all().first()`     | all events     | never again            | every events first received          |
+ * | `.consume().all()`          | all events     | again all events       | every events freshly received        |
+ * | `.consume().all().first()`  | all events     | again all events       | every events first freshly received  |
+ * | `.some()`                   | any event      | every event            | every events last (received or not)  |
+ * | `.once().some()`            | any event      | never again            | only the first received              |
+ * | `.consume().some()`         | any event      | every event            | only the last received               |
+ * |_____________________________|________________|________________________|______________________________________|
  *
  * @example
  * const A = new EventHandler<string>('HandlerA');
@@ -24,6 +26,7 @@ import { EventHandler } from './EventHandler';
  * });
  * new EventCombiner('Some').some(A, B).then(...);
  * new EventCombiner('OnceAll').once().all(A, B).then(...);
+ * new EventCombiner('OnceAllFirst').once().all(A, B).first().then(...);
  * new EventCombiner('OnceSome').once().some(A, B).then(...);
  * new EventCombiner('ConsumeAll').consume().all(A, B).then(...);
  * new EventCombiner('ConsumeAllFirst').consume().all(A, B).first().then(...);
@@ -56,6 +59,12 @@ import { EventHandler } from './EventHandler';
  * - After that, the CALLBACK is never called again, when one of the HANDLERS is fired.
  * - *use this if you want to react when a whole set of events has fired once*
  *
+ * ##### `.once().all(HANDLERS).first().then(CALLBACK)`
+ * - Calls the given CALLBACK once **all** of the given HANDLERS have fired.
+ * - After that, the CALLBACK is never called again, when one of the HANDLERS is fired.
+ * - Different to once.all just the first occurred event for every handler is provided
+ * - *use this if you want to react when a whole set of events has fired once*
+ *
  * ##### `.once().some(HANDLERS).then(CALLBACK)`
  * - Calls the given CALLBACK once **one** of the given HANDLERS has fired.
  * - After that, the CALLBACK is never called again, when one of the HANDLERS is fired.
@@ -66,7 +75,7 @@ import { EventHandler } from './EventHandler';
  * - After that **all** of the given HANDLERS have to be fired once **again** for another CALLBACK call.
  * - *Use this if you want to react to a synchronously repeated occurrence of a whole set of events*
  *
- * ##### `.consume().all(HANDLERS).then(CALLBACK)`
+ * ##### `.consume().all(HANDLERS)first().then(CALLBACK)`
  * - Calls the given CALLBACK once **all** of the given HANDLERS have fired.
  * - After that **all** of the given HANDLERS have to be fired once **again** for another CALLBACK call.
  * - Different to consume.all just the first occurred event for every handler is provided
@@ -154,9 +163,15 @@ export class EventCombiner {
    * (and never again)
    * @chains {@link all} & {@link some}
    */
-  once = () => {
+  once = (): {
+    all: <EH extends EventHandler<any>[]>(
+      ...eventHandler_0: EH
+    ) => AllThenType<EH> & FirstThenType<EH>;
+    some: <EH extends EventHandler<any>[]>(...eventHandler_0: EH) => SomeThenType<EH>;
+  } => {
     this._once = true;
 
+    // @ts-ignore STATIC TYPE CONVERSION
     return { all: this.all, some: this.some };
   };
 
@@ -165,7 +180,9 @@ export class EventCombiner {
    * @chains {@link all} & {@link some}
    */
   consume = (): {
-    all: <EH extends EventHandler<any>[]>(...eventHandler_0: EH) => AllFirstThenType<EH>;
+    all: <EH extends EventHandler<any>[]>(
+      ...eventHandler_0: EH
+    ) => AllThenType<EH> & FirstThenType<EH>;
     some: <EH extends EventHandler<any>[]>(...eventHandler_0: EH) => SomeThenType<EH>;
   } => {
     this._consume = true;
@@ -250,7 +267,7 @@ export class EventCombiner {
   }
 }
 
-export type AllFirstThenType<Handler> = {
+export type FirstThenType<Handler> = {
   /**
    * ### Just take the first occurred events and ...
    * (if an event already occurred, then it will not be overwritten by following events of the same
@@ -258,16 +275,6 @@ export type AllFirstThenType<Handler> = {
    * @chains {@link then}
    */
   first: () => AllThenType<Handler>;
-  /** ### ... Call the given callback.
-   *
-   * A list of all possible {@link DomainEvent}s is passed to the callback,
-   * which corresponds to the order of the defined {@link EventHandler}s.
-   */
-  then: (
-    callback: (events: {
-      [K in keyof Handler]: Handler[K] extends EventHandler<infer X> ? DomainEvent<X> : never;
-    }) => void
-  ) => void;
 };
 
 export type AllThenType<Handler> = {
