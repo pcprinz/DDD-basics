@@ -34,7 +34,9 @@ import { EventHandler } from './EventHandler';
  *
  * A.dispatch('foo'); // (Consume)Some  +  OnceSome
  * A.dispatch('bar'); // (Consume)Some
- * B.dispatch(420);   // (Consume)Some  +  All  +  OnceAll  +  ConsumeAll + ConsumeAllFirst
+ * B.dispatch(420);   // (Consume)Some  +  All
+ *                    // + OnceAll[420, bar]  +  OnceAllFirst[420, foo]
+ *                    // + ConsumeAll[420, bar]  +  ConsumeAllFirst[420, foo]
  * B.dispatch(69);    // (Consume)Some  +  All
  * B.dispatch(41);    // (Consume)Some  +  All
  * A.dispatch('baz'); // (Consume)Some  +  All  +  ConsumeAll[41, baz] + ConsumeAllFirst[69, baz]
