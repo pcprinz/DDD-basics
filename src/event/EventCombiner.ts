@@ -129,8 +129,8 @@ export class EventCombiner {
     this._name = name;
   }
 
-  /**
-   * unsubscribes from all listened {@link EventHandler}s and marks this combiner as destroyed.
+  /** 💬 unsubscribes from all listened {@link EventHandler}s and marks this combiner as destroyed.
+   *
    * Further chains that end with `.then(...)` will not subscribe to the given handlers and thus
    * no listening will happen, but the extendable `onLog()` method will be called with
    * `type = 'alreadyDestroyed'`
@@ -147,7 +147,8 @@ export class EventCombiner {
 
   // MODIFIERS _____________________________________________________________________________________
 
-  /** ### `Just the first time ...`
+  /** 💬 `Just the first time ...`
+   *
    * (and never again)
    * @chains {@link all} & {@link some}
    */
@@ -158,7 +159,8 @@ export class EventCombiner {
     return { all: this.all, some: this.some };
   };
 
-  /** ### `Every time ...`
+  /** 💬 `Every time ...`
+   *
    * (`consume().all()` means: always every {@link EventHandler} must dispatch again)
    * @chains {@link all} & {@link some}
    */
@@ -169,7 +171,8 @@ export class EventCombiner {
     return { all: this.all, some: this.some };
   };
 
-  /** ### `Always when one of the given handlers dispatches ...`
+  /** 💬 `Always when one of the given handlers dispatches ...`
+   *
    * (just one of the given {@link EventHandler} has dispatched a {@link DomainEvent})
    * @chains {@link then}
    */
@@ -180,8 +183,8 @@ export class EventCombiner {
     return { then: this.then };
   };
 
-  /**
-   * ### `When all given handlers dispatch (and then on every event) ...`
+  /** 💬 `When all given handlers dispatch (and then on every event) ...`
+   *
    * (every given {@link EventHandler} has dispatched at least one {@link DomainEvent})
    * @chains {@link then}
    */
@@ -203,6 +206,13 @@ export class EventCombiner {
 
   // THEN __________________________________________________________________________________________
 
+  /** 💬 `... Call the given callback.`
+   *
+   * A list of all possible {@link DomainEvent}s is passed to the callback,
+   * which corresponds to the order of the defined {@link EventHandler}s.
+   *
+   * ### When this method is chained with a `some(...)` method, the {@link DomainEvent}s may also be `'pending'` for those {@link EventHandler}s which have not dispatched yet.
+   */
   private then = (callback: (events: (DomainEvent<any> | 'pending')[]) => void): void => {
     this._destroyed && this.onLog('alreadyDestroyed');
     this._eventHandlers?.forEach((handler) => {
@@ -251,7 +261,8 @@ export class EventCombiner {
     });
   }
 
-  /** ### Inject Logging (by extending this class)
+  /** 💬 Inject Logging (by extending this class)
+   *
    *  This method is called when the `.then(...)` callback is called, the combiner is destroyed,
    * or the callback is called, when already destroyed. The original method will do nothing.
    * To utilize this method (eg. for a Logger integration) this class must be extended:

@@ -17,12 +17,10 @@ export abstract class Serializable {
   protected constructor() {
     // you shall not construct !
   }
-  /**
-   * reduces the Serializable to its private ("underscored") attributes.
+  /** 💬 reduces the Serializable to its private ("underscored") attributes.
+   *
    * All non-underscored attributes and methods will be omitted.
-   *
-   * **This method overrides the built-in `toJSON()` which is primarily used in `JSON.stringify()`**
-   *
+   * *This method overrides the built-in `toJSON()` which is primarily used in `JSON.stringify()`*
    * @returns an object containing all private attributes
    */
   toJSON<Key extends keyof this, Value extends this[Key]>(): Record<

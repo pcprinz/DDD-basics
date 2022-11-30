@@ -60,16 +60,17 @@ export class EventHandler<Payload> {
     this._name = name;
   }
 
+  /** 💬 The name of this handler which is used at a possible `EventCombiner` */
   public get name(): string {
     return this._name;
   }
 
-  /** indicates if a {@link DomainEvent} has at least once been fired */
+  /** 💬 indicates if a {@link DomainEvent} has at least once been fired */
   public get occurred(): boolean {
     return this._occurred;
   }
 
-  /**
+  /** 💬 Subscribes the given `callback` to this handler, so that its called on dispatch.
    * @param name of the calling Subscriber
    * @param callback to call if the event has been dispatched
    * @param suppressLogging suppresses the usage of the extendable logging functionality of this handler
@@ -83,7 +84,7 @@ export class EventHandler<Payload> {
     this._subscriptions.set(name, { name, callback, suppressLogging });
   }
 
-  /**
+  /** 💬 Unsubscribes a previously subscribed event with the same `name`
    * @param name of the Subscriber that has to match the name, the subscription was made with
    */
   unsubscribe(name: string): void {
@@ -91,10 +92,9 @@ export class EventHandler<Payload> {
     this._subscriptions.delete(name);
   }
 
-  /**
-   * Dispatches a {@link DomainEvent}. Therefore, all Subscribers callbacks are called
-   * with the given optional `payload`.
+  /** 💬 Dispatches a {@link DomainEvent}.
    *
+   * Therefore, all Subscribers callbacks are called  with the given optional `payload`.
    * @param payload (optional) payload to broadcast to all Subscribers
    */
   dispatch(payload: Payload): void {
@@ -107,24 +107,36 @@ export class EventHandler<Payload> {
     });
   }
 
-  // extendable logging methods
-  /** log when `.subscribe()` is called. Provides the `name` of the subscription */
+  // extendable logging methods ____________________________________________________________________
+
+  /** 💬 log when `.subscribe()` is called.
+   * - provides the `name` of the subscription
+   * - extend this class to implement this function in order to inject logging
+   */
   protected logSubscribe(name: string) {
-    // extend this class to implement this function in order to inject logging
+    //
   }
 
-  /** log when `.unsubscribe()` is called. Provides the `name` of the subscription */
+  /** 💬 log when `.unsubscribe()` is called.
+   * - provides the `name` of the subscription
+   * - extend this class to implement this function in order to inject logging
+   */
   protected logUnsubscribe(name: string) {
-    // extend this class to implement this function in order to inject logging
+    //
   }
 
-  /** log when `dispatch()` is called */
+  /** 💬 log when `dispatch()` is called
+   * - extend this class to implement this function in order to inject logging
+   */
   protected logDispatch() {
-    // extend this class to implement this function in order to inject logging
+    //
   }
 
-  /** log when a subscription is notified. Provides the subscription itself (all parameters from `subscribe()`) */
+  /** 💬 log when a subscription is notified.
+   * - provides the subscription itself (all parameters from `subscribe()`)
+   * - extend this class to implement this function in order to inject logging
+   */
   protected logDispatchedSubscription(subscription: Subscription<Payload>) {
-    // extend this class to implement this function in order to inject logging
+    //
   }
 }

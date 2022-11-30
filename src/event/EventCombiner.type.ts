@@ -36,8 +36,8 @@ type AllType = <Handlers extends EventHandler<any>[]>(
 type SomeType = <Handlers extends EventHandler<any>[]>(...handlers: Handlers) => SomeThen<Handlers>;
 
 type FirstThenType<Handlers> = {
-  /**
-   * ### `... Just take the first occurred events from each and ...`
+  /** 💬 `... Just take the first occurred events from each and ...`
+   *
    * (if an event already occurred, then it will not be overwritten by following events of the same
    * type until the `then()` is called and the events are consumed)
    * @chains {@link then}
@@ -45,13 +45,13 @@ type FirstThenType<Handlers> = {
   first: () => AllThen<Handlers>;
 };
 
-/** ### `... Call the given callback.`
+/** 💬 `... Call the given callback.`
  *
  * A list of all possible {@link DomainEvent}s is passed to the callback,
  * which corresponds to the order of the defined {@link EventHandler}s.
  */
 export type AllThen<Handlers> = {
-  /** ### `... Call the given callback.`
+  /** 💬 `... Call the given callback.`
    *
    * A list of all possible {@link DomainEvent}s is passed to the callback,
    * which corresponds to the order of the defined {@link EventHandler}s.
@@ -66,7 +66,7 @@ export type AllThen<Handlers> = {
 };
 
 export type SomeThen<Handlers> = {
-  /** ### `... Call the given callback.`
+  /** 💬 `... Call the given callback.`
    *
    * A list of all possible {@link DomainEvent}s is passed to the callback,
    * which corresponds to the order of the defined {@link EventHandler}s.
