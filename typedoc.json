@@ -5,6 +5,8 @@
   "name": "DDD basics",
   "includeVersion": true,
   "excludeInternal": true,
+  "excludePrivate": true,
   "excludeNotDocumented": true,
-  "theme": "stacks"
+  "theme": "stacks",
+  "customCss": "./custom-typedoc.css"
 }

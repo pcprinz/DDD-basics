@@ -177,6 +177,10 @@ export class SafeDate extends ValueObject<Date> {
   }
 }
 
+/** The options for a `SafeDate`:
+ *  - `max?: Date | string | number` - maximum allowed date
+ *  - `min?: Date | string | number` - earliest allowed date
+ */
 export interface SafeDateOptions extends CreationOptions {
   /** the latest allowed Date. Both Dates will be compared with their `getTime()` milliseconds. */
   max?: Date | string | number;

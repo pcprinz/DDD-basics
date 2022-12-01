@@ -42,6 +42,7 @@ export class Float extends ValueObject<number> {
   }
 
   /**
+   * @internal
    * @param value to be validated as a valid number (not NaN)
    * @param options constraints the value has to fulfill
    * @fails if not a valid number
@@ -93,4 +94,9 @@ export class Float extends ValueObject<number> {
   }
 }
 
+/**
+ * The options for a `Float`:
+ * - `min?: number` - minimum allowed number
+ * - `max?: number` - maximum allowed number
+ */
 export interface FloatOptions extends IntervalCreationOptions {}

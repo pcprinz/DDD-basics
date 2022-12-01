@@ -49,6 +49,7 @@ export class FloatString extends Float {
   }
 
   /**
+   * @internal
    * @param value to be validated as a valid number / string representation of a valid number
    * @param options constraints the value has to fulfill
    * @returns the (possibly parsed) number
@@ -75,11 +76,12 @@ export class FloatString extends Float {
   }
 
   /**
+   * @internal
    * parses the given string to a (float) number where a possible `,` will be correctly replaced by a `.`.
    * @param value to parse (unchecked)
    * @returns the parsed number **OR** `NaN` if not parsable
    */
-  public static parse(value: string): number {
+  protected static parse(value: string): number {
     if (typeof value !== 'string') return NaN;
 
     return parseFloat(value.replace(',', '.'));
@@ -117,4 +119,9 @@ export class FloatString extends Float {
   }
 }
 
+/**
+ * The options for a `FloatString`:
+ * - `min?: number` - minimum allowed number
+ * - `max?: number` - maximum allowed number
+ */
 export interface FloatStringOptions extends FloatOptions {}

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>NonEmptyStringOptions | DDD basics - v0.0.1</title><meta name="description" content="Documentation for DDD basics - v0.0.1"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><link rel="stylesheet" href="../assets/custom.css"/><script async src="../assets/search.js" id="search-script"></script><style>
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>IdentifierOptions | DDD basics - v0.0.1</title><meta name="description" content="Documentation for DDD basics - v0.0.1"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><link rel="stylesheet" href="../assets/custom.css"/><script async src="../assets/search.js" id="search-script"></script><style>
         body {
           font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
         }
@@ -258,25 +258,24 @@
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">DDD basics - v0.0.1</a></li>
 <li><a href="../modules/ValueObjects.html">ValueObjects</a></li>
-<li><a href="ValueObjects.NonEmptyStringOptions.html">NonEmptyStringOptions</a></li></ul>
-<h1>Interface NonEmptyStringOptions</h1></div>
+<li><a href="ValueObjects.IdentifierOptions.html">IdentifierOptions</a></li></ul>
+<h1>Interface IdentifierOptions</h1></div>
 <section class="tsd-panel tsd-comment">
-<div class="tsd-comment tsd-typography"><p>The options for a <code>NonEmptyString</code>:</p>
+<div class="tsd-comment tsd-typography"><p>The options for an <code>Identifier</code>:</p>
 <ul>
-<li><code>range?</code> - a list of other strings or an enum the string has to match</li>
-<li><code>regex?: RegExp</code> - a regular expression the string has to match</li>
-<li><code>min?: number</code> - minimum required length of the string</li>
-<li><code>max?: number</code> - maximum allowed length of the string</li>
+<li><code>regex?: RegExp</code> - a regular expression the string id has to match</li>
+<li><code>min?: number</code> - minimum required length of the string id</li>
+<li><code>max?: number</code> - maximum allowed length of the string id</li>
 </ul>
 </div></section>
 <section class="tsd-panel tsd-hierarchy">
 <h4>Hierarchy</h4>
 <ul class="tsd-hierarchy">
-<li><a href="ValueObjects.OptionalStringOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">OptionalStringOptions</a>
+<li><span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="ValueObjects.OptionalStringOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">OptionalStringOptions</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">&quot;format&quot;</span><span class="tsd-signature-symbol">&gt;</span>
 <ul class="tsd-hierarchy">
-<li><span class="target">NonEmptyStringOptions</span></li></ul></li></ul></section><aside class="tsd-sources">
+<li><span class="target">IdentifierOptions</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/c6989ce/src/valueObjects/string/NonEmptyString.ts#L148">valueObjects/string/NonEmptyString.ts:148</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/c6989ce/src/valueObjects/string/Identifier.ts#L63">valueObjects/string/Identifier.ts:63</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -284,11 +283,10 @@
 <div class="tsd-accordion-details">
 <section class="tsd-index-section">
 <h3 class="tsd-index-heading">Properties</h3>
-<div class="tsd-index-list"><a href="ValueObjects.NonEmptyStringOptions.html#max" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>max?</span></a>
-<a href="ValueObjects.NonEmptyStringOptions.html#min" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>min?</span></a>
-<a href="ValueObjects.NonEmptyStringOptions.html#name" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>name?</span></a>
-<a href="ValueObjects.NonEmptyStringOptions.html#range" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>range?</span></a>
-<a href="ValueObjects.NonEmptyStringOptions.html#regex" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>regex?</span></a>
+<div class="tsd-index-list"><a href="ValueObjects.IdentifierOptions.html#max" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="#FF984D" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12" id="icon-1024-path"></rect><path d="M9.354 16V7.24H12.174C12.99 7.24 13.638 7.476 14.118 7.948C14.606 8.412 14.85 9.036 14.85 9.82C14.85 10.604 14.606 11.232 14.118 11.704C13.638 12.168 12.99 12.4 12.174 12.4H10.434V16H9.354ZM10.434 11.428H12.174C12.646 11.428 13.022 11.284 13.302 10.996C13.59 10.7 13.734 10.308 13.734 9.82C13.734 9.324 13.59 8.932 13.302 8.644C13.022 8.356 12.646 8.212 12.174 8.212H10.434V11.428Z" fill="var(--color-text)" id="icon-1024-text"></path></svg><span>max?</span></a>
+<a href="ValueObjects.IdentifierOptions.html#min" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>min?</span></a>
+<a href="ValueObjects.IdentifierOptions.html#name" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>name?</span></a>
+<a href="ValueObjects.IdentifierOptions.html#regex" class="tsd-index-link tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg><span>regex?</span></a>
 </div></section></div></details></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
@@ -297,7 +295,7 @@
 <div class="tsd-signature">max<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div>
 <div class="tsd-comment tsd-typography"><p>the upper bound of the interval the value has to be in</p>
 </div><aside class="tsd-sources">
-<p>Inherited from <a href="ValueObjects.OptionalStringOptions.html">OptionalStringOptions</a>.<a href="ValueObjects.OptionalStringOptions.html#max">max</a></p>
+<p>Inherited from Omit.max</p>
 <ul>
 <li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/c6989ce/src/valueObjects/ValueObject.ts#L208">valueObjects/ValueObject.ts:208</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="min" class="tsd-anchor"></a>
@@ -305,7 +303,7 @@
 <div class="tsd-signature">min<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">number</span></div>
 <div class="tsd-comment tsd-typography"><p>the lower bound of the interval the value has to be in</p>
 </div><aside class="tsd-sources">
-<p>Inherited from <a href="ValueObjects.OptionalStringOptions.html">OptionalStringOptions</a>.<a href="ValueObjects.OptionalStringOptions.html#min">min</a></p>
+<p>Inherited from Omit.min</p>
 <ul>
 <li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/c6989ce/src/valueObjects/ValueObject.ts#L204">valueObjects/ValueObject.ts:204</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="name" class="tsd-anchor"></a>
@@ -316,29 +314,15 @@
 <li>eg: <code>&#39;MealPlan.price&#39;</code></li>
 </ul>
 </div><aside class="tsd-sources">
-<p>Inherited from <a href="ValueObjects.OptionalStringOptions.html">OptionalStringOptions</a>.<a href="ValueObjects.OptionalStringOptions.html#name">name</a></p>
+<p>Inherited from Omit.name</p>
 <ul>
 <li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/c6989ce/src/valueObjects/ValueObject.ts#L191">valueObjects/ValueObject.ts:191</a></li></ul></aside></section>
-<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface"><a id="range" class="tsd-anchor"></a>
-<h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>range</span><a href="#range" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">range<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>[s: <span class="tsd-signature-type">string</span>]<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span><br/><span>    </span>[s: <span class="tsd-signature-type">number</span>]<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span><br/><span class="tsd-signature-symbol">}</span></div>
-<div class="tsd-comment tsd-typography"><p>a <code>string[]</code> or <code>enum</code> of all possible values the given value can match.</p>
-<ul>
-<li>for enums the <code>keys</code> as well as the <code>values</code> will be looked up to match!</li>
-<li>technically its possible to use any kind of object that has strings as keys and/or values</li>
-</ul>
-
-<h3>Example</h3><pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">stringArray</span><span class="hl-1"> = [</span><span class="hl-5">&#39;first&#39;</span><span class="hl-1">, </span><span class="hl-5">&#39;second&#39;</span><span class="hl-1">, ...];</span><br/><br/><span class="hl-0">enum</span><span class="hl-1"> </span><span class="hl-8">NumericEnum</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-2">first</span><span class="hl-1">, </span><span class="hl-2">second</span><span class="hl-1">, ...</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-0">enum</span><span class="hl-1"> </span><span class="hl-8">AlsoNumericEnum</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-2">first</span><span class="hl-1"> = </span><span class="hl-9">1</span><span class="hl-1">, </span><span class="hl-2">second</span><span class="hl-1"> = </span><span class="hl-9">2</span><span class="hl-1">, ...</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-0">enum</span><span class="hl-1"> </span><span class="hl-8">StringEnum</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-2">first</span><span class="hl-1"> = </span><span class="hl-5">&#39;first&#39;</span><span class="hl-1">, </span><span class="hl-2">second</span><span class="hl-1"> = </span><span class="hl-5">&#39;second&#39;</span><span class="hl-1">, ...</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-0">enum</span><span class="hl-1"> </span><span class="hl-8">HeterogenousEnum</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-2">first</span><span class="hl-1"> = </span><span class="hl-9">1</span><span class="hl-1">, </span><span class="hl-2">second</span><span class="hl-1"> = </span><span class="hl-5">&#39;second&#39;</span><span class="hl-1">, ...</span><br/><span class="hl-1">}</span>
-</code></pre>
-</div><aside class="tsd-sources">
-<ul>
-<li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/c6989ce/src/valueObjects/string/NonEmptyString.ts#L173">valueObjects/string/NonEmptyString.ts:173</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a id="regex" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagOptional">Optional</code> <span>regex</span><a href="#regex" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">regex<span class="tsd-signature-symbol">?:</span> <span class="tsd-signature-type">RegExp</span></div>
 <div class="tsd-comment tsd-typography"><p>a regular expression the given value must match</p>
 </div><aside class="tsd-sources">
-<p>Inherited from <a href="ValueObjects.OptionalStringOptions.html">OptionalStringOptions</a>.<a href="ValueObjects.OptionalStringOptions.html#regex">regex</a></p>
+<p>Inherited from Omit.regex</p>
 <ul>
 <li>Defined in <a href="https://github.com/pcprinz/DDD-basics/blob/c6989ce/src/valueObjects/string/OptionalString.ts#L148">valueObjects/string/OptionalString.ts:148</a></li></ul></aside></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -350,13 +334,12 @@
 <li class="current tsd-kind-module"><span class="module-dot"></span><a href="../modules/ValueObjects.html">Value<wbr/>Objects</a></li></ul></div></nav>
 <nav class="tsd-navigation secondary menu-sticky">
 <ul>
-<li class="current tsd-kind-interface tsd-parent-kind-module"><a href="ValueObjects.NonEmptyStringOptions.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-256-path"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)" id="icon-256-text"></path></svg><span>Non<wbr/>Empty<wbr/>String<wbr/>Options</span></a>
+<li class="current tsd-kind-interface tsd-parent-kind-module"><a href="ValueObjects.IdentifierOptions.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-256-path"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)" id="icon-256-text"></path></svg><span>Identifier<wbr/>Options</span></a>
 <ul>
-<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ValueObjects.NonEmptyStringOptions.html#max" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>max</a></li>
-<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ValueObjects.NonEmptyStringOptions.html#min" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>min</a></li>
-<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ValueObjects.NonEmptyStringOptions.html#name" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>name</a></li>
-<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ValueObjects.NonEmptyStringOptions.html#range" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>range</a></li>
-<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ValueObjects.NonEmptyStringOptions.html#regex" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>regex</a></li></ul></li></ul></nav>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ValueObjects.IdentifierOptions.html#max" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>max</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ValueObjects.IdentifierOptions.html#min" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>min</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ValueObjects.IdentifierOptions.html#name" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>name</a></li>
+<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="ValueObjects.IdentifierOptions.html#regex" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-1024-path"></use><use href="#icon-1024-text"></use></svg>regex</a></li></ul></li></ul></nav>
 <div class="tsd-navigation settings">
 <div class="tsd-theme-toggle">
 <h4 class="uppercase">Theme</h4><select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></div></div>

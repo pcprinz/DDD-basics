@@ -48,6 +48,7 @@ export class OptionalString extends ValueObject<string> {
   }
 
   /**
+   * @internal
    * @param value to be validated to match the given regular expression
    * @param options constraints the value has to fulfill
    * @fails if the value is not matching the regex (when defined)
@@ -67,6 +68,7 @@ export class OptionalString extends ValueObject<string> {
   }
 
   /**
+   * @internal
    * @param value to be validated as a valid string
    * @param options constraints the value has to fulfill
    * @fails if not a string
@@ -83,6 +85,7 @@ export class OptionalString extends ValueObject<string> {
 
   /** @TODO
    * **THIS METHOD IS DISABLED**
+   * @internal
    * @param value to be formatted with the given formatting options
    * @param options constraints the value has to fulfill
    * @returns the formatted string
@@ -135,7 +138,10 @@ export class OptionalString extends ValueObject<string> {
 }
 
 /**
- * The options for any string. Strings can be matched with a `RegExp` and be `format`ted
+ * The options for an `OptionalString`:
+ * - `regex?: RegExp` - a regular expression the string has to match
+ * - `min?: number` - minimum required length of the string
+ * - `max?: number` - maximum allowed length of the string
  */
 export interface OptionalStringOptions extends IntervalCreationOptions {
   /** a regular expression the given value must match */
