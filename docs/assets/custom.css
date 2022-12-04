@@ -1,0 +1,32 @@
+:root {
+  --color-background: #181818;
+  --color-text: #f1f1f1;
+}
+
+.tsd-panel {
+  /* padding-left: 16pt; */
+}
+
+.tsd-signatures {
+  /* padding-left: 16pt; */
+  padding-top: 8pt;
+  padding-bottom: 8pt;
+}
+
+.tsd-panel > h3 {
+  font-size: 1.75rem;
+}
+h2 {
+  font-size: 2.25rem;
+  border: 2px solid var(--color-accent);
+  border-width: 0 0 1px 0;
+}
+
+code.tsd-tag {
+  font-size: 50%;
+}
+
+.tsd-signatures .tsd-signature {
+  border-width: 1px 1px;
+  border-radius: 28px;
+}

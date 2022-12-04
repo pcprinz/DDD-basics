@@ -54,4 +54,10 @@ export class Identifier extends NonEmptyString {
   }
 }
 
+/**
+ * The options for an `Identifier`:
+ * - `regex?: RegExp` - a regular expression the string id has to match
+ * - `min?: number` - minimum required length of the string id
+ * - `max?: number` - maximum allowed length of the string id
+ */
 export interface IdentifierOptions extends Omit<OptionalStringOptions, 'format'> {}

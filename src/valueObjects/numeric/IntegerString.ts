@@ -52,6 +52,7 @@ export class IntegerString extends Integer {
   }
 
   /**
+   * @internal
    * @param value to be validated as a valid integer / string representation of an integer
    * @param options constraints the value has to fulfill
    * @returns the (possibly parsed) integer (`number`)
@@ -121,4 +122,10 @@ export class IntegerString extends Integer {
   }
 }
 
+/**
+ * The options for an `IntegerString`:
+ *  - `round?: 'floor' | 'ceil' | 'round' | 'deny'` - how should the number be rounded
+ * - `min?: number` - minimum allowed number
+ * - `max?: number` - maximum allowed number
+ */
 export interface IntegerStringOptions extends IntegerOptions {}

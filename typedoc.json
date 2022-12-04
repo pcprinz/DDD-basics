@@ -4,5 +4,9 @@
   "tsconfig": "./tsconfig.json",
   "name": "DDD basics",
   "includeVersion": true,
-  "excludeInternal": true
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "excludeNotDocumented": true,
+  "theme": "stacks",
+  "customCss": "./custom-typedoc.css"
 }

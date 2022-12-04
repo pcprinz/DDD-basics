@@ -1,4 +1,4 @@
-import { CompondValueObject, Identifier, ValueObject } from '../valueObjects';
+import { ComposedValueObject, Identifier, ValueObject } from '../valueObjects';
 
 /** ### An abstract Entity with an `id`, which can be serialized to its private attributes
  * - Entities are usually things that are characterized by something concrete and not by a property.
@@ -70,12 +70,12 @@ export abstract class Entity<T extends EntityPropsType> {
     this.props = props;
   }
 
-  /** The id of this Entity is an internal `Identifier` */
+  /** 💬 The id of this Entity is an internal `Identifier` */
   public get id() {
     return this._id.value;
   }
 
-  /** Entities are compared based on their `id`. */
+  /** 💬 Entities are compared based on their `id`. */
   public equals(object?: Entity<T>): boolean {
     if (object == null) {
       return false;
@@ -92,7 +92,7 @@ export abstract class Entity<T extends EntityPropsType> {
     return this._id.equals(object._id);
   }
 
-  /** ensures that the given `value` is an instance of `Entity` */
+  /** 💬 Ensures that the given `value` is an instance of `Entity` */
   public static isEntity<T extends EntityPropsType>(value: unknown): value is Entity<T> {
     return value instanceof Entity<T>;
   }
@@ -106,8 +106,8 @@ export abstract class Entity<T extends EntityPropsType> {
 }
 
 /**
- * A `Record` for the properties of an Entity, where:
+ * 💬 A `Record` for the properties of an Entity, where:
  * - the key is a `string`
  * - the value is a `ValueObject`
  */
-export type EntityPropsType = Record<string, ValueObject<any> | CompondValueObject>;
+export type EntityPropsType = Record<string, ValueObject<any> | ComposedValueObject>;

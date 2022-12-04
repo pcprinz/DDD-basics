@@ -2,7 +2,7 @@ import { Result } from '../basic';
 
 /** ### A basic ValueObject that wraps a primitive value immutably and does validation on creation */
 export abstract class ValueObject<T> {
-  /** the actual value of the ValueObject */
+  /** @internal the actual value of the ValueObject */
   protected readonly _value: T;
 
   protected constructor(value: T) {
@@ -60,6 +60,7 @@ export abstract class ValueObject<T> {
   /**
    * constructs a prefix for possible error messages based on the ValueObjects name and an additional string.
    *
+   * @internal
    * @param options the {@link CreationOptions} where the optional `name: string` is taken from
    * @param addition An additional name which will be added as `"name.addition"`
    * @returns the name of the ValueObject
@@ -76,7 +77,7 @@ export abstract class ValueObject<T> {
     return `${fixedName + symbol + this.name + add}: `;
   }
 
-  /** @fails if the value is not inside the interval */
+  /** @internal @fails if the value is not inside the interval */
   protected static validateInterval<Value = string | number>(
     value: Value,
     options?: IntervalCreationOptions
@@ -97,6 +98,7 @@ export abstract class ValueObject<T> {
     return Result.ok(value);
   }
   /**
+   * @internal
    * @fails if list is undefined but must not be
    * @fails if the list length not matching
    */
@@ -148,6 +150,7 @@ export abstract class ValueObject<T> {
    * Verifies a list of values with the given list constraints (`options`) and creates a list of ValueObjects from it.
    * The Results from the separate creation of ValueObjects intercepts the creation process if not successful.
    *
+   * @internal
    * @param values to create a list of ValueObjects from
    * @param createCallback to create a ValueObject from the provided value
    * @param options to verify the list constraints
@@ -238,6 +241,6 @@ export type StaticMethods<
   }
 > = InstanceType<Class>;
 
-export class CompondValueObject {
+export class ComposedValueObject {
   [key: string]: ValueObject<any>;
 }

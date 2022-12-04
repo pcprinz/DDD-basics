@@ -46,6 +46,7 @@ export class Integer extends Float {
   }
 
   /**
+   * @internal
    * If defined in the options the number will possibly be rounded.
    * @param value to be validated as a valid integer
    * @param options constraints the value has to fulfill
@@ -116,6 +117,12 @@ export class Integer extends Float {
   }
 }
 
+/**
+ * The options for an `Integer`:
+ *  - `round?: 'floor' | 'ceil' | 'round' | 'deny'` - how should the number be rounded
+ * - `min?: number` - minimum allowed number
+ * - `max?: number` - maximum allowed number
+ */
 export interface IntegerOptions extends FloatOptions {
   // TODO maybe give the opportunity to just round specified decimal points
   /** how should the number be rounded.

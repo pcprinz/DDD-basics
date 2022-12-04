@@ -24,8 +24,7 @@ jobs:
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
 
-      - if: ${{ matrix.node-version == '14.x' }}
-        name: Get Coverage for badge
+      - name: Get Coverage for badge
         run: |
           # var SUMMARY = [
           #   '',
@@ -56,8 +55,7 @@ jobs:
           echo $BRANCH_NAME
           # process.env.BRANCH = 'pull_27';
           echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
-      - if: ${{ matrix.node-version == '14.x' }}
-        name: Create the Badge
+      - name: Create the Badge
         uses: schneegans/dynamic-badges-action@v1.0.0
         with:
           auth: ${{ secrets.GIST_SECRET }}

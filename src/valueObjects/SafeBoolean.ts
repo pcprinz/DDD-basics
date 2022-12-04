@@ -110,14 +110,12 @@ export class SafeBoolean extends ValueObject<boolean> {
   }
 }
 
+/** The options for a `SafeBoolean`:
+ * - `allowUndefinedAs?: true | false` - defaults to `undefined` which fails validation when the value is undefined
+ */
 export interface SafeBooleanOptions extends CreationOptions {
   /** should `undefined` be treated as a specific default. If this option remains `undefined`, the creation will throw
    * an error on undefined values
    */
   allowUndefinedAs?: true | false;
-  // /** maps the boolean to string values used at `SafeBoolean.create()` as well as `SafeBoolean.toJSON()` */
-  // mapping?: {
-  //     true: string;
-  //     false: string;
-  // };
 }

@@ -14,19 +14,19 @@ export class DomainEvent<Payload> extends Serializable {
   }
 
   private _name: string;
-  /** The name of the `EventHandler` which dispatched this event */
+  /** 💬 The name of the `EventHandler` which dispatched this event */
   public get name(): string {
     return this._name;
   }
 
   private _timestamp: Date = new Date();
-  /** the `Date` this event was dispatched at the `EventHandler` */
+  /** 💬 the `Date` this event was dispatched at the `EventHandler` */
   public get timestamp(): Date {
     return this._timestamp;
   }
 
   private _payload: Payload;
-  /** the payload which was given while dispatching the event */
+  /** 💬 the payload which was given while dispatching the event */
   public get payload(): Payload {
     return this._payload;
   }

@@ -7,7 +7,7 @@
  */
 export class Result<T> {
   protected readonly _isSuccess: boolean;
-  /** The error message that was given in `Result.fail(error)` */
+  /** 💬 The error message that was given in `Result.fail(error)` */
   public readonly error: string;
   protected _value: T;
 
@@ -24,9 +24,7 @@ export class Result<T> {
     Object.freeze(this);
   }
 
-  /**
-   * Indicates if this Result was successful and converts it to reveal the `getValue()` method.
-   *
+  /** 💬 Indicates if this Result was successful and converts it to reveal the `getValue()` method.
    * ## Important:
    * - To use the `getValue()` method, which returns the actual value, you need to check if the result was successful.
    * - This is necessary to avoid trying to get the value from a result that failed.
@@ -48,7 +46,7 @@ export class Result<T> {
     return this._isSuccess;
   }
 
-  /**
+  /** 💬 returns the value, but only if this method is called within an enclosure with `isSuccess()`
    * @returns the `value` provided in `Result.ok(value)`
    * @throws **an `Error` if called on a failed Result!**
    */
@@ -62,7 +60,7 @@ export class Result<T> {
     return this._value;
   }
 
-  /**
+  /** 💬 Static constructor for a successful validated value
    * @param value of the successful validation
    * @returns a successful `Result`
    */
@@ -70,7 +68,7 @@ export class Result<T> {
     return new Result<U>(true, undefined, value);
   }
 
-  /**
+  /** 💬 Static constructor for a failed validation   *
    * @param error reason why the validation failed
    * @returns a failed `Result`
    */
@@ -78,8 +76,8 @@ export class Result<T> {
     return new Result<U>(false, error);
   }
 
-  /**
-   * Combines multiple Results in a map, checks every Result and:
+  /** 💬 Combines multiple Results in a map, checks every Result and:
+   *
    * - **success:** returns a single `Result` with a `Record` of all Results' values
    * - **failure:** returns a single `Result` with the error of the first failed Result
    * @param map a `Record` of multiple `Result`s
@@ -105,9 +103,9 @@ export class Result<T> {
     return Result.ok(result as ValuesOf<ResultMap>);
   }
 
-  /**
-   * Chains multiple callbacks (which return Results) together (on this Result),
+  /** 💬 Chains multiple callbacks (which return Results) together (on this Result),
    * where every previous value is forwarded to the next callback.
+   *
    * - if one of the callback Results fails, the chain will return it
    * - on success, the last callbacks Result will be returned
    * @param members to chain together
@@ -132,8 +130,8 @@ export class Result<T> {
     return Result.ok(currentValue);
   };
 
-  /**
-   * Converts the `value` of this Result to another Result, if this Result is **successful**.
+  /** 💬 Converts the `value` of this Result to another Result, if this Result is **successful**.
+   *
    * Returns this failed Result otherwise.
    * @param callback for the conversion of the value
    * @example
@@ -144,11 +142,11 @@ export class Result<T> {
     return this._isSuccess ? Result.ok(callback(this._value)) : Result.fail(this.error);
   }
 
-  /**
-   * Calls the given `callback` if the `Result` is successful.
+  /** 💬 Calls the given `callback` if the `Result` is successful.
+   *
    * - provides the `value` for the `callback`
    * - can be chained with the corresponding `onFail()` method
-   * @param callback to be called if this `Result` is successful   *
+   * @param callback to be called if this `Result` is successful
    * @example
    * Integer.validate(42)
    *   .onSuccess((value) => console.log(`Yes ${value} is an integer`));
@@ -159,11 +157,11 @@ export class Result<T> {
 
     return this;
   }
-  /**
-   * Calls the given `callback` if the Result fails.
+  /** 💬 Calls the given `callback` if the Result fails.
+   *
    * - provides the `error` for the `callback`
    * - can be chained with the corresponding `onSuccess()` method
-   * @param callback to be called if this Result fails   *
+   * @param callback to be called if this Result fails
    * @example
    * Integer.validate(42)
    *   .onFail((error) => console.error(error))

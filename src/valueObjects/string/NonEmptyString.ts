@@ -139,8 +139,11 @@ export class NonEmptyString extends OptionalString {
 }
 
 /**
- * The options for a string that is not empty. Can be matched with a `range`,
- * so a list of other strings or a string enum
+ * The options for a `NonEmptyString`:
+ * - `range?` - a list of other strings or an enum the string has to match
+ * - `regex?: RegExp` - a regular expression the string has to match
+ * - `min?: number` - minimum required length of the string
+ * - `max?: number` - maximum allowed length of the string
  */
 export interface NonEmptyStringOptions extends OptionalStringOptions {
   /**
