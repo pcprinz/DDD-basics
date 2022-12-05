@@ -227,6 +227,7 @@ export interface ListCreationOptions {
 }
 
 /**
+ * @internal
  * This type serves as an interface for static methods that all ValueObjects have to implement.
  * Sadly there is no native TS version for "static abstract", so nothing is typed and ValueObjects
  * can not be forced to implement this interface.
